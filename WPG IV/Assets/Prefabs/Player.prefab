@@ -141,6 +141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 5
   m_player: {fileID: 7841849831190494764}
+  m_interactor: {fileID: 0}
 --- !u!1 &3990351946350465272
 GameObject:
   m_ObjectHideFlags: 0
