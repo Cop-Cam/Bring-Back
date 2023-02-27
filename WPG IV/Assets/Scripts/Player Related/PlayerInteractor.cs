@@ -1,11 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 //Place this shit in front of player for spawning fishes
 public class PlayerInteractor : MonoBehaviour
 {
-    public GameObject ObjectToSpawn;
+    private bool isInObject;
+
+    void Awake() 
+    {
+        // Vector3 playerPosition = transform.parent.position;
+        // transform.position += new Vector3(playerPosition.x, playerPosition.y, playerPosition.z + 0.5f);
+        // Debug.Log(transform.position);
+        // Debug.Log(transform.parent.position);
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +29,41 @@ public class PlayerInteractor : MonoBehaviour
         
     }
 
-    void SpawnMethod()
+    public void OnFire(InputAction.CallbackContext context)
     {
-        Instantiate(ObjectToSpawn, transform.position, transform.rotation);
+        //isFiring = context.ReadValue<float>();
+        if(context.performed)
+        {
+            Interact();
+        }
+    }
+
+    //void SpawnMethod()
+    //{
+     //   Instantiate(ObjectToSpawn, transform.position, transform.rotation);
+    //}
+    public void Interact()
+    {
+        if(isInObject)
+        {
+            Debug.Log("Object FIred");
+        }
+    }
+    
+
+    private void OnTriggerEnter(Collider other) 
+    {
+        if(other.CompareTag("InteractableObjects"))
+        {
+            isInObject = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) 
+    {
+        if(other.CompareTag("InteractableObjects"))
+        {
+            isInObject = false;
+        }   
     }
 }

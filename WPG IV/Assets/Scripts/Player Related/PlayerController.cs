@@ -7,8 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     public float playerSpeed;
     private Vector2 move;
+    
     [SerializeField] private GameObject m_player;
-    [SerializeField] private GameObject m_interactor;
+    //[SerializeField] private GameObject m_interactor;
 
 
     void Awake()
@@ -34,20 +35,17 @@ public class PlayerController : MonoBehaviour
         move = context.ReadValue<Vector2>();
     }
 
-
-    public void OnFire(InputAction.CallbackContext context)
-    {
-       
-    }
-
     //menggerakkan player
     public void movePlayer()
     {
         Vector3 movement = new Vector3(move.x, 0f, move.y);
 
-        m_player.transform.rotation = Quaternion.Slerp(m_player.transform.rotation, Quaternion.LookRotation(movement), 0.15f);
+        //Tujuan awal agar player menghadap arah terakhir pergerakannya
+        if(movement != Vector3.zero)
+        {
+            m_player.transform.rotation = Quaternion.Slerp(m_player.transform.rotation, Quaternion.LookRotation(movement), 0.15f);
 
-        m_player.transform.Translate(movement * playerSpeed * Time.deltaTime, Space.World);
+            m_player.transform.Translate(movement * playerSpeed * Time.deltaTime, Space.World);
+        }
     }
-    
 }

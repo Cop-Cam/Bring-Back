@@ -79,7 +79,19 @@ MonoBehaviour:
     m_ActionId: 704a3b26-e49b-4cf9-b5b8-7533f0694193
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4362361962521522982}
+        m_TargetAssemblyTypeName: PlayerInteractor, Assembly-CSharp
+        m_MethodName: OnFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 067fff8e-a438-472a-9b36-654cb84c60dc
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -141,7 +153,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 5
   m_player: {fileID: 7841849831190494764}
-  m_interactor: {fileID: 0}
 --- !u!1 &3990351946350465272
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,6 +470,7 @@ GameObject:
   - component: {fileID: 1847776668131907662}
   - component: {fileID: 2801844708823249854}
   - component: {fileID: 4362361962521522982}
+  - component: {fileID: 2370795151980160902}
   m_Layer: 0
   m_Name: Interactor
   m_TagString: Untagged
@@ -543,4 +555,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b5a9d10b3457c4a9f1fe0f67e13d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectToSpawn: {fileID: 0}
+--- !u!65 &2370795151980160902
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873531884340029551}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
