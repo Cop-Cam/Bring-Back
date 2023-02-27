@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     public float playerSpeed;
     private Vector2 move;
+    [SerializeField] private GameObject m_player;
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -17,14 +18,14 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 movement = new Vector3(move.x, 0f, move.y);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15f);
+        m_player.transform.rotation = Quaternion.Slerp(m_player.transform.rotation, Quaternion.LookRotation(movement), 0.15f);
 
-        transform.Translate(movement * playerSpeed * Time.deltaTime, Space.World);
+        m_player.transform.Translate(movement * playerSpeed * Time.deltaTime, Space.World);
     }
 
     void Awake()
     {
-            
+        
     }
 
     // Start is called before the first frame update
@@ -36,12 +37,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
-    }
-    
-    //Update 
-    void FixedUpdate() 
-    {
         movePlayer();
     }
+    
 }

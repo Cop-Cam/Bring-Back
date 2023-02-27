@@ -5,7 +5,7 @@ using UnityEngine;
 //Place this shit in front of player for spawning fishes
 public class PlayerInteractor : MonoBehaviour
 {
-    public GameObject objectToSpawn;
+    public GameObject ObjectToSpawn;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +20,6 @@ public class PlayerInteractor : MonoBehaviour
 
     void SpawnMethod()
     {
-        Instantiate(objectToSpawn, transform.position, transform.rotation);
+        Instantiate(ObjectToSpawn, transform.position, transform.rotation);
     }
 }
