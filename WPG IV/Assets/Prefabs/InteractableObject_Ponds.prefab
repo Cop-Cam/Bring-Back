@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3577165467029719532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6139115184468228480}
+  - component: {fileID: 6586743933814009590}
+  m_Layer: 0
+  m_Name: Script
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6139115184468228480
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577165467029719532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7685022700218300150}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6586743933814009590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577165467029719532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a62db21500d9cd4bacf2c294dd2f5ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2417100790566544368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9,7 +53,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4771050080432212179, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
       propertyPath: m_Name
-      value: InteractableObject
+      value: InteractableObject_Ponds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4771050080432212179, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
+      propertyPath: m_TagString
+      value: Ponds
       objectReference: {fileID: 0}
     - target: {fileID: 5417244522773730566, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
       propertyPath: m_RootOrder
@@ -57,3 +105,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
+--- !u!4 &7685022700218300150 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5417244522773730566, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
+  m_PrefabInstance: {fileID: 2417100790566544368}
+  m_PrefabAsset: {fileID: 0}

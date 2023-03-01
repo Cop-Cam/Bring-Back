@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteractor : MonoBehaviour
 {
     private bool isInObject;
+    private GameObject InteractedGameObject;
 
     void Awake() 
     {
@@ -47,6 +48,11 @@ public class PlayerInteractor : MonoBehaviour
         if(isInObject)
         {
             Debug.Log("Object FIred");
+            if(InteractedGameObject.CompareTag("Ponds"))
+            {
+                LocalInventory localInventory = InteractedGameObject.GetComponentInChildren<LocalInventory>();
+                ShopSystem.instance.ShowShopMenu(localInventory); 
+            }
         }
     }
     
@@ -56,6 +62,7 @@ public class PlayerInteractor : MonoBehaviour
         if(other.CompareTag("InteractableObjects"))
         {
             isInObject = true;
+            InteractedGameObject = other.gameObject;
         }
     }
 
@@ -64,6 +71,7 @@ public class PlayerInteractor : MonoBehaviour
         if(other.CompareTag("InteractableObjects"))
         {
             isInObject = false;
+            InteractedGameObject = null;
         }   
     }
 }
