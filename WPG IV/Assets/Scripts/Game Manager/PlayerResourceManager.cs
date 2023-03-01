@@ -7,11 +7,15 @@ using TMPro;
 //Untuk meletak pondasi trading dan economy
 public class PlayerResourceManager : MonoBehaviour
 {
+    public static PlayerResourceManager instance { get; private set; }
+    
+    //resource money
     public int PlayerMoney { get; private set; }
-
     public TextMeshPro MoneyText;
 
-    public static PlayerResourceManager instance { get; private set; }
+
+    //resource energy
+    public float PlayerEnergy { get; private set; }
 
     //instantiate script
     void Awake() 
@@ -22,6 +26,7 @@ public class PlayerResourceManager : MonoBehaviour
         }
         instance = this;
     }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -34,19 +39,30 @@ public class PlayerResourceManager : MonoBehaviour
         //ShowCurrentMoney();
     }
 
-    void ShowCurrentMoney()
+    //Meng-update tampilan uang
+    void ShowCurrentMoney() 
     {
         //MoneyText.text = PlayerMoney.ToString();
         Debug.Log("current money: " + PlayerMoney);
     }
 
     //Digunakan di class lain yang membutuhkan
-    public void IncreaseMoney(int NewMoney)
+    public void IncreaseMoney(int profit)
     {
-        PlayerMoney += NewMoney;
+        PlayerMoney += profit;
     }
-    public void DecreaseMoney(int NewMoney)
+    public void DecreaseMoney(int profit)
     {
-        PlayerMoney -= NewMoney;
+        PlayerMoney -= profit;
+    }
+
+
+    public void IncreaseEnergy(float EnergyChanges)
+    {
+        PlayerEnergy += EnergyChanges;
+    }
+    public void DecreaseEnergy(float EnergyChanges)
+    {
+        PlayerEnergy -= EnergyChanges;
     }
 }
