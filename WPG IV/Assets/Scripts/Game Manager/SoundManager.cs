@@ -4,6 +4,18 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager instance { get; private set; }
+
+    //instantiate script
+    void Awake() 
+    {
+        if(instance != null)
+        {
+            Debug.Log("there is another SoundManager");
+        }
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

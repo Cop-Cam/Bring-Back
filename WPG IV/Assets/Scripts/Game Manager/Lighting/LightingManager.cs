@@ -4,12 +4,12 @@ using UnityEngine;
 public class LightingManager : MonoBehaviour
 {
     //Scene References
-    [SerializeField] private float timescale;
+    //[SerializeField] private float timescale;
 
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset Preset;
     //Variables
-    [SerializeField, Range(0, 24)] private float TimeOfDay;
+    //[SerializeField, Range(0, 24)] private float TimeOfDay;
 
 
     private void Update()
@@ -17,17 +17,19 @@ public class LightingManager : MonoBehaviour
         if (Preset == null)
             return;
 
-        if (Application.isPlaying)
-        {
-            //(Replace with a reference to the game time)
-            TimeOfDay += Time.deltaTime * timescale;
-            TimeOfDay %= 24; //Modulus to ensure always between 0-24
-            UpdateLighting(TimeOfDay / 24f);
-        }
-        else
-        {
-            UpdateLighting(TimeOfDay / 24f);
-        }
+        UpdateLighting(TimeManager.instance.TimeOfDay / 24f);
+
+        // if (Application.isPlaying)
+        // {
+        //     //(Replace with a reference to the game time)
+        //     //TimeOfDay += Time.deltaTime * timescale;
+        //     //TimeOfDay %= 24; //Modulus to ensure always between 0-24
+        //     UpdateLighting(TimeManager.instance.TimeOfDay / 24f);
+        // }
+        // else
+        // {
+        //     UpdateLighting(TimeManager.instance.TimeOfDay / 24f);
+        // }
     }
 
 
