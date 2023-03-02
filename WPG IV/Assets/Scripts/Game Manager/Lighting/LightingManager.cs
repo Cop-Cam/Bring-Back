@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //[ExecuteAlways]
-public class LightingManager : MonoBehaviour
+public class LightingManager : GenericSingletonClass<LightingManager>
 {
     //Scene References
     //[SerializeField] private float timescale;
@@ -17,7 +17,7 @@ public class LightingManager : MonoBehaviour
         if (Preset == null)
             return;
 
-        UpdateLighting(TimeManager.instance.TimeOfDay / 24f);
+        UpdateLighting(TimeManager.Instance.TimeOfDay / 24f);
 
         // if (Application.isPlaying)
         // {

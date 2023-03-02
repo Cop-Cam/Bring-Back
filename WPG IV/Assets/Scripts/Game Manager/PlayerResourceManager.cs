@@ -5,9 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 
 //Untuk meletak pondasi trading dan economy
-public class PlayerResourceManager : MonoBehaviour
+public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager>
 {
-    public static PlayerResourceManager instance { get; private set; }
+    //public static PlayerResourceManager instance { get; private set; }
     
     //resource money
     public int PlayerMoney { get; private set; }
@@ -18,14 +18,14 @@ public class PlayerResourceManager : MonoBehaviour
     public float PlayerEnergy { get; private set; }
 
     //instantiate script
-    void Awake() 
-    {
-        if(instance != null)
-        {
-            Debug.Log("there is another PlayerResourceManager");
-        }
-        instance = this;
-    }
+    // void Awake() 
+    // {
+    //     if(instance != null)
+    //     {
+    //         Debug.Log("there is another PlayerResourceManager");
+    //     }
+    //     instance = this;
+    // }
     
     // Start is called before the first frame update
     void Start()

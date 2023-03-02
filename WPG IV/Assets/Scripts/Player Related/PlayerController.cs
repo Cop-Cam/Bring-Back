@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : GenericSingletonClass<PlayerController>
 {
+    //public static PlayerController instance { get; private set; }
+    LocalInventory currentOpenedInventory;
+
+    //[SerializeField] private PlayerResourceManager playerResourceManager;
+    //public GameObject other; 
+
     public float playerSpeed;
     private Vector2 move;
     
@@ -12,10 +18,14 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] private GameObject m_interactor;
 
 
-    void Awake()
-    {
-        
-    }
+    // void Awake()
+    // {
+    //     if(instance != null)
+    //     {
+    //         Debug.Log("there is another PlayerController");
+    //     }
+    //     instance = this;
+    // }
 
     // Start is called before the first frame update
     void Start()

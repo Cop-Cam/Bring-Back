@@ -5,7 +5,7 @@ using UnityEngine;
 public class LocalInventory : MonoBehaviour
 {
     private InventoryItemData currentSavedItem;
-    private FishItemData currentSavedFish;
+    public FishItemData currentSavedFish {get; private set;}
     // Start is called before the first frame update
     void Start()
     {
@@ -31,12 +31,14 @@ public class LocalInventory : MonoBehaviour
     //     return sendedSavedItem;
     // }
 
-    public void InsertFish(FishItemData insertedFish)
+    //Inserting Item Method, can use method overloader
+    public void InsertItem(FishItemData insertedFish)
     {
         currentSavedFish = insertedFish;
     }
 
-    public FishItemData RemoveFish()
+    //Removing Item Method, can use method overloader
+    public FishItemData RemoveItem()
     {
         FishItemData sendedSavedFish = currentSavedFish;
         currentSavedFish = null;
@@ -45,7 +47,7 @@ public class LocalInventory : MonoBehaviour
 
     void ShowInventoryStatus()
     {
-        if(currentSavedFish != null)
+        if(IsInventoryAvailable())
         {
             
         }
@@ -53,13 +55,38 @@ public class LocalInventory : MonoBehaviour
 
     void ShowItemParticle()
     {
-        if(currentSavedFish != null)
+        if(IsInventoryAvailable())
         {
             //muncul partikel penuh
         }
         else
         {
             //tidak muncul partikel penuh
+        }
+    }
+
+    public void ShowInventoryItem()
+    {
+        if(IsInventoryAvailable())
+        {
+            
+        }
+        else if(!IsInventoryAvailable())
+        {
+            Debug.Log("Inventory kosong!");
+        }
+    }
+
+    //mengecek kepenuhan inventory
+    public bool IsInventoryAvailable()
+    {
+        if(currentSavedFish != null) //jika ada ikan
+        {
+            return true;
+        }
+        else //jika tidak ada ikan
+        {
+            return false;
         }
     }
 }

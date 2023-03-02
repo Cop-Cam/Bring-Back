@@ -2,22 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : GenericSingletonClass<TimeManager>
 {
-    public static TimeManager instance { get; private set; }
+    //public static TimeManager instance { get; private set; }
 
     public float timescale { get; private set; }
     [SerializeField, Range(0, 24)] public float TimeOfDay;
 
     //instantiate script
-    void Awake() 
-    {
-        if(instance != null)
-        {
-            Debug.Log("there is another TimeManager");
-        }
-        instance = this;
-    }
+    // void Awake() 
+    // {
+    //     if(instance != null)
+    //     {
+    //         Debug.Log("there is another TimeManager");
+    //     }
+    //     instance = this;
+    // }
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +37,13 @@ public class TimeManager : MonoBehaviour
         //if (Application.isPlaying)
         //{
             //(Replace with a reference to the game time)
-            TimeOfDay += Time.deltaTime * timescale;
+            TimeOfDay += CalculateTimeOfDay();
             TimeOfDay %= 24; //Modulus to ensure always between 0-24
         //}
+    }
+
+    public float CalculateTimeOfDay()
+    {
+        return Time.deltaTime * timescale;
     }
 }

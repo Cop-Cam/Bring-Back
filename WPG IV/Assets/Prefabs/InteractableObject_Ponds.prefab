@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4771050080432212179, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
       propertyPath: m_TagString
-      value: Ponds
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5417244522773730566, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
       propertyPath: m_RootOrder
@@ -102,6 +102,10 @@ PrefabInstance:
     - target: {fileID: 5417244522773730566, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7081006765056018796, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
+      propertyPath: m_TagString
+      value: Ponds
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
