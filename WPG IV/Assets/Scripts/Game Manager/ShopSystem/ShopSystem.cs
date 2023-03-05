@@ -26,15 +26,13 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     [SerializeField]private TextMeshProUGUI MoneyText;
     
     LocalInventory currentOpenedInventory;
-
-    InventoryItemData currentSO;
-
    
 
     // Start is called before the first frame update
     void Start()
     {
         ShopUI.SetActive(false);
+        currentOpenedInventory = null;
     }
 
 
@@ -62,12 +60,14 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
 
         ShopUI.SetActive(true);
 
-        StartCoroutine(RefreshShop());
+        //StartCoroutine(RefreshShop());
+        StartCoroutine(RefreshMoney());
     }
 
     public void CloseShopMenu()
     {
-        StopCoroutine(RefreshShop());
+        //StopCoroutine(RefreshShop());
+        StopCoroutine(RefreshMoney());
 
         currentOpenedInventory = null; //inventory yang dibuka dihapus
 
@@ -87,6 +87,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
             PlayerResourceManager.Instance.DecreaseMoney(itemData.itemBuyPrice);
             currentOpenedInventory.InsertItem(itemData);
         }
+        RefreshShopOnClick();
     }
 
     //Dipasang pada button jual
@@ -101,6 +102,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         {
             Debug.Log("Item is not ready to sell");
         }
+        RefreshShopOnClick();
     }
 
     //Dipasang pada button collect
@@ -120,8 +122,6 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     {
         foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.Instance.ListItem)
         {
-            Debug.Log("listItem.Value: "+listItem.Value.name);
-
             BuyableItemPrefab.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = listItem.Value.itemBuyPrice.ToString();
             BuyableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = listItem.Value.icon;
             BuyableItemPrefab.GetComponent<BuyButtonScript>().SetButtonItemData(listItem.Value);
@@ -134,6 +134,21 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
             {
                 BuyableItemPrefab.GetComponent<Button>().interactable = false;
             }
+
+            //Khusus pond inventory //mengecekj adakah pakan pada pond
+            if(currentOpenedInventory is PondInventory && listItem.Value is FishFeedItemData)
+            {
+                PondInventory otherInventory = currentOpenedInventory as PondInventory;
+                if(otherInventory.isPondFishFeeded())
+                {
+                    BuyableItemPrefab.GetComponent<Button>().interactable = false;
+                }
+                else if(!otherInventory.isPondFishFeeded())
+                {
+                    BuyableItemPrefab.GetComponent<Button>().interactable = true;
+                }
+            }
+            
             Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
         }
     }
@@ -142,18 +157,22 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     {
         if(currentOpenedInventory.IsInventoryAvailable())
         {
-            Debug.Log("invetory kososng");
-            //SellableItemPrefab.GetComponent<Button>().interactable = false;
+            SellableItemPrefab.GetComponent<Button>().interactable = false;   
         }
         else if(!currentOpenedInventory.IsInventoryAvailable())
         {
-            Debug.Log("invetory breisi");
-
             SellableItemPrefab.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = currentOpenedInventory.GetCurrentSavedItemData().itemBuyPrice.ToString();
             SellableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
             SellableItemPrefab.GetComponent<SellButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
-
-            //SellableItemPrefab.GetComponent<Button>().interactable = true;
+            
+            if(currentOpenedInventory.IsItemReadyToSellorCollect())
+            {
+                SellableItemPrefab.GetComponent<Button>().interactable = true;
+            }
+            else if(!currentOpenedInventory.IsItemReadyToSellorCollect())
+            {
+                SellableItemPrefab.GetComponent<Button>().interactable = false;
+            }
         }
 
         Instantiate(SellableItemPrefab, SellGridLayout.transform);
@@ -185,67 +204,79 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     // {
     //     return currentSO;
     // }
+    void RefreshShopOnClick()
+    {
+        ClearingUpShop();
+        SettingUpShop();
+    }
 
-    IEnumerator RefreshShop()
+    IEnumerator RefreshMoney()
     {
         while(true)
         {
-            //Menghentikan error ketika CloseShop()
-            if(currentOpenedInventory==null || PlayerResourceManager.Instance==null)
-            {
-                Debug.Log("break");
-                yield break;
-            }
-
             MoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
-            
-            //Mengecek kepenuhan inventory
-            if(!currentOpenedInventory.IsInventoryAvailable()) //Jika inventory berisi
-            {
-                if(currentOpenedInventory.IsItemReadyToSellorCollect()) //jika siap di jual / collect
-                {
-                    // foreach(Transform item in CollectGridLayout.GetComponentInChildren<Transform>())
-                    // {
-                    //     item.GetComponent<Button>().interactable = true;
-                    // }
-
-                    foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
-                    {
-                        item.GetComponent<Button>().interactable = true;
-                    }
-                }
-                else if(!currentOpenedInventory.IsItemReadyToSellorCollect()) //jika tidak siap di jual / collect
-                {
-                    // foreach(Transform item in CollectGridLayout.GetComponentInChildren<Transform>())
-                    // {
-                    //     item.GetComponent<Button>().interactable = false;
-                    // }
-
-                    foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
-                    {
-                        item.GetComponent<Button>().interactable = false;
-                    }
-                }
-
-                foreach(Transform item in BuyGridLayout.GetComponentInChildren<Transform>())
-                {
-                    item.GetComponent<Button>().interactable = false;
-                }
-
-            }
-            else if(currentOpenedInventory.IsInventoryAvailable()) //Jika inventory kosong
-            {
-                foreach(Transform item in BuyGridLayout.GetComponentInChildren<Transform>())
-                {
-                    item.GetComponent<Button>().interactable = true;
-                }
-
-                foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
-                {
-                    item.GetComponent<Button>().interactable = false;
-                }
-            }
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
     }
+
+    // IEnumerator RefreshShop()
+    // {
+    //     while(true)
+    //     { 
+    //         //Menghentikan error ketika CloseShop()
+    //         if(currentOpenedInventory==null || PlayerResourceManager.Instance==null)
+    //         {
+    //             Debug.Log("break");
+    //             yield break;
+    //         }
+
+    //         MoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
+            
+    //         //Mengecek kepenuhan inventory
+    //         if(!currentOpenedInventory.IsInventoryAvailable()) //Jika inventory berisi
+    //         {
+    //             if(currentOpenedInventory.IsItemReadyToSellorCollect()) //jika siap di jual / collect
+    //             {
+    //                 ClearingUpSellGrid();
+    //                 SetSellItemInShop();
+
+    //                 foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
+    //                 {
+    //                     item.GetComponent<Button>().interactable = true;
+    //                 }
+    //             }
+    //             else if(!currentOpenedInventory.IsItemReadyToSellorCollect()) //jika tidak siap di jual / collect
+    //             {
+    //                 ClearingUpSellGrid();
+    //                 SetSellItemInShop();
+
+    //                 foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
+    //                 {
+    //                     item.GetComponent<Button>().interactable = false;
+    //                 }
+    //             }
+
+    //             foreach(Transform item in BuyGridLayout.GetComponentInChildren<Transform>())
+    //             {
+    //                 item.GetComponent<Button>().interactable = false;
+    //             }
+
+    //         }
+    //         else if(currentOpenedInventory.IsInventoryAvailable()) //Jika inventory kosong
+    //         {
+    //             foreach(Transform item in BuyGridLayout.GetComponentInChildren<Transform>())
+    //             {
+    //                 item.GetComponent<Button>().interactable = true;
+    //             }
+
+    //             foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
+    //             {
+    //                 ClearingUpSellGrid();
+    //                 SetSellItemInShop();
+    //                 item.GetComponent<Button>().interactable = false;
+    //             }
+    //         }
+    //         yield return null;
+    //     }
+    // }
 }

@@ -3,9 +3,17 @@ using UnityEngine;
 
 public class PondInventory : LocalInventory
 {
-    public FishItemData currentSavedFish;
-    public FishFeedItemData currentSavedFeed;
+    protected FishItemData currentSavedFish;
+    protected FishFeedItemData currentSavedFeed;
+    private int FishDaysToMatureDecrement;
 
+    protected override void Start()
+    {
+        base.Start();
+        currentSavedFish = null;
+        currentSavedFeed = null;
+        FishDaysToMatureDecrement = 0;
+    }
     // Update is called once per frame
     protected override void Update()
     {
@@ -26,6 +34,7 @@ public class PondInventory : LocalInventory
         {
             Debug.Log("beli pakan");
             currentSavedFeed = insertedItem as FishFeedItemData;
+            FishDaysToMatureDecrement = currentSavedFeed.FishFeedEffectiveness;
         }
         currentSavedItem = null;
     }
@@ -92,6 +101,18 @@ public class PondInventory : LocalInventory
         }
     }
 
+    public bool isPondFishFeeded()
+    {
+        if(currentSavedFeed == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     public override bool IsItemReadyToSellorCollect()
     {
         if(IsInventoryAvailable())
@@ -125,10 +146,10 @@ public class PondInventory : LocalInventory
             currentSavedFish.isFishMatured = true;
         }
 
+        //Harus dieksekusi hari berikutnya
         if(!currentSavedFish.isFishMatured && currentSavedFish.isFishFeeded)
         {
-            currentSavedFish.daysToMatured -= 1;
-            
+            currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
         }
     }
 }

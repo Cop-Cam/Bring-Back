@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class LocalInventory : MonoBehaviour
 {
-    public InventoryItemData currentSavedItem;
+    protected InventoryItemData currentSavedItem;
 
+    protected virtual void Start()
+    {
+        currentSavedItem = null;
+    }
     // Update is called once per frame
     protected virtual void Update()
     {
