@@ -23,7 +23,7 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     void Start()
     {
         TimeOfDay = 5f;
-        timescale = 1f;
+        timescale = 0.1f;
     }
 
     // Update is called once per frame

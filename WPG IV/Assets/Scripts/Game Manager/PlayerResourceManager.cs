@@ -11,7 +11,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     
     //resource money
     public int PlayerMoney { get; private set; }
-    public TextMeshPro MoneyText;
+    public TextMeshProUGUI MoneyText;
 
 
     //resource energy

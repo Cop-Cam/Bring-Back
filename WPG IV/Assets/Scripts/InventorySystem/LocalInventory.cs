@@ -1,59 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class LocalInventory : MonoBehaviour
 {
-    private InventoryItemData currentSavedItem;
-    public FishItemData currentSavedFish {get; private set;}
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public InventoryItemData currentSavedItem;
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         ShowInventoryStatus();
         ShowItemParticle();
     }
 
-    // public void InsertItem(InventoryItemData insertedItem)
-    // {
-    //     currentSavedItem = insertedItem;
-    // }
-
-    // public InventoryItemData RemoveItem()
-    // {
-    //     InventoryItemData sendedSavedItem = currentSavedItem;
-    //     currentSavedItem = null;
-    //     return sendedSavedItem;
-    // }
-
     //Inserting Item Method, can use method overloader
-    public void InsertItem(FishItemData insertedFish)
+    public virtual void InsertItem(InventoryItemData insertedItem)
     {
-        currentSavedFish = insertedFish;
+        currentSavedItem = insertedItem;
     }
 
-    //Removing Item Method, can use method overloader
-    public FishItemData RemoveItem()
+    //Remove data
+    public virtual InventoryItemData RemoveItem()
     {
-        FishItemData sendedSavedFish = currentSavedFish;
-        currentSavedFish = null;
-        return sendedSavedFish;
+        InventoryItemData sendedSavedItem = currentSavedItem;
+        currentSavedItem = null;
+        return sendedSavedItem;
     }
 
-    void ShowInventoryStatus()
+    //Menunjukkan status inventory
+    protected virtual void ShowInventoryStatus()
     {
         if(IsInventoryAvailable())
         {
             
         }
     }
-
-    void ShowItemParticle()
+    protected virtual void ShowItemParticle()
     {
         if(IsInventoryAvailable())
         {
@@ -65,7 +46,7 @@ public class LocalInventory : MonoBehaviour
         }
     }
 
-    public void ShowInventoryItem()
+    public virtual void ShowInventoryItem()
     {
         if(IsInventoryAvailable())
         {
@@ -78,15 +59,40 @@ public class LocalInventory : MonoBehaviour
     }
 
     //mengecek kepenuhan inventory
-    public bool IsInventoryAvailable()
+    public virtual bool IsInventoryAvailable()
     {
-        if(currentSavedFish != null) //jika ada ikan
+        if(currentSavedItem == null) //jika tidak ada item
         {
             return true;
         }
-        else //jika tidak ada ikan
+        else //jika ada item
         {
             return false;
         }
+    }
+
+    //mengecek apakah item bisa dijual atau dicollect
+    public virtual bool IsItemReadyToSellorCollect()
+    {
+        if(IsInventoryAvailable())
+        {
+            return false;
+        }
+        else
+        {
+            if(currentSavedItem != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    public virtual InventoryItemData GetCurrentSavedItemData()
+    {
+        return currentSavedItem;
     }
 }

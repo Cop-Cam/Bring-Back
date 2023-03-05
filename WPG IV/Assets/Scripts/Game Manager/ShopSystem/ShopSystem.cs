@@ -1,51 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
 
 //Untuk letak jenis-jenis ikan yang bisa dibeli
 public class ShopSystem : GenericSingletonClass<ShopSystem>
 {
+    [Tooltip("Masukkan GameObject parent untuk UI")]
     [SerializeField]private GameObject ShopUI;
-    [SerializeField]private Button SellButton;
-    [SerializeField]private Button BuyButton;
-    [SerializeField]private Button CollectButton;
     
-    //public static ShopSystem instance { get; private set; }
+    [SerializeField]private GameObject BuyGridLayout;
+    [SerializeField]private GameObject SellGridLayout;
+
+    [Tooltip("Masukkan Prefab Button Untuk Beli")]
+    [SerializeField]private GameObject BuyableItemPrefab;
+
+    [Tooltip("Masukkan Prefab Button Untuk Jual")]
+    [SerializeField]private GameObject SellableItemPrefab;
+
+    [Tooltip("Masukkan Prefab Button Untuk Collect")]
+    [SerializeField]private GameObject CollectableItemPrefab;
+
+    [Tooltip("Masukkan Text untuk Uang")]
+    [SerializeField]private TextMeshProUGUI MoneyText;
+    
     LocalInventory currentOpenedInventory;
 
-    //[SerializeField] private PlayerResourceManager playerResourceManager;
-    //public GameObject other; //
+    InventoryItemData currentSO;
 
-    // void Awake()
-    // {
-    //     if(instance != null)
-    //     {
-    //         Debug.Log("there is another ShopSystem");
-    //     }
-    //     instance = this;
-
-    //     ShopUI.SetActive(false);
-    // }
+   
 
     // Start is called before the first frame update
     void Start()
     {
-        //playerResourceManager = other.GetComponent<PlayerResourceManager>();
+        ShopUI.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // if(PlayerResourceManager.instance.PlayerMoney < 1000)
-        // {
-        //     PlayerResourceManager.instance.IncreaseMoney(100);
-        // }
-    }
 
-    bool CheckResourceMoney(FishItemData shopFish)
+    bool CheckResourceMoney(InventoryItemData itemData)
     {
-        if(PlayerResourceManager.Instance.PlayerMoney >= shopFish.fishBuyPrice)
+        if(PlayerResourceManager.Instance.PlayerMoney >= itemData.itemBuyPrice)
         {
             return true;
         }
@@ -55,129 +50,202 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         }
     }
 
-    // bool CheckFishMaturity(FishItemData shopFish)
-    // {
-    //     if(shopFish.isMatured)
-    //     {
-    //         return true;
-    //     }
-    //     else
-    //     {
-    //         return false;
-    //     }
-    // }
-
     public void OpenShopMenu(LocalInventory otherLocalInventory)
     {
-        currentOpenedInventory = otherLocalInventory;
-        //buka tab menu pilihan beli atau jual
+        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //pemain tidak boleh bergerak
+
+        MoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
+
+        currentOpenedInventory = otherLocalInventory; //membuka inventory pada object
+
+        SettingUpShop(); //Menyeting isi shop
+
         ShopUI.SetActive(true);
 
-        if(currentOpenedInventory == null)
-        {
-            Debug.Log("tidak ada inventory");
-            return;
-        }
-        else if(currentOpenedInventory != null)
-        {
-            Debug.Log("ada inventory");
-        }
-
-        //Mengecek kepenuhan kolam
-        if(!currentOpenedInventory.IsInventoryAvailable()) //Jika tidak ada ikan di kolam
-        {
-            CollectButton.interactable = false;
-            SellButton.interactable = false;
-            BuyButton.interactable = true;
-        }
-        else if(currentOpenedInventory.IsInventoryAvailable()) //Jika ada ikan di kolam
-        {
-            BuyButton.interactable = false;
-            //Mengecek kematangan ikan
-            if(!currentOpenedInventory.currentSavedFish.isMatured)
-            {
-                CollectButton.interactable = false;
-                SellButton.interactable = false;
-            }
-            else if(currentOpenedInventory.currentSavedFish.isMatured)
-            {
-                CollectButton.interactable = true;
-                SellButton.interactable = true;
-            }
-        }
+        StartCoroutine(RefreshShop());
     }
 
     public void CloseShopMenu()
     {
+        StopCoroutine(RefreshShop());
+
         currentOpenedInventory = null; //inventory yang dibuka dihapus
 
+        ClearingUpShop();
+        
         ShopUI.SetActive(false); //Menutup tab menu pilihan beli atau jual
 
-        //GameManager.instance.IsPlayerAllowedToMove(true); //pemain boleh bergerak
-        GameManager.Instance.IsPlayerAllowedToMove(true); //pemain boleh bergerak
+        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true); //pemain boleh bergerak
     }
 
-    // public void ChooseShopMenu(int indexChoose)
-    // {
-    //     if (indexChoose == 0)
-    //     {
-    //         BuyShopMenu(currentOpenedInventory);
-    //     }
-    //     else if (indexChoose == 1)
-    //     {
-    //         SellShopMenu(currentOpenedInventory);
-    //     }
-    // }
-
-    // public void BuyShopMenu(LocalInventory otherLocalInventory)
-    // {
-    //     if(otherLocalInventory.IsInventoryAvailable())
-    //     {
-
-    //     }
-    //     else if (!otherLocalInventory.IsInventoryAvailable())
-    //     {
-
-    //     }
-    // }
-
-    // public void SellShopMenu(LocalInventory otherLocalInventory)
-    // {
-    //     otherLocalInventory.ShowInventoryItem();
-    // }
     
     //Dipasang pada button beli
-    void BuyFish(FishItemData shopFish)
+    public void ButtonEventBuyItem(InventoryItemData itemData)
     {
-        if(CheckResourceMoney(shopFish)) //berhasil dan memenuhi kriteria membeli
+        if(CheckResourceMoney(itemData))
         {
-            PlayerResourceManager.Instance.DecreaseMoney(shopFish.fishBuyPrice);
-            currentOpenedInventory.InsertItem(shopFish);
-        }
-        else
-        {
-            Debug.Log("Uang tidak cukup!");
+            PlayerResourceManager.Instance.DecreaseMoney(itemData.itemBuyPrice);
+            currentOpenedInventory.InsertItem(itemData);
         }
     }
 
     //Dipasang pada button jual
-    void SellFish()
+    public void ButtonEventSellItem()
     {
-        //if(CheckFishMaturity(otherLocalInventory.currentSavedFish))
-        if(currentOpenedInventory.currentSavedFish.isMatured)
+        if(currentOpenedInventory.IsItemReadyToSellorCollect())
         {
-            FishItemData soldFish = currentOpenedInventory.RemoveItem();
-            PlayerResourceManager.Instance.IncreaseMoney(soldFish.fishSellPrice);
+            InventoryItemData soldItem = currentOpenedInventory.RemoveItem();
+            PlayerResourceManager.Instance.IncreaseMoney(soldItem.itemSellPrice);
         }
-        else if(!currentOpenedInventory.currentSavedFish.isMatured)
+        else
         {
-            Debug.Log("Ikan belum matang!");
+            Debug.Log("Item is not ready to sell");
         }
     }
 
     //Dipasang pada button collect
-    void CollectFish(LocalInventory otherLocalInventory)
+    void CollectItem(LocalInventory otherLocalInventory)
     {
         
+    }
+
+    //setting up semua barang yang ada di shop buat beli maupun jual
+    void SettingUpShop()
+    {
+        SetBuyItemInShop();
+        SetSellItemInShop();
+    }
+
+    void SetBuyItemInShop()
+    {
+        foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.Instance.ListItem)
+        {
+            Debug.Log("listItem.Value: "+listItem.Value.name);
+
+            BuyableItemPrefab.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = listItem.Value.itemBuyPrice.ToString();
+            BuyableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = listItem.Value.icon;
+            BuyableItemPrefab.GetComponent<BuyButtonScript>().SetButtonItemData(listItem.Value);
+
+            if(currentOpenedInventory.IsInventoryAvailable())
+            {
+                BuyableItemPrefab.GetComponent<Button>().interactable = true;
+            }
+            else if(!currentOpenedInventory.IsInventoryAvailable())
+            {
+                BuyableItemPrefab.GetComponent<Button>().interactable = false;
+            }
+            Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
+        }
+    }
+
+    void SetSellItemInShop()
+    {
+        if(currentOpenedInventory.IsInventoryAvailable())
+        {
+            Debug.Log("invetory kososng");
+            //SellableItemPrefab.GetComponent<Button>().interactable = false;
+        }
+        else if(!currentOpenedInventory.IsInventoryAvailable())
+        {
+            Debug.Log("invetory breisi");
+
+            SellableItemPrefab.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = currentOpenedInventory.GetCurrentSavedItemData().itemBuyPrice.ToString();
+            SellableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
+            SellableItemPrefab.GetComponent<SellButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
+
+            //SellableItemPrefab.GetComponent<Button>().interactable = true;
+        }
+
+        Instantiate(SellableItemPrefab, SellGridLayout.transform);
+    }
+
+    void ClearingUpShop()
+    {
+        ClearingUpBuyGrid();
+        ClearingUpSellGrid();
+    }
+
+    void ClearingUpBuyGrid()
+    {
+        foreach(Transform BuyableItemPrefab in BuyGridLayout.transform)
+        {
+            GameObject.Destroy(BuyableItemPrefab.gameObject);
+        }
+    }
+
+    void ClearingUpSellGrid()
+    {
+        foreach(Transform SellableItemPrefab in SellGridLayout.transform)
+        {
+            GameObject.Destroy(SellableItemPrefab.gameObject);
+        }
+    }
+
+    // public InventoryItemData GetCurrentItem()
+    // {
+    //     return currentSO;
+    // }
+
+    IEnumerator RefreshShop()
+    {
+        while(true)
+        {
+            //Menghentikan error ketika CloseShop()
+            if(currentOpenedInventory==null || PlayerResourceManager.Instance==null)
+            {
+                Debug.Log("break");
+                yield break;
+            }
+
+            MoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
+            
+            //Mengecek kepenuhan inventory
+            if(!currentOpenedInventory.IsInventoryAvailable()) //Jika inventory berisi
+            {
+                if(currentOpenedInventory.IsItemReadyToSellorCollect()) //jika siap di jual / collect
+                {
+                    // foreach(Transform item in CollectGridLayout.GetComponentInChildren<Transform>())
+                    // {
+                    //     item.GetComponent<Button>().interactable = true;
+                    // }
+
+                    foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
+                    {
+                        item.GetComponent<Button>().interactable = true;
+                    }
+                }
+                else if(!currentOpenedInventory.IsItemReadyToSellorCollect()) //jika tidak siap di jual / collect
+                {
+                    // foreach(Transform item in CollectGridLayout.GetComponentInChildren<Transform>())
+                    // {
+                    //     item.GetComponent<Button>().interactable = false;
+                    // }
+
+                    foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
+                    {
+                        item.GetComponent<Button>().interactable = false;
+                    }
+                }
+
+                foreach(Transform item in BuyGridLayout.GetComponentInChildren<Transform>())
+                {
+                    item.GetComponent<Button>().interactable = false;
+                }
+
+            }
+            else if(currentOpenedInventory.IsInventoryAvailable()) //Jika inventory kosong
+            {
+                foreach(Transform item in BuyGridLayout.GetComponentInChildren<Transform>())
+                {
+                    item.GetComponent<Button>().interactable = true;
+                }
+
+                foreach(Transform item in SellGridLayout.GetComponentInChildren<Transform>())
+                {
+                    item.GetComponent<Button>().interactable = false;
+                }
+            }
+            yield return null;
+        }
     }
 }

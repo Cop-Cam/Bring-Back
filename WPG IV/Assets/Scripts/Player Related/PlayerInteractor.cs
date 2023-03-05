@@ -6,28 +6,19 @@ using UnityEngine.InputSystem;
 //Place this shit in front of player for spawning fishes
 public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 {
-    //public static PlayerInteractor instance; 
     private bool isInObject;
     private GameObject InteractedGameObject;
 
-    // void Awake() 
-    // {
-    //     if(instance != null)
-    //     {
-    //         Debug.Log("there is another PlayerInteractor");
-    //     }
-    //     instance = this;
-    //     // Vector3 playerPosition = transform.parent.position;
-    //     // transform.position += new Vector3(playerPosition.x, playerPosition.y, playerPosition.z + 0.5f);
-    //     // Debug.Log(transform.position);
-    //     // Debug.Log(transform.parent.position);
-        
-    // }
+    //raycast
+    private int rayLength;
+    private LayerMask layerMaskInteraction;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        isInObject = false;
+        rayLength = 2;
     }
 
     // Update is called once per frame
@@ -36,27 +27,48 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
         
     }
 
-    public void OnFire(InputAction.CallbackContext context)
+    void FixedUpdate()
     {
-        //isFiring = context.ReadValue<float>();
+        DrawRayCast();
+    }
+
+    void DrawRayCast()
+    {
+        Vector3 fwd = transform.TransformDirection(Vector3.forward);
+        Ray ray = new Ray(transform.position, fwd);
+        RaycastHit hitData;
+
+        Debug.DrawRay(transform.position, fwd*rayLength, Color.red);
+        
+        if(Physics.Raycast(ray, out hitData, rayLength, ~(1 << LayerMask.GetMask("Player"))) && (!isInObject || InteractedGameObject == null))
+        {
+            Debug.Log("masuk ke interactable");
+            isInObject = true;
+            InteractedGameObject = hitData.collider.gameObject;
+        }
+        else if(!Physics.Raycast(ray, out hitData, rayLength, ~(1 << LayerMask.GetMask("Player"))) && (isInObject || InteractedGameObject != null))
+        {
+            Debug.Log("keluar dari interactable");
+            isInObject = false;
+            InteractedGameObject = null;
+        }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
         if(context.performed)
         {
             Interact();
         }
     }
 
-    //void SpawnMethod()
-    //{
-     //   Instantiate(ObjectToSpawn, transform.position, transform.rotation);
-    //}
-    public void Interact()
+    void Interact()
     {
-        if(isInObject)
+        if(isInObject && InteractedGameObject != null)
         {
-            Debug.Log("Object is Interacted");
-            if(InteractedGameObject.CompareTag("Ponds"))
+            if(InteractedGameObject.transform.parent.gameObject.CompareTag("Ponds"))
             {
-                GameManager.Instance.IsPlayerAllowedToMove(false); //mematikan pergerakkan pemain
+                InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
                 GameObject InteractedObjectParent = InteractedGameObject.transform.parent.gameObject;
                 LocalInventory localInventory = InteractedObjectParent.GetComponentInChildren<LocalInventory>();
                 ShopSystem.Instance.OpenShopMenu(localInventory); 
@@ -65,21 +77,20 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
     }
     
 
-    private void OnTriggerEnter(Collider other) 
-    {
-        //if(other.CompareTag("InteractableObjects"))
-        //{
-            isInObject = true;
-            InteractedGameObject = other.gameObject;
-        //}
-    }
+    // private void OnTriggerEnter(Collider other) 
+    // {
+    //     //if(other.CompareTag("InteractableObjects"))
+    //     //{
+    //         isInObject = true;
+    //         InteractedGameObject = other.gameObject;
+    //     //}
+    // }
 
-    private void OnTriggerExit(Collider other) 
-    {
-        if(other.CompareTag("InteractableObjects"))
-        {
-            isInObject = false;
-            InteractedGameObject = null;
-        }   
-    }
+    // private void OnTriggerExit(Collider other) 
+    // {
+        
+    //         isInObject = false;
+    //         InteractedGameObject = null;
+        
+    // }
 }

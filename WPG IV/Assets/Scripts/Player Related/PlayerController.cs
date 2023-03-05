@@ -5,32 +5,25 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : GenericSingletonClass<PlayerController>
 {
-    //public static PlayerController instance { get; private set; }
-    LocalInventory currentOpenedInventory;
-
-    //[SerializeField] private PlayerResourceManager playerResourceManager;
-    //public GameObject other; 
-
     public float playerSpeed;
     private Vector2 move;
     
     [SerializeField] private GameObject m_player;
-    //[SerializeField] private GameObject m_interactor;
-
-
-    // void Awake()
-    // {
-    //     if(instance != null)
-    //     {
-    //         Debug.Log("there is another PlayerController");
-    //     }
-    //     instance = this;
-    // }
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Failsafe
+        if(m_player == null)
+        {
+            m_player = GameObject.FindWithTag("Player");
+            InputManager.Instance.playerObj = m_player;
+        }
+        if(playerSpeed == 0)
+        {
+            playerSpeed = 5f;
+        }
     }
 
     // Update is called once per frame

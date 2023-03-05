@@ -17,7 +17,7 @@ public class CameraManager : GenericSingletonClass<CameraManager>
         {
             tPlayer = GameObject.FindWithTag("Player");
         }
-        vcam.LookAt = tPlayer.transform;
+        //vcam.LookAt = tPlayer.transform;
         vcam.Follow = tPlayer.transform;
     }
 

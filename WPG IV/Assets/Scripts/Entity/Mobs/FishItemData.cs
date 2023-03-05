@@ -1,40 +1,39 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FishItemData", menuName = "WPG IV/FishItemData", order = 1)]
+[CreateAssetMenu(fileName = "FishItemData", menuName = "SO/FishItemData", order = 1)]
 public class FishItemData : InventoryItemData 
 {
     public enum FishTypes {Endemic, Invasif};
+    public Sprite fishPicture; //Foto ikan dewasa
+    public string fishDescription; //deksripsi ikan dewasa
     public FishTypes fishTypes; //tipe ikan (endemic atau invansif)
-    public int daysToFeed;
-    public int daysToMatured; //lamanya ikan bertumbuh
-    private float hoursToMatured; //berbasis timesOfDay pada TimeManager
-    public int fishBuyPrice; //harga ikan dibeli
-    public int fishSellPrice; //harga ikan dijual;
-    public bool isActivated;
-    public bool isMatured = false;
-    
-    //mungkin seharusnya di ensiklopedia
-    //public bool isUnlocked = false; //mengecek apakah yang ditangkap adalah ikan baru //
-    void Awake()
-    {
-        hoursToMatured = daysToMatured * 24;
-    }
+    public bool isFishFeeded { get; set; }
+    public int daysToMatured { get; set; } //lamanya ikan bertumbuh
+    public bool isFishMatured { get; set; }
 
-    void Update() 
-    {
-        FishMaturingMethod();
-    }
 
-    public void InitializeFish()
-    {
-        isActivated = true;
-    }
 
-    void FishMaturingMethod()
-    {
-        hoursToMatured -= TimeManager.Instance.CalculateTimeOfDay();
-    }
+    // public void InitializeFish()
+    // {
+    //     hoursToMatured = daysToMatured * 24;
+
+    //     FishMaturingMethod();
+    // }
+
+    // private IEnumerator FishMaturingMethod()
+    // {
+    //     Debug.Log("maturing fish");
+    //     while(!isMatured)
+    //     {
+    //         hoursToMatured -= TimeManager.Instance.CalculateTimeOfDay();
+    //         if(hoursToMatured <= 0)
+    //         {
+    //             Debug.Log("fish is matured");
+    //             isMatured = true;
+    //         }
+    //         yield return null;
+    //     }
+    // }
 }
 
