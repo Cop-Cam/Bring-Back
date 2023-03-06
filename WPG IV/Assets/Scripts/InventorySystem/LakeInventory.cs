@@ -15,9 +15,12 @@ public class LakeInventory : LocalInventory
 
     public override void OnInteracted()
     {
-        int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length-1);
-
+        Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
+        int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
+        Debug.Log("rand: "+rand);
         currentSavedItem = InvansiveFishesInThisLake[rand];
+        Debug.Log("mendapat: "+InvansiveFishesInThisLake[rand].displayName);
+        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
         //send fiish to player
     }
 

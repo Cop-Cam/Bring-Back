@@ -40,15 +40,15 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 
         Debug.DrawRay(transform.position, fwd*rayLength, Color.red);
         
-        if(Physics.Raycast(ray, out hitData, rayLength, ~(1 << LayerMask.GetMask("Player"))) && (!isInObject || InteractedGameObject == null))
+        if(Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) && (!isInObject || InteractedGameObject == null))
         {
-            Debug.Log("masuk ke interactable");
+            //Debug.Log("masuk ke interactable");
             isInObject = true;
             InteractedGameObject = hitData.collider.gameObject;
         }
-        else if(!Physics.Raycast(ray, out hitData, rayLength, ~(1 << LayerMask.GetMask("Player"))) && (isInObject || InteractedGameObject != null))
+        else if(!Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) && (isInObject || InteractedGameObject != null))
         {
-            Debug.Log("keluar dari interactable");
+            //Debug.Log("keluar dari interactable");
             isInObject = false;
             InteractedGameObject = null;
         }

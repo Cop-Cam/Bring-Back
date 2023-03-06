@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3582191928882904603}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PondBase
   m_TagString: Inventory
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6622368065953672442}
   - component: {fileID: 4263549105784921593}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Script
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4379438008043447188}
   - component: {fileID: 2229952118892516701}
   - component: {fileID: 2522648662590776403}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
