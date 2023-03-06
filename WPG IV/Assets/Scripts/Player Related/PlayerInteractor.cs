@@ -66,7 +66,7 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
     {
         if(isInObject && InteractedGameObject != null)
         {
-            if(InteractedGameObject.transform.parent.gameObject.CompareTag("Ponds"))
+            if(InteractedGameObject.transform.parent.gameObject.CompareTag("Inventory"))
             {
                 InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
                 GameObject InteractedObjectParent = InteractedGameObject.transform.parent.gameObject;

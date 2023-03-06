@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4816776799592874474}
   m_Layer: 0
   m_Name: LakeBase
-  m_TagString: Untagged
+  m_TagString: Inventory
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496665c07e74d6f42950f979bb328a89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fishInThisPond: []
+  InvansiveFishesInThisLake: []
 --- !u!1 &4051330504170606930
 GameObject:
   m_ObjectHideFlags: 0

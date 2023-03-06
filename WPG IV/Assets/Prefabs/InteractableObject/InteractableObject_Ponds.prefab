@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a62db21500d9cd4bacf2c294dd2f5ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSavedItem: {fileID: 0}
 --- !u!1001 &2417100790566544368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4771050080432212179, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
       propertyPath: m_TagString
-      value: Ponds
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 5417244522773730566, guid: 2d9c5df5a7ab6714cb1925316b530d93, type: 3}
       propertyPath: m_RootOrder

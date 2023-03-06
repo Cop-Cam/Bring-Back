@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - InteractableObjects
+  - Inventory
   - Ponds
+  - InteractableObjects
   layers:
   - Default
   - TransparentFX

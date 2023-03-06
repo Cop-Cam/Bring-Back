@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class LakeInventory : LocalInventory
 {
-    private InventoryItemData[] ListInvansiveFishes;
+    [Tooltip("Masukkan Semua Jenis Ikan Yang Bisa Muncul Pada Danau Ini")]
+    [SerializeField] private InventoryItemData[] InvansiveFishesInThisLake;
 
     // Update is called once per frame
     protected override void Update()
@@ -14,8 +15,9 @@ public class LakeInventory : LocalInventory
 
     public override void OnInteracted()
     {
-        int rand = UnityEngine.Random.Range(0, ListInvansiveFishes.Length-1);
+        int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length-1);
 
+        currentSavedItem = InvansiveFishesInThisLake[rand];
         //send fiish to player
     }
 
