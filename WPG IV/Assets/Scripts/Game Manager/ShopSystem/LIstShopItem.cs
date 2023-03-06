@@ -10,42 +10,56 @@ public class ListShopItem : GenericSingletonClass<ListShopItem>
     void Start()
     {
         ListItem = new Dictionary<string, InventoryItemData>();
-        SettingUpDictionary();
-    }
-
-    //mengambil data SO fish pada folder yang ditentukan
-    void GetAllFishes(List<InventoryItemData> fishItemList)
-    {
-        string[] assetNames = AssetDatabase.FindAssets("Fish", new[]{"Assets/ScriptableObjects/Fishes/FishesItem"});
-        foreach(string SOName in assetNames)
+        while(true)
         {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var character = AssetDatabase.LoadAssetAtPath<FishItemData>(SOpath);
-            fishItemList.Add(character);
+            if(GameDatabase.Instance.isGameDatabaseReady)
+            {
+                SettingUpDictionary();
+                break;
+            }
+            Debug.Log("not ready");
         }
     }
 
-    void GetAllFishesSeed(List<InventoryItemData> fishSeedList)
-    {
-        string[] assetNames = AssetDatabase.FindAssets("FishSeed", new[]{"Assets/ScriptableObjects/Fishes/FishesSeed"});
-        foreach(string SOName in assetNames)
-        {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var character = AssetDatabase.LoadAssetAtPath<FishSeedItemData>(SOpath);
-            fishSeedList.Add(character);
-        }
-    }
+    // public void Init()
+    // {
+    //     ListItem = new Dictionary<string, InventoryItemData>();
+    //     SettingUpDictionary();
+    // }
 
-    void GetAllFishesFeed(List<InventoryItemData> fishFeedList)
-    {
-        string[] assetNames = AssetDatabase.FindAssets("FishFeed", new[]{"Assets/ScriptableObjects/Fishes/FishesFeed"});
-        foreach(string SOName in assetNames)
-        {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var character = AssetDatabase.LoadAssetAtPath<FishFeedItemData>(SOpath);
-            fishFeedList.Add(character);
-        }
-    }
+    // //mengambil data SO fish pada folder yang ditentukan
+    // void GetAllFishes(List<InventoryItemData> fishItemList)
+    // {
+    //     string[] assetNames = AssetDatabase.FindAssets("Fish", new[]{"Assets/ScriptableObjects/Fishes/FishesItem"});
+    //     foreach(string SOName in assetNames)
+    //     {
+    //         var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+    //         var character = AssetDatabase.LoadAssetAtPath<FishItemData>(SOpath);
+    //         fishItemList.Add(character);
+    //     }
+    // }
+
+    // void GetAllFishesSeed(List<InventoryItemData> fishSeedList)
+    // {
+    //     string[] assetNames = AssetDatabase.FindAssets("FishSeed", new[]{"Assets/ScriptableObjects/Fishes/FishesSeed"});
+    //     foreach(string SOName in assetNames)
+    //     {
+    //         var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+    //         var character = AssetDatabase.LoadAssetAtPath<FishSeedItemData>(SOpath);
+    //         fishSeedList.Add(character);
+    //     }
+    // }
+
+    // void GetAllFishesFeed(List<InventoryItemData> fishFeedList)
+    // {
+    //     string[] assetNames = AssetDatabase.FindAssets("FishFeed", new[]{"Assets/ScriptableObjects/Fishes/FishesFeed"});
+    //     foreach(string SOName in assetNames)
+    //     {
+    //         var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+    //         var character = AssetDatabase.LoadAssetAtPath<FishFeedItemData>(SOpath);
+    //         fishFeedList.Add(character);
+    //     }
+    // }
 
     void AssignItemToDictionary(List<InventoryItemData> itemList)
     {
@@ -55,13 +69,29 @@ public class ListShopItem : GenericSingletonClass<ListShopItem>
         }
     }
 
+    void SettingUpListShopFromGameDatabaseDictionary(List<InventoryItemData> itemList)
+    {
+        foreach(InventoryItemData item in GameDatabase.Instance.List_InventoryItemData_AllItem.Values)
+        {
+            if(item is FishFeedItemData)
+            {
+                itemList.Add(item);
+            }
+            if(item is FishSeedItemData)
+            {
+                itemList.Add(item);
+            }
+        }
+    }
+
     void SettingUpDictionary()
     {
         List<InventoryItemData> itemList = new List<InventoryItemData>();
 
+        SettingUpListShopFromGameDatabaseDictionary(itemList);
         //GetAllFishes(itemList);
-        GetAllFishesSeed(itemList);
-        GetAllFishesFeed(itemList);
+        //GetAllFishesSeed(itemList);
+        //GetAllFishesFeed(itemList);
 
         if(itemList != null)
         {

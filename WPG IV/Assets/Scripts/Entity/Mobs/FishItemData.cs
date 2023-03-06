@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FishItemData", menuName = "SO/FishItemData", order = 1)]
 public class FishItemData : InventoryItemData 
 {
-    public enum FishTypes {Endemic, Invasif};
+    public enum FishTypes {Endemic, Invansive};
     public Sprite fishPicture { get; private set; }//Foto ikan dewasa
     public string fishDescription { get; private set; }//deksripsi ikan dewasa
     public FishTypes fishTypes { get; private set; } //tipe ikan (endemic atau invansif)

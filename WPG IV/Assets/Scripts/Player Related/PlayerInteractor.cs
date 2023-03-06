@@ -71,7 +71,8 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
                 InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
                 GameObject InteractedObjectParent = InteractedGameObject.transform.parent.gameObject;
                 LocalInventory localInventory = InteractedObjectParent.GetComponentInChildren<LocalInventory>();
-                ShopSystem.Instance.OpenShopMenu(localInventory); 
+                localInventory.OnInteracted();
+                //ShopSystem.Instance.OpenShopMenu(localInventory); 
             }
         }
     }

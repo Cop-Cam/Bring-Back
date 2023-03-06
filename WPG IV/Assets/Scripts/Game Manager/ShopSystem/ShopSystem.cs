@@ -8,10 +8,11 @@ using UnityEngine.UI;
 public class ShopSystem : GenericSingletonClass<ShopSystem>
 {
     [Tooltip("Masukkan GameObject parent untuk UI")]
-    [SerializeField]private GameObject ShopUI;
+    public GameObject ShopUI;
     
     [SerializeField]private GameObject BuyGridLayout;
     [SerializeField]private GameObject SellGridLayout;
+    [SerializeField]private GameObject CollectGridLayout;
 
     [Tooltip("Masukkan Prefab Button Untuk Beli")]
     [SerializeField]private GameObject BuyableItemPrefab;
@@ -58,7 +59,9 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
 
         SettingUpShop(); //Menyeting isi shop
 
-        ShopUI.SetActive(true);
+        //ShopUI.SetActive(true);
+        UIManager.Instance.ShopUI.SetActive(true);
+
 
         //StartCoroutine(RefreshShop());
         StartCoroutine(RefreshMoney());
@@ -73,7 +76,8 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
 
         ClearingUpShop();
         
-        ShopUI.SetActive(false); //Menutup tab menu pilihan beli atau jual
+        //ShopUI.SetActive(false); //Menutup tab menu pilihan beli atau jual
+        UIManager.Instance.ShopUI.SetActive(false);
 
         InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true); //pemain boleh bergerak
     }
@@ -105,6 +109,20 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         RefreshShopOnClick();
     }
 
+    public void ButtonEventCollectItem()
+    {
+        if(currentOpenedInventory.IsItemReadyToSellorCollect())
+        {
+            InventoryItemData collectedItem = currentOpenedInventory.RemoveItem();
+            //kirim ke objective
+        }
+        else
+        {
+            Debug.Log("Item is not ready to collect");
+        }
+        RefreshShopOnClick();
+    }
+
     //Dipasang pada button collect
     void CollectItem(LocalInventory otherLocalInventory)
     {
@@ -116,6 +134,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     {
         SetBuyItemInShop();
         SetSellItemInShop();
+        SetCollectItemInShop();
     }
 
     void SetBuyItemInShop()
@@ -178,10 +197,41 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         Instantiate(SellableItemPrefab, SellGridLayout.transform);
     }
 
+    void SetCollectItemInShop()
+    {
+        if(currentOpenedInventory.IsInventoryAvailable())
+        {
+            CollectableItemPrefab.GetComponent<Button>().interactable = false;   
+        }
+        else if(!currentOpenedInventory.IsInventoryAvailable())
+        {
+            CollectableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
+            CollectableItemPrefab.GetComponent<CollectButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
+            
+            if(currentOpenedInventory.IsItemReadyToSellorCollect())
+            {
+                CollectableItemPrefab.GetComponent<Button>().interactable = true;
+            }
+            else if(!currentOpenedInventory.IsItemReadyToSellorCollect())
+            {
+                CollectableItemPrefab.GetComponent<Button>().interactable = false;
+            }
+        }
+
+        Instantiate(CollectableItemPrefab, CollectGridLayout.transform);
+    }
+
+    void RefreshShopOnClick()
+    {
+        ClearingUpShop();
+        SettingUpShop();
+    }
+
     void ClearingUpShop()
     {
         ClearingUpBuyGrid();
         ClearingUpSellGrid();
+        ClearingUpCollectGrid();
     }
 
     void ClearingUpBuyGrid()
@@ -200,14 +250,12 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         }
     }
 
-    // public InventoryItemData GetCurrentItem()
-    // {
-    //     return currentSO;
-    // }
-    void RefreshShopOnClick()
+    void ClearingUpCollectGrid()
     {
-        ClearingUpShop();
-        SettingUpShop();
+        foreach(Transform CollectableItemPrefab in CollectGridLayout.transform)
+        {
+            GameObject.Destroy(CollectableItemPrefab.gameObject);
+        }
     }
 
     IEnumerator RefreshMoney()
