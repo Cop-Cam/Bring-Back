@@ -328,6 +328,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: LakeBase
       objectReference: {fileID: 0}
+    - target: {fileID: 3894294161711782255, guid: 61ae740d7978c97429557dbb968c9c4a, type: 3}
+      propertyPath: InvansiveFishesInThisLake.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894294161711782255, guid: 61ae740d7978c97429557dbb968c9c4a, type: 3}
+      propertyPath: InvansiveFishesInThisLake.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: e518cab5d0e018b4fb0f59b81d980de4, type: 2}
+    - target: {fileID: 3894294161711782255, guid: 61ae740d7978c97429557dbb968c9c4a, type: 3}
+      propertyPath: InvansiveFishesInThisLake.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 340eb9f6f1cc87548bdbf84b3921d30c, type: 2}
     - target: {fileID: 4816776799592874474, guid: 61ae740d7978c97429557dbb968c9c4a, type: 3}
       propertyPath: m_RootOrder
       value: 1

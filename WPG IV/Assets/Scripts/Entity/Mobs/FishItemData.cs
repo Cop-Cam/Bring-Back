@@ -11,6 +11,7 @@ public class FishItemData : InventoryItemData
     public bool isFishFeeded { get; set; }
     public int daysToMatured { get; set; } //lamanya ikan bertumbuh
     public bool isFishMatured { get; set; }
+    public int fishPoint; //objective point
 
 
 

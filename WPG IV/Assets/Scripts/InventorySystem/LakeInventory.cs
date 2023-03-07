@@ -6,6 +6,16 @@ public class LakeInventory : LocalInventory
     [Tooltip("Masukkan Semua Jenis Ikan Yang Bisa Muncul Pada Danau Ini")]
     [SerializeField] private InventoryItemData[] InvansiveFishesInThisLake;
 
+    [SerializeField] private int EnergyNeeded = 0;
+
+    protected override void Start() 
+    {
+        base.Start();
+        if(EnergyNeeded == 0)
+        {
+            EnergyNeeded = 15;
+        }
+    }
     // Update is called once per frame
     protected override void Update()
     {
@@ -15,13 +25,21 @@ public class LakeInventory : LocalInventory
 
     public override void OnInteracted()
     {
-        Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
-        int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
-        Debug.Log("rand: "+rand);
-        currentSavedItem = InvansiveFishesInThisLake[rand];
-        Debug.Log("mendapat: "+InvansiveFishesInThisLake[rand].displayName);
-        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
-        //send fiish to player
+        if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
+        {
+            PlayerResourceManager.Instance.DecreaseEnergy(10);
+            Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
+            int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
+            Debug.Log("rand: "+rand);
+            currentSavedItem = InvansiveFishesInThisLake[rand];
+            Debug.Log("mendapat: "+InvansiveFishesInThisLake[rand].displayName);
+            InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
+            //send fiish to player
+        }
+        else
+        {
+            Debug.Log("energy tidak cukup");
+        }
     }
 
     // void Init()

@@ -1,18 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
-//Untuk meletak pondasi trading dan economy
+
 public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager>
 {
     //public static PlayerResourceManager instance { get; private set; }
     
     //resource money
     public int PlayerMoney { get; private set; }
-    public TextMeshProUGUI MoneyText;
-
 
     //resource energy
     public float PlayerEnergy { get; private set; }
@@ -31,6 +27,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     void Start()
     {
         PlayerMoney = 0;
+        PlayerEnergy = 100;
     }
 
     // Update is called once per frame
@@ -55,7 +52,6 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     {
         PlayerMoney -= profit;
     }
-
 
     public void IncreaseEnergy(float EnergyChanges)
     {
