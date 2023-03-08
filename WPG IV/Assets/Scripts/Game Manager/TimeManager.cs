@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TimeManager : GenericSingletonClass<TimeManager>
 {
+   /*
     //public static TimeManager instance { get; private set; }
 
     public float timescale { get; private set; }
@@ -41,9 +42,52 @@ public class TimeManager : GenericSingletonClass<TimeManager>
             TimeOfDay %= 24; //Modulus to ensure always between 0-24
         //}
     }
+*/
+
+    [SerializeField]public float minutes = 0;
+    [SerializeField]public float hours = 8;
+    [SerializeField]public float timer = 15;
+    [SerializeField]public int date = 1;
+    // Start is called before the first frame update
+    void Start()
+    {
+        Debug.Log("its started");
+        InvokeRepeating("Timer", 1.0f, timer);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (hours == 24)
+        {
+            DayEnd();
+        }
+    }
+
+    void Timer()
+    {
+        minutes+=10;
+        if (minutes >= 60)
+        {
+            hours++;
+            minutes = 0;
+        }
+        Debug.Log(hours);
+        Debug.Log(minutes);   
+    }
+
+    public bool daychanged;
+    void DayEnd()
+    {
+        hours = 6;
+        minutes = 0;
+        daychanged = true;
+        date++;
+    }
+
 
     public float CalculateTimeOfDay()
     {
-        return Time.deltaTime * timescale;
+        return hours;
     }
 }

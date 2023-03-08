@@ -17,7 +17,7 @@ public class LightingManager : GenericSingletonClass<LightingManager>
         if (Preset == null)
             return;
 
-        UpdateLighting(TimeManager.Instance.TimeOfDay / 24f);
+        UpdateLighting(TimeManager.Instance.hours);
 
         // if (Application.isPlaying)
         // {
