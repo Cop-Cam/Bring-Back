@@ -13,7 +13,7 @@ public class LakeInventory : LocalInventory
         base.Start();
         if(EnergyNeeded == 0)
         {
-            EnergyNeeded = 15;
+            EnergyNeeded = 10;
         }
     }
     // Update is called once per frame
@@ -39,6 +39,7 @@ public class LakeInventory : LocalInventory
         else
         {
             Debug.Log("energy tidak cukup");
+            InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
         }
     }
 

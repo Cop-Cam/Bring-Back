@@ -1,4 +1,5 @@
-
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class PondInventory : LocalInventory
@@ -40,6 +41,7 @@ public class PondInventory : LocalInventory
             Debug.Log("beli pakan");
             currentSavedFeed = insertedItem as FishFeedItemData;
             FishDaysToMatureDecrement = currentSavedFeed.FishFeedEffectiveness;
+            StartCoroutine(FishMaturingMethod());
         }
         currentSavedItem = null;
     }
@@ -126,14 +128,7 @@ public class PondInventory : LocalInventory
         }
         else
         {
-            if(currentSavedFish.isFishMatured)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return CheckFishMature();
         }
     }
 
@@ -142,19 +137,41 @@ public class PondInventory : LocalInventory
         return currentSavedFish;
     }
 
-    private void FishMaturingMethod()
+    public bool CheckFishMature()
     {
-        Debug.Log("maturing fish");
         if(currentSavedFish.daysToMatured <= 0)
         {
             Debug.Log("fish is matured");
             currentSavedFish.isFishMatured = true;
+            return true;
         }
+        else
+        { 
+            return false;
+        }
+    }
 
-        //Harus dieksekusi hari berikutnya
-        if(!currentSavedFish.isFishMatured && currentSavedFish.isFishFeeded)
+    private IEnumerator FishMaturingMethod()
+    {
+        Debug.Log("start maturing fish");
+        while(true)
         {
-            currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
+            if(CheckFishMature())
+            {
+                yield break;
+            }
+
+            if(TimeManager.Instance.daychanged)
+            {
+                //Harus dieksekusi hari berikutnya
+                if(!CheckFishMature() && isPondFishFeeded())
+                {
+                    currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
+                    currentSavedFeed = null;
+                    yield break;
+                }
+            }
+            yield return new WaitForEndOfFrame();
         }
     }
 }
