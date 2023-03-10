@@ -18,18 +18,15 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
     [SerializeField] private GameObject continueButton; //continue button
 
     [Header("Choices UI")]
+    [SerializeField] private GameObject ChoiceButtonPrefab; //prefab button
+    [SerializeField] private GameObject ChoiceGridLayout; //prefab button
     [SerializeField] private GameObject[] choices; //background pilihan
     private TextMeshProUGUI[] choicesText; //text pilihan
-
-    [Header("Player Management")]
-    [SerializeField] private GameObject movementManager; //background pilihan
 
     private Story currentStory;
     
     public bool dialogueIsPlaying { get; private set; } //mengecek dialog sedang berjalan atau tidak
     public bool dialogueIsWriting { get; private set; } //mengecek dialog sedang berjalan atau tidak
-
-    public static DialogueManager instance { get; private set; }
 
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
@@ -56,14 +53,10 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
         if(!dialogueIsPlaying) return;
     }
 
-    public static DialogueManager GetInstance()
-    {
-        return instance;
-    }
 
     public void EnterDialogue(TextAsset inkJSON)
     {
-        movementManager.SetActive(false); //ngefreeze pemain
+        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false);
 
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
@@ -94,14 +87,14 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
 
-        movementManager.SetActive(true); //ngefreeze pemain
-
+        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
     }
 
     public void ContinueStory()
     {
         //agar bisa skip dengan rapi
-        StopAllCoroutines(); //menghentikan method WriteText
+        //StopAllCoroutines(); //menghentikan method WriteText
+        StopCoroutine(WriteText()); //menghentikan method WriteText
         dialogueText.text = ""; //membersihkan text
 
         if(currentStory.canContinue)
@@ -150,6 +143,19 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
         }
     }
 
+    void SetChoiceButton(List<Choice> currentChoices)
+    {
+        int index = 0;
+        foreach (Choice choice in currentChoices)
+        {
+            ChoiceButtonPrefab.GetComponent<ChoiceButtonScript>().SetThisButtonChoiceIndex(index);
+            //ChoiceButtonPrefab.transform.Find("")
+            //choices[index].gameObject.SetActive(true);
+            choicesText[index].text = choice.text;
+            index++;
+        } 
+    }
+
     private void DisplayChoices()
     {
         if(currentStory.currentChoices.Count > 0)
@@ -157,10 +163,10 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
             continueButton.SetActive(false); //button continue dihilangkan
             List<Choice> currentChoices = currentStory.currentChoices;
 
-            if(currentChoices.Count > choices.Length)
-            {
-                Debug.LogError("Choices lebih banyak dari UI yang tersedia: " + currentChoices.Count);
-            } 
+            // if(currentChoices.Count > choices.Length)
+            // {
+            //     Debug.LogError("Choices lebih banyak dari UI yang tersedia: " + currentChoices.Count);
+            // } 
 
             int index = 0;
             foreach (Choice choice in currentChoices)
@@ -190,12 +196,12 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
     }
 
 
-    private IEnumerator SelectFirstChoice() //not used
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-        yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
-    }
+    // private IEnumerator SelectFirstChoice() //not used
+    // {
+    //     EventSystem.current.SetSelectedGameObject(null);
+    //     yield return new WaitForEndOfFrame();
+    //     EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
+    // }
 
     public void MakeChoice(int choiceIndex)
     {

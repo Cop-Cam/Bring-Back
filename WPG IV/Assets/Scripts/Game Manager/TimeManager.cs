@@ -62,6 +62,10 @@ public class TimeManager : GenericSingletonClass<TimeManager>
         {
             DayEnd();
         }
+        else //cek terus apakah dapat menimbulkan bug pada pakan terutama fungsi FishMaturingMethod() di script PondInventory
+        {
+            daychanged = false;
+        }
     }
 
     void Timer()
@@ -72,8 +76,9 @@ public class TimeManager : GenericSingletonClass<TimeManager>
             hours++;
             minutes = 0;
         }
-        Debug.Log(hours);
-        Debug.Log(minutes);   
+        //nge ganggu, dikomen dulu
+        // Debug.Log(hours);
+        // Debug.Log(minutes);   
     }
 
     public bool daychanged;

@@ -9,7 +9,7 @@ public class FishItemData : InventoryItemData
     public string fishDescription { get; private set; }//deksripsi ikan dewasa
     public FishTypes fishTypes; //tipe ikan (endemic atau invansif)
     public bool isFishFeeded { get; set; }
-    public int daysToMatured { get; set; } //lamanya ikan bertumbuh
+    public int daysToMatured; //lamanya ikan bertumbuh
     public bool isFishMatured { get; set; }
     public int fishPoint; //objective point
 

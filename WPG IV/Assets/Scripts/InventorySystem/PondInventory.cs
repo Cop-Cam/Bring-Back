@@ -168,6 +168,7 @@ public class PondInventory : LocalInventory
                 {
                     currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
                     currentSavedFeed = null;
+                    Debug.Log("berhasil");
                     yield break;
                 }
             }

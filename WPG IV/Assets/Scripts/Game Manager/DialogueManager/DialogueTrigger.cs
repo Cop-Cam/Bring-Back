@@ -44,7 +44,7 @@ public class DialogueTrigger : MonoBehaviour
             {
                 gameObject.GetComponent<Collider2D>().enabled = false;
 
-                DialogueManager.GetInstance().EnterDialogue(inkJSON);
+                DialogueManager.Instance.EnterDialogue(inkJSON);
 
                 foreach(GameObject wall in progressionWall)
                 {
@@ -67,7 +67,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             //playerInRange = true;
             Debug.Log("gas");
-            DialogueManager.GetInstance().EnterDialogue(inkJSON);
+            DialogueManager.Instance.EnterDialogue(inkJSON);
             gameObject.GetComponent<Collider2D>().enabled = false;
 
         }
