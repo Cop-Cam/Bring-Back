@@ -14,6 +14,7 @@ public class PondInventory : LocalInventory
         currentSavedFish = null;
         currentSavedFeed = null;
         FishDaysToMatureDecrement = 0;
+        SetInteractIcon();
     }
     // Update is called once per frame
     protected override void Update()

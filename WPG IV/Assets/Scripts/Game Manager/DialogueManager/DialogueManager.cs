@@ -10,7 +10,8 @@ using UnityEngine.EventSystems;
 public class DialogueManager : GenericSingletonClass<DialogueManager>
 {
     [Header("Dialogue UI")]
-    [SerializeField] private GameObject dialoguePanel; //panel dialog //untuk mematikan dialog
+    //[SerializeField] private GameObject dialoguePanel; //panel dialog //untuk mematikan dialog
+    [SerializeField] private GameObject dialogueCanvas; //panel dialog //untuk mematikan dialog
     [SerializeField] private TextMeshProUGUI dialogueText; //text dialog
     [SerializeField] private TextMeshProUGUI displayNameText; //nama karakter 
     [SerializeField] private Animator portraitAnimator; //animator sprite karakter
@@ -20,7 +21,9 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
     [Header("Choices UI")]
     [SerializeField] private GameObject ChoiceButtonPrefab; //prefab button
     [SerializeField] private GameObject ChoiceGridLayout; //prefab button
-    [SerializeField] private GameObject[] choices; //background pilihan
+    
+
+    private GameObject[] choices; //background pilihan
     private TextMeshProUGUI[] choicesText; //text pilihan
 
     private Story currentStory;
@@ -33,22 +36,23 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
     private const string LAYOUT_TAG = "layout";
 
 
-    private void Start()
+    void Start()
     {
         dialogueIsPlaying = false;
         dialogueIsWriting = false;
-        dialoguePanel.SetActive(false);
+        //dialoguePanel.SetActive(false);
+        dialogueCanvas.SetActive(false);
 
-        choicesText = new TextMeshProUGUI[choices.Length];
-        int index = 0;
-        foreach (GameObject choice in choices)
-        {
-            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
-            index++;
-        } 
+        // choicesText = new TextMeshProUGUI[choices.Length];
+        // int index = 0;
+        // foreach (GameObject choice in choices)
+        // {
+        //     choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
+        //     index++;
+        // } 
     }
 
-    private void Update() //awalnya update saja
+    void Update() //awalnya update saja
     {
         if(!dialogueIsPlaying) return;
     }
@@ -60,7 +64,8 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
 
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
-        dialoguePanel.SetActive(true);
+        //dialoguePanel.SetActive(true);
+        dialogueCanvas.SetActive(true);
 
         //reset tagValue in protreit etc
         displayNameText.text = "???";
@@ -84,7 +89,8 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
         yield return new WaitForSeconds(0.2f); //agar apabila tombol input sudah digunakan, tidak akan bertabrakan  //misal: tombol jump dan tombol next sama
 
         dialogueIsPlaying = false;
-        dialoguePanel.SetActive(false);
+        //dialoguePanel.SetActive(false);
+        dialogueCanvas.SetActive(false);
         dialogueText.text = "";
 
         InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
@@ -149,11 +155,20 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
         foreach (Choice choice in currentChoices)
         {
             ChoiceButtonPrefab.GetComponent<ChoiceButtonScript>().SetThisButtonChoiceIndex(index);
-            //ChoiceButtonPrefab.transform.Find("")
+            ChoiceButtonPrefab.transform.Find("Choice").transform.Find("ChoiceText").GetComponent<TextMeshProUGUI>().text = choice.text;
+
             //choices[index].gameObject.SetActive(true);
-            choicesText[index].text = choice.text;
+            //choicesText[index].text = choice.text;
             index++;
         } 
+    }
+
+    void ClearChoiceButton()
+    {
+        foreach(Transform ChoiceButtonPrefab in ChoiceGridLayout.transform)
+        {
+            GameObject.Destroy(ChoiceButtonPrefab.gameObject);
+        }
     }
 
     private void DisplayChoices()
@@ -167,30 +182,31 @@ public class DialogueManager : GenericSingletonClass<DialogueManager>
             // {
             //     Debug.LogError("Choices lebih banyak dari UI yang tersedia: " + currentChoices.Count);
             // } 
-
-            int index = 0;
-            foreach (Choice choice in currentChoices)
-            {
-                choices[index].gameObject.SetActive(true);
-                choicesText[index].text = choice.text;
-                index++;
-            } 
+            SetChoiceButton(currentChoices);
+            // int index = 0;
+            // foreach (Choice choice in currentChoices)
+            // {
+            //     choices[index].gameObject.SetActive(true);
+            //     choicesText[index].text = choice.text;
+            //     index++;
+            // } 
 
             //meghilangkan choice yang kelebihan
-            for(int i=index; i<choices.Length; i++)
-            {
-                choices[i].gameObject.SetActive(false);
-            }
+            // for(int i=index; i<choices.Length; i++)
+            // {
+            //     choices[i].gameObject.SetActive(false);
+            // }
 
             //StartCoroutine(SelectFirstChoice());
         }
         else
         {
-            for(int index = choices.Length-1; index>0; index--)
-            {
-                choices[index].gameObject.SetActive(false);
-                choicesText[index].text = "";
-            } 
+            // for(int index = choices.Length-1; index>0; index--)
+            // {
+            //     choices[index].gameObject.SetActive(false);
+            //     choicesText[index].text = "";
+            // } 
+            ClearChoiceButton();
             continueButton.SetActive(true); //button continue diaktifkan
         }
     }

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 //Place this shit in front of player for spawning fishes
 public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 {
     private bool isInObject;
     private GameObject InteractedGameObject;
+    //private GameObject InteractableIndicator;
 
     //raycast
     private int rayLength;
@@ -19,6 +21,9 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
     {
         isInObject = false;
         rayLength = 2;
+
+        // InteractableIndicator.transform.position = new Vector3(0, 20, 0);
+        // InteractableIndicator.SetActive(false);
     }
 
     // Update is called once per frame
@@ -45,11 +50,13 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
             //Debug.Log("masuk ke interactable");
             isInObject = true;
             InteractedGameObject = hitData.collider.gameObject;
+            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerIsInRangeIndicator(true);
         }
         else if(!Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) && (isInObject || InteractedGameObject != null))
         {
             //Debug.Log("keluar dari interactable");
             isInObject = false;
+            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerIsInRangeIndicator(false);
             InteractedGameObject = null;
         }
     }

@@ -10,8 +10,8 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] private TextAsset inkJSON; //asset cerita
     [SerializeField] private GameObject visualCue; //tanda apakah pemain dekat pada npc
 
-    [Header("Wall")]
-    [SerializeField] private GameObject[] progressionWall; //berguna untuk menutup jalan hingga pemain selesai berdialog
+    //[Header("Wall")]
+    //[SerializeField] private GameObject[] progressionWall; //berguna untuk menutup jalan hingga pemain selesai berdialog
     //public bool thereIsWall;
     private bool playerInRange;
 
@@ -24,13 +24,13 @@ public class DialogueTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(progressionWall.Length > 0)
-        {
-            foreach(GameObject wall in progressionWall)
-            {
-                wall.SetActive(true);
-            }
-        }
+        // if(progressionWall.Length > 0)
+        // {
+        //     foreach(GameObject wall in progressionWall)
+        //     {
+        //         wall.SetActive(true);
+        //     }
+        // }
     }
 
     // Update is called once per frame
@@ -44,12 +44,12 @@ public class DialogueTrigger : MonoBehaviour
             {
                 gameObject.GetComponent<Collider2D>().enabled = false;
 
-                DialogueManager.Instance.EnterDialogue(inkJSON);
+                DialogueManager.Instance.EnterDialogue(this.inkJSON);
 
-                foreach(GameObject wall in progressionWall)
-                {
-                    wall.SetActive(false);
-                }
+                // foreach(GameObject wall in progressionWall)
+                // {
+                //     wall.SetActive(false);
+                // }
             }
         }
         else

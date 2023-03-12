@@ -1,12 +1,13 @@
 
 using UnityEngine;
 
-public class LocalInventory : MonoBehaviour
+public class LocalInventory : InteractableObjects
 {
     protected InventoryItemData currentSavedItem;
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         currentSavedItem = null;
     }
     // Update is called once per frame

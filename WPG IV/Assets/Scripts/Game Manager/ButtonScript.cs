@@ -44,7 +44,7 @@ public class ButtonScript : Button
         itemData = other;
     }
 
-        protected override void DoStateTransition(SelectionState state, bool instant)
+    protected override void DoStateTransition(SelectionState state, bool instant)
     {
         Color color;
         switch (state)
