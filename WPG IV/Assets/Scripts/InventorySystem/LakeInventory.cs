@@ -15,7 +15,6 @@ public class LakeInventory : LocalInventory
         {
             EnergyNeeded = 10;
         }
-        SetInteractIcon();
     }
     // Update is called once per frame
     protected override void Update()
@@ -29,11 +28,11 @@ public class LakeInventory : LocalInventory
         if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
         {
             PlayerResourceManager.Instance.DecreaseEnergy(10);
-            Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
+            //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
             int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
-            Debug.Log("rand: "+rand);
+            //Debug.Log("rand: "+rand);
             currentSavedItem = InvansiveFishesInThisLake[rand];
-            Debug.Log("mendapat: "+InvansiveFishesInThisLake[rand].displayName);
+            //Debug.Log("mendapat: "+InvansiveFishesInThisLake[rand].displayName);
             InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
             //send fiish to player
         }

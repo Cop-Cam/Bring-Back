@@ -7,6 +7,11 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
 {
     public Dictionary<string, InventoryItemData> List_InventoryItemData_AllItem{get; private set;}
     public bool isGameDatabaseReady{get; private set;}
+
+    [Header("Sprite")]
+    public Sprite InteractIconDefault_Sprite;
+    public Color InteractIconActivatedDefault_Color;
+    public Color InteractIconDeactivatedDefault_Color;
     // public Dictionary<string, InventoryItemData> List_InventoryItemData_EndemicFish;
     // public Dictionary<string, InventoryItemData> List_InventoryItemData_InvansiveFish;
     // public Dictionary<string, InventoryItemData> List_InventoryItemData_FishSeed;
@@ -57,8 +62,16 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
     //mengambil data SO fish pada folder yang ditentukan
     void GetAllFishes(List<InventoryItemData> fishItemList)
     {
-        string[] assetNames = AssetDatabase.FindAssets("Fish", new[]{"Assets/ScriptableObjects/Fishes/FishesItem"});
-        foreach(string SOName in assetNames)
+        string[] assetNamesEndemic = AssetDatabase.FindAssets("Fish", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Endemic"});
+        foreach(string SOName in assetNamesEndemic)
+        {
+            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+            var character = AssetDatabase.LoadAssetAtPath<FishItemData>(SOpath);
+            fishItemList.Add(character);
+        }
+
+        string[] assetNamesInvansive = AssetDatabase.FindAssets("Fish", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Invansive"});
+        foreach(string SOName in assetNamesInvansive)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
             var character = AssetDatabase.LoadAssetAtPath<FishItemData>(SOpath);

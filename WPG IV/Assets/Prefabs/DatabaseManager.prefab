@@ -76,4 +76,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ffc930139b36ac4f88778e84b73d253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGameDatabaseReady: 0
+  InteractIconDefault_Sprite: {fileID: 21300000, guid: 3086d66a563317b40a20a20da2c64ac0, type: 3}
+  InteractIconActivatedDefault_Color: {r: 1, g: 0, b: 0, a: 1}
+  InteractIconDeactivatedDefault_Color: {r: 1, g: 1, b: 1, a: 1}

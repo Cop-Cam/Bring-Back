@@ -56,6 +56,7 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
         {
             //Debug.Log("keluar dari interactable");
             isInObject = false;
+            Debug.Log("GAmeobject= "+ InteractedGameObject.name);
             InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerIsInRangeIndicator(false);
             InteractedGameObject = null;
         }
