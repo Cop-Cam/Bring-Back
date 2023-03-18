@@ -8,6 +8,19 @@ public class PondInventory : LocalInventory
     protected FishFeedItemData currentSavedFeed;
     private int FishDaysToMatureDecrement;
 
+    void OnEnable()
+    {
+        TimeManager.Instance.OnDayChanged += DayHasChanged;
+    }
+    void OnDisable()
+    {
+        TimeManager.Instance.OnDayChanged -= DayHasChanged;
+    }
+    void DayHasChanged()
+    {
+        FishMaturingMethod();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -41,7 +54,7 @@ public class PondInventory : LocalInventory
             Debug.Log("beli pakan");
             currentSavedFeed = insertedItem as FishFeedItemData;
             FishDaysToMatureDecrement = currentSavedFeed.FishFeedEffectiveness;
-            StartCoroutine(FishMaturingMethod());
+            //StartCoroutine(FishMaturingMethod());
         }
         currentSavedItem = null;
     }
@@ -122,13 +135,15 @@ public class PondInventory : LocalInventory
 
     public override bool IsItemReadyToSellorCollect()
     {
+        //If inventory is empty
         if(IsInventoryAvailable())
         {
             return false;
         }
         else
         {
-            return CheckFishMature();
+            //Send wether fish is matured or not
+            return IsFishMatured();
         }
     }
 
@@ -137,12 +152,12 @@ public class PondInventory : LocalInventory
         return currentSavedFish;
     }
 
-    public bool CheckFishMature()
+    public bool IsFishMatured()
     {
         if(currentSavedFish.daysToMatured <= 0)
         {
             Debug.Log("fish is matured");
-            currentSavedFish.isFishMatured = true;
+            //currentSavedFish.isFishMatured = true;
             return true;
         }
         else
@@ -151,28 +166,19 @@ public class PondInventory : LocalInventory
         }
     }
 
-    private IEnumerator FishMaturingMethod()
+    void FishMaturingMethod()
     {
         Debug.Log("start maturing fish");
-        while(true)
+    
+        if(IsFishMatured())
         {
-            if(CheckFishMature())
-            {
-                yield break;
-            }
-
-            if(TimeManager.Instance.daychanged)
-            {
-                //Harus dieksekusi hari berikutnya
-                if(!CheckFishMature() && isPondFishFeeded())
-                {
-                    currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
-                    currentSavedFeed = null;
-                    Debug.Log("berhasil");
-                    yield break;
-                }
-            }
-            yield return new WaitForEndOfFrame();
+            Debug.Log("Fish is matured");
+        }
+        else if(!IsFishMatured() && isPondFishFeeded()) //Harus dieksekusi hari berikutnya
+        {
+            currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
+            currentSavedFeed = null;
+            Debug.Log("berhasil");
         }
     }
 }

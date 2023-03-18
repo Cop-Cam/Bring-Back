@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class TimeManager : GenericSingletonClass<TimeManager>
 {
@@ -48,6 +49,14 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     [SerializeField]public float hours = 8;
     [SerializeField]public float timer = 15;
     [SerializeField]public int date = 1;
+
+    //public delegate void TimeManagerEvent();
+    //event yang didelegate
+    //public static event TimeManagerEvent OnDayChanged;
+
+    public event Action OnDayChanged;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,10 +70,6 @@ public class TimeManager : GenericSingletonClass<TimeManager>
         if (hours == 24)
         {
             DayEnd();
-        }
-        else //cek terus apakah dapat menimbulkan bug pada pakan terutama fungsi FishMaturingMethod() di script PondInventory
-        {
-            daychanged = false;
         }
     }
 
@@ -81,13 +86,14 @@ public class TimeManager : GenericSingletonClass<TimeManager>
         // Debug.Log(minutes);   
     }
 
-    public bool daychanged;
     void DayEnd()
     {
         hours = 6;
         minutes = 0;
-        daychanged = true;
         date++;
+
+        //Event dijalankan
+        OnDayChanged();
     }
 
 
