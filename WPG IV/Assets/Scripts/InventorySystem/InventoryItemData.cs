@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "InventoryItemData", menuName = "SO/InventoryItemData", order = 0)]
+//[CreateAssetMenu(fileName = "InventoryItemData", menuName = "SO/InventoryItemData", order = 0)]
 public class InventoryItemData : ScriptableObject 
 {
     public string id;

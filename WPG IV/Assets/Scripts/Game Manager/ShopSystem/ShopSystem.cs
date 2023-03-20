@@ -88,7 +88,8 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     {
         if(CheckResourceMoney(itemData))
         {
-            PlayerResourceManager.Instance.DecreaseMoney(itemData.itemBuyPrice);
+            //PlayerResourceManager.Instance.DecreaseMoney(itemData.itemBuyPrice);
+            PlayerResourceManager.Instance.ChangeMoney(-(itemData.itemBuyPrice));
             currentOpenedInventory.InsertItem(itemData);
         }
         RefreshShopOnClick();
@@ -100,7 +101,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         if(currentOpenedInventory.IsItemReadyToSellorCollect())
         {
             InventoryItemData soldItem = currentOpenedInventory.RemoveItem();
-            PlayerResourceManager.Instance.IncreaseMoney(soldItem.itemSellPrice);
+            PlayerResourceManager.Instance.ChangeMoney(soldItem.itemSellPrice);
         }
         else
         {
@@ -114,19 +115,15 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         if(currentOpenedInventory.IsItemReadyToSellorCollect())
         {
             InventoryItemData collectedItem = currentOpenedInventory.RemoveItem();
-            //kirim ke objective
+
+            //send collected item to playerinventory
+            PlayerResourceManager.Instance.SetSavedItemInInventory(collectedItem);
         }
         else
         {
             Debug.Log("Item is not ready to collect");
         }
         RefreshShopOnClick();
-    }
-
-    //Dipasang pada button collect
-    void CollectItem(LocalInventory otherLocalInventory)
-    {
-        
     }
 
     //setting up semua barang yang ada di shop buat beli maupun jual

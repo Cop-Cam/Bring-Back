@@ -18,7 +18,11 @@ public class PondInventory : LocalInventory
     }
     void DayHasChanged()
     {
-        FishMaturingMethod();
+        //Check if there is any fish in pond
+        if(IsInventoryAvailable())
+        {
+            FishMaturingMethod();
+        }
     }
 
     protected override void Start()
@@ -169,7 +173,7 @@ public class PondInventory : LocalInventory
     void FishMaturingMethod()
     {
         Debug.Log("start maturing fish");
-    
+
         if(IsFishMatured())
         {
             Debug.Log("Fish is matured");
@@ -180,5 +184,6 @@ public class PondInventory : LocalInventory
             currentSavedFeed = null;
             Debug.Log("berhasil");
         }
+        
     }
 }

@@ -27,7 +27,7 @@ public class LakeInventory : LocalInventory
     {
         if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
         {
-            PlayerResourceManager.Instance.DecreaseEnergy(10);
+            PlayerResourceManager.Instance.ChangeEnergy(-(10));
             //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
             int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
             //Debug.Log("rand: "+rand);

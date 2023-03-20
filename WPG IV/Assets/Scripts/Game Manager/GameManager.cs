@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : GenericSingletonClass<GameManager>
+public class GameManager : DontDestroySingletonClass<GameManager>
 {
     // Start is called before the first frame update
     void Start()
