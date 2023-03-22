@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace QuestSystem
 {
-    [CreateAssetMenu(fileName = "GetFishesPoint_ObjectiveType", menuName = "SO/QuestData/QuestObjectiveData")]
-    public class GetFishesPoint_ObjectiveType : QuestObjectiveData
+    public class GetFishesPoint_ObjectiveType : Objective
     {
         [System.Serializable]
         public struct FishObjectiveSetting
@@ -16,24 +15,22 @@ namespace QuestSystem
 
         private int FishObjectiveCollectedPoint;
 
-        private int SendedFishObjectivePoint;
         
-        private void Start()
-        {
-            PlayerGameObject = GameObject.FindGameObjectWithTag("Player");
-        }
-
         //mungkin buat dishow di ui
         public override void GetObjectiveProgression()
         {
-            
+            Debug.Log("=========================================================");
+            Debug.Log("Required Fish Types: " + fishObjectiveSetting.fishType);
+            Debug.Log("CurrentFishPoint/RequiredFishPoint: " + FishObjectiveCollectedPoint + (" / ") + fishObjectiveSetting.FishObjectivePointNeeded);
+            Debug.Log("IsObjectiveCompleted: "+IsObjectiveCompleted);
+            Debug.Log("=========================================================");
         }
-
-        public override void EvaluateObjective()
+        
+        protected override void EvaluateObjective()
         {
             if(CheckIsObjectiveCompleted())
             {
-                //do logic
+                ObjectiveCompleted.Invoke();
             }
             else if(!CheckIsObjectiveCompleted())
             {
@@ -41,6 +38,7 @@ namespace QuestSystem
             }
             IsObjectiveCompleted = CheckIsObjectiveCompleted();
         }
+        
 
         private bool CheckIsObjectiveCompleted()
         {
@@ -54,17 +52,36 @@ namespace QuestSystem
             }
         }
 
-        public override void AddProgressToObjective()
+        public override void AddProgressToObjective(object sendedData)
         {
-            FishObjectiveCollectedPoint += SendedFishObjectivePoint;
+            if(sendedData is FishItemData)
+            {
+                FishItemData currentSendedFish = sendedData as FishItemData;
+                
+                if(currentSendedFish.fishTypes == fishObjectiveSetting.fishType && FishObjectiveCollectedPoint < fishObjectiveSetting.FishObjectivePointNeeded)
+                {
+                    FishObjectiveCollectedPoint += currentSendedFish.fishPoint;
+                }
+            }
 
             EvaluateObjective();
         }
 
-        public void GetSendedPoint(int sendedPoint)
+        /*
+        public override bool GetIsObjectiveCompleted()
         {
-            SendedFishObjectivePoint = sendedPoint;
-        }
+            return IsObjectiveCompleted;
+        }*/
+
+        // public void GetSendedPoint(int sendedPoint)
+        // {
+        //     SendedFishObjectivePoint = sendedPoint;
+        // }
+
+        // public override ObjectiveType GetObjectiveType()
+        // {
+        //     return objectiveType;
+        // }
     }
 
 }

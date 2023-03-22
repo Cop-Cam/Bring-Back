@@ -14,7 +14,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     public float PlayerEnergy { get; private set; }
 
     //currently collected item data
-    [SerializeField] private InventoryItemData PlayerSavedInventoryItem;
+    //[SerializeField] private InventoryItemData PlayerSavedInventoryItem;
     
 
     // Start is called before the first frame update
@@ -58,7 +58,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     // {
     //     PlayerEnergy -= EnergyChange;
     // }
-
+    /*
     public void SetSavedItemInInventory(InventoryItemData sendedInventoryItemData)
     {
         PlayerSavedInventoryItem = sendedInventoryItemData;
@@ -74,14 +74,15 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
 
     private void SortFishToObjective(FishItemData fish)
     {
-        if(fish.fishTypes == FishItemData.FishTypes.Endemic)
-        {
-            //logic quest 
-        }
+        // if(fish.fishTypes == FishItemData.FishTypes.Endemic)
+        // {
+        //     //logic quest 
+        // }
 
-        if(fish.fishTypes == FishItemData.FishTypes.Endemic)
-        {
-            //logic quest 
-        }
+        // if(fish.fishTypes == FishItemData.FishTypes.Endemic)
+        // {
+        //     //logic quest 
+        // }
     }
+    */
 }

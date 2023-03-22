@@ -117,7 +117,8 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
             InventoryItemData collectedItem = currentOpenedInventory.RemoveItem();
 
             //send collected item to playerinventory
-            PlayerResourceManager.Instance.SetSavedItemInInventory(collectedItem);
+            //PlayerResourceManager.Instance.SetSavedItemInInventory(collectedItem);
+            QuestSystem.QuestManager.Instance.SendProgressToQuestDatas(collectedItem);
         }
         else
         {

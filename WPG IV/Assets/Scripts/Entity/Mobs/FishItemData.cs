@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FishItemData", menuName = "SO/FishRelated/FishItemData", order = 1)]
+[CreateAssetMenu(fileName = "FishItemData", menuName = "Scriptable Objects/FishRelated/FishItemData", order = 1)]
 public class FishItemData : InventoryItemData 
 {
     public enum FishTypes {Endemic, Invansive};

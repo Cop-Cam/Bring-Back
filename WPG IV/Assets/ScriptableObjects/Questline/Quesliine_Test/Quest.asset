@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7729093885134114334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 081d6d5e20e303f4391e39163581159f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectiveCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  fishObjectiveSetting:
+    fishType: 0
+    FishObjectivePointNeeded: 1000
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4561313ce75fa92448e8877966e36ec2, type: 3}
+  m_Name: Quest
+  m_EditorClassIdentifier: 
+  questInformation:
+    QuestId: test001
+    QuestName: Testing Quest
+    QuestDescription: 'nmgetest '
+    IsQuestHasLimit: 1
+    QuestTimeLimit: 13
+  QuestObjectives:
+  - {fileID: -7729093885134114334}
+  OnQuestCompletedEvent:
+  - {fileID: 236217785950214727}
+  OnQuestFailedEvent:
+  - {fileID: 7179896885464049190}
+--- !u!114 &236217785950214727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d1ed2910e65b74fa0d1dfea90f915c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moneyChange: 500
+--- !u!114 &7179896885464049190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d1ed2910e65b74fa0d1dfea90f915c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moneyChange: -1000

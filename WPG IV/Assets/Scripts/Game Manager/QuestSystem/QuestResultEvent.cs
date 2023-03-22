@@ -1,11 +1,17 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.Events;
+//using UnityEngine.Events;
 
 
 namespace QuestSystem
 {
+    public abstract class QuestResultEvent : ScriptableObject
+    {
+        public abstract void InvokeQuestResultEvent();
+
+    }
+    /*
     public class QuestEventManager : GenericSingletonClass<QuestEventManager>
     {
         void Start()
@@ -21,13 +27,13 @@ namespace QuestSystem
         {
             questData.questSetting.RequiredEndemicFishesPoint += addedPoint;
         }*/
-
+/*
         public void ChangePlayerMoney(int moneyChange)
         {
             PlayerResourceManager.Instance.ChangeMoney(moneyChange);
         }
     }
-
+*/
 /*
     public static class QuestEventManager 
     {
