@@ -8,10 +8,10 @@ namespace QuestSystem
 {
     public class QuestManager : GenericSingletonClass<QuestManager>
     {
-        public Dictionary<string, Quest> QuestDictionary;
-        public List<Quest> CurrentActivatedQuestList;
-        public List<Quest> CurrentFailedQuestList;
-        public List<Quest> CurrentCompletedQuestList;
+        public Dictionary<string, Quest> QuestDictionary {get; private set;}
+        public List<Quest> CurrentActivatedQuestList {get; private set;}
+        public List<Quest> CurrentFailedQuestList {get; private set;}
+        public List<Quest> CurrentCompletedQuestList {get; private set;}
 
         public override void Awake()
         {
