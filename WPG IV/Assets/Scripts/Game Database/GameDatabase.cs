@@ -62,7 +62,7 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
     //mengambil data SO fish pada folder yang ditentukan
     void GetAllFishes(List<InventoryItemData> fishItemList)
     {
-        string[] assetNamesEndemic = AssetDatabase.FindAssets("Fish", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Endemic"});
+        string[] assetNamesEndemic = AssetDatabase.FindAssets("t:FishItemData t:FishItemData.fishTypes.Endemic", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Endemic"});
         foreach(string SOName in assetNamesEndemic)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
@@ -70,7 +70,7 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
             fishItemList.Add(character);
         }
 
-        string[] assetNamesInvansive = AssetDatabase.FindAssets("Fish", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Invansive"});
+        string[] assetNamesInvansive = AssetDatabase.FindAssets("t:FishItemData t:FishItemData.fishTypes.Invansive", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Invansive"});
         foreach(string SOName in assetNamesInvansive)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
@@ -80,7 +80,7 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
     }
     void GetAllFishesSeed(List<InventoryItemData> fishSeedList)
     {
-        string[] assetNames = AssetDatabase.FindAssets("FishSeed", new[]{"Assets/ScriptableObjects/Fishes/FishesSeed"});
+        string[] assetNames = AssetDatabase.FindAssets("t:FishSeedItemData", new[]{"Assets/ScriptableObjects/Fishes/FishesSeed"});
         foreach(string SOName in assetNames)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
@@ -90,7 +90,7 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
     }
     void GetAllFishesFeed(List<InventoryItemData> fishFeedList)
     {
-        string[] assetNames = AssetDatabase.FindAssets("FishFeed", new[]{"Assets/ScriptableObjects/Fishes/FishesFeed"});
+        string[] assetNames = AssetDatabase.FindAssets("t:FishFeedItemData", new[]{"Assets/ScriptableObjects/Fishes/FishesFeed"});
         foreach(string SOName in assetNames)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);

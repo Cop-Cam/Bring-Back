@@ -19,7 +19,7 @@ public class PondInventory : LocalInventory
     void DayHasChanged()
     {
         //Check if there is any fish in pond
-        if(IsInventoryAvailable())
+        if(!IsInventoryAvailable())
         {
             FishMaturingMethod();
         }
