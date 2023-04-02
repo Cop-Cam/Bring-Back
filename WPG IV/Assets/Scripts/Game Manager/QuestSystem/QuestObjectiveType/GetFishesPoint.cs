@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace QuestSystem
 {
-    public class GetFishesPoint_ObjectiveType : Objective
+    public class GetFishesPoint : Objective
     {
         [System.Serializable]
         public struct FishObjectiveSetting
@@ -28,18 +28,16 @@ namespace QuestSystem
         
         protected override void EvaluateObjective()
         {
-            if(CheckIsObjectiveCompleted())
-            {
-                ObjectiveCompleted.Invoke();
-            }
-            else if(!CheckIsObjectiveCompleted())
-            {
-                //do logic
-            }
             IsObjectiveCompleted = CheckIsObjectiveCompleted();
+        
+            if(IsObjectiveCompleted)
+            {
+                //ObjectiveCompletedEvent.Invoke();
+                ObjectiveIsCompleted();
+            }
+        
         }
         
-
         private bool CheckIsObjectiveCompleted()
         {
             if(FishObjectiveCollectedPoint >= this.fishObjectiveSetting.FishObjectivePointNeeded)

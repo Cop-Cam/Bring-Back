@@ -1,5 +1,5 @@
 
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,11 +7,19 @@ namespace QuestSystem
 {
     public class StartNewQuest : QuestResultEvent
     {
-        [SerializeField] private Quest NewQuest;
+        [Tooltip("List of any Quest that will be initialized")]
+        [SerializeField] private List<Quest> NewQuest;
 
         public override void InvokeQuestResultEvent()
         {
-            NewQuest.InitializeQuest();
+            if(NewQuest != null)
+            {
+                foreach(Quest quest in NewQuest)
+                {
+                    quest.InitializeQuest();
+                }
+            }
+            
         }
     }
 }

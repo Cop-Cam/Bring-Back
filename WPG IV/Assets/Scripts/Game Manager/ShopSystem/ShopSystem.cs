@@ -118,7 +118,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
 
             //send collected item to playerinventory
             //PlayerResourceManager.Instance.SetSavedItemInInventory(collectedItem);
-            QuestSystem.QuestManager.Instance.SendProgressToQuestDatas(collectedItem);
+            QuestSystem.QuestManager.Instance.SendProgressFromQuestManagerToQuest(collectedItem);
         }
         else
         {

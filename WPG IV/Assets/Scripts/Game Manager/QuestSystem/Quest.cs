@@ -1,6 +1,7 @@
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Events;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -27,6 +28,7 @@ namespace QuestSystem
             [Tooltip("Quest Description")]
             public string QuestDescription;
 
+            /*
             [Tooltip("If false, the QuestTimeLimit option will be ignored")]
             public bool IsQuestHasLimit;
 
@@ -56,53 +58,72 @@ namespace QuestSystem
 
         [HideInInspector]public List<Objective> QuestObjectives;
 
-        [HideInInspector]public List<QuestResultEvent> OnQuestCompletedEvent;
+        [HideInInspector]public List<QuestResultEvent> ExecutedEventOnQuestCompleted;
 
-        [HideInInspector]public List<QuestResultEvent> OnQuestFailedEvent;
+        [HideInInspector]public List<QuestResultEvent> ExecutedEventOnQuestFailed;
 
-        /*
-        [System.Serializable]
-        public struct QuestEvent
-        {
-            //[Header("Quest Events")]
 
-            [Tooltip("All Executed Events When Completing The Quest")]
-            //public UnityEvent OnQuestCompletedEvent;
-            public List<UnityEvent> OnQuestCompletedEvent;
-
-            [Tooltip("All Executed Event When Failing The Quest")]
-            //public UnityEvent OnQuestFailedEvent;
-            public List<UnityEvent> OnQuestFailedEvent;
-        }
-        public QuestEvent questEvent;
-        */
 
         public bool IsQuestActive { get; private set; }
+        //[HideInInspector] public UnityEvent QuestStartedEvent; //tell when quest is started
+        public event Action<Quest> OnQuestActivatedEvent; //tell when quest is started
 
         public bool IsQuestCompleted { get; private set; }
-        //[HideInInspector] public UnityEvent QuestCompletedEvent;
+        //[HideInInspector] public UnityEvent QuestCompletedEvent; //tell when quest is completed
+        public event Action<Quest> OnQuestCompletedEvent; //tell when quest is completed
 
         public bool IsQuestFailed { get; private set; }
-        //[HideInInspector] public UnityEvent QuestFailedEvent;
+        //[HideInInspector] public UnityEvent QuestFailedEvent; //tell when quest is failed
+        public event Action<Quest> OnQuestFailedEvent; //tell when quest is failed
 
 
+        /*
+        private void SubscribeToDayChanged()
+        {
+            TimeManager.Instance.OnDayChanged += DayHasChanged;
+        }
+        private void UnSubscribeToDayChanged()
+        {
+            TimeManager.Instance.OnDayChanged -= DayHasChanged;
+        }
         private void DayHasChanged()
         {
             questInformation.QuestTimeLimit -= 1;
             if(questInformation.QuestTimeLimit <= 0)
             {
                 IsQuestFailed = true;
+
+                QuestFailedEvent.Invoke();
+                
                 CheckQuestStatus();
             }
         }
-
-        private void CheckObjective()
+        */
+        
+        /// <summary> Check all Objectives in Quest </summary>
+        private void CheckIfAllObjectiveCompleted()
         {
-            IsQuestCompleted = QuestObjectives.All(objective => objective.IsObjectiveCompleted);
-
-            if(IsQuestCompleted)
+            if(IsQuestActive)
             {
-                CheckQuestStatus();
+                IsQuestCompleted = QuestObjectives.All(objective => objective.IsObjectiveCompleted);
+
+                if(IsQuestCompleted)
+                {
+                    CheckQuestStatus();
+                }
+            }
+        }
+
+        private void CheckIfAnyObjectiveFailed()
+        {
+            if(IsQuestActive)
+            {
+                IsQuestFailed = QuestObjectives.Any(objective => objective.IsObjectiveFailed);
+
+                if(IsQuestFailed)
+                {
+                    CheckQuestStatus();
+                }
             }
         }
 
@@ -116,18 +137,12 @@ namespace QuestSystem
                 objective.InitializeObjective();
 
                 //Add listener to ObjectiveCompleted UnityEvent so that everytime ObjectiveCompleted get invoked, CheckObjective get ran
-                objective.ObjectiveCompleted.AddListener(delegate { CheckObjective(); }); 
+                //objective.ObjectiveCompletedEvent.AddListener(delegate { CheckAllObjectives(); }); 
+                objective.OnObjectiveCompletedEvent += CheckIfAllObjectiveCompleted; 
+                objective.OnObjectiveFailedEvent += CheckIfAnyObjectiveFailed;
             }
 
-            //Set Listerner to TimeManager if the quest has timelimit
-            if(questInformation.IsQuestHasLimit)
-            {
-                TimeManager.Instance.OnDayChanged += DayHasChanged;
-            }
-            else
-            {
-                TimeManager.Instance.OnDayChanged -= DayHasChanged;
-            }
+            OnQuestActivatedEvent?.Invoke(this);
         }
 
         public void DeinitializeQuest()
@@ -136,93 +151,80 @@ namespace QuestSystem
 
             foreach(Objective objective in QuestObjectives)
             {
-                objective.DeinitializeObjective();
+                objective.DeInitializeObjective();
+                //objective.ObjectiveCompletedEvent.RemoveAllListeners();
+                objective.OnObjectiveCompletedEvent -= CheckIfAllObjectiveCompleted;
+                objective.OnObjectiveFailedEvent -= CheckIfAnyObjectiveFailed;
 
-                objective.ObjectiveCompleted.RemoveAllListeners();
             }
 
-            TimeManager.Instance.OnDayChanged -= DayHasChanged;
+            //UnSubscribeToDayChanged();
         }
 
+
+        /// <summary> Check wether quest is completed or failed </summary>
         private void CheckQuestStatus()
         {
-            if(IsQuestCompleted)
+            if(IsQuestActive)
             {
-                RewardOnQuestCompleted();
-                //IsQuestActive = false;
-                DeinitializeQuest();
-            }
-            else if(IsQuestFailed)
-            {
-                RewardOnQuestFailed();
-                //IsQuestActive = false;
-                DeinitializeQuest();
-            }
-            else
-            {
-                Debug.Log("This Quest is "+IsQuestActive);
-                Debug.Log("This Quest is not yet completed or failed!");
+                if(IsQuestCompleted)
+                {
+                    RewardOnQuestCompleted();
+                    
+                    DeinitializeQuest();
+
+                    OnQuestCompletedEvent?.Invoke(this);
+                }
+                else if(IsQuestFailed)
+                {
+                    RewardOnQuestFailed();
+                    
+                    DeinitializeQuest();
+
+                    OnQuestFailedEvent?.Invoke(this);
+                }
+                else
+                {
+                    Debug.Log("This Quest is "+IsQuestActive);
+                    Debug.Log("This Quest is not yet completed or failed!");
+                }
             }
         }
 
+        /// <summary> Invoke all event to reward player if not null </summary>
         private void RewardOnQuestCompleted()
         {
-            if(OnQuestCompletedEvent != null)
+            if(ExecutedEventOnQuestCompleted != null)
             {
-                foreach(QuestResultEvent Event in OnQuestCompletedEvent)
+                foreach(QuestResultEvent Event in ExecutedEventOnQuestCompleted)
                 {
                     Event.InvokeQuestResultEvent();
                 }
-                //questEvent.OnQuestCompletedEvent.Invoke();
             }
         }
+
+        /// <summary> Invoke all event to punish player if not null </summary>
         private void RewardOnQuestFailed()
         {
-            if(OnQuestFailedEvent != null)
+            if(ExecutedEventOnQuestFailed != null)
             {
-                foreach(QuestResultEvent Event in OnQuestFailedEvent)
+                foreach(QuestResultEvent Event in ExecutedEventOnQuestFailed)
                 {
                     Event.InvokeQuestResultEvent();
                 }
-                //questEvent.OnQuestFailedEvent.Invoke();
             }
         }
         
-        public void SendProgressToObjectives(object sendedData)
+        /// <summary> sending all collected data to objective </summary>
+        public void SendProgressFromQuestToObjectives(object sendedData)
         {
             foreach(Objective questObjective in QuestObjectives)
             {
                 questObjective.AddProgressToObjective(sendedData);
             } 
         }
-
-        /*
-        private int GetThisQuestObjectiveSize()
-        {
-            return questSetting.QuestObjectives.Count-1;
-        }
-        *
-
-        private void EvaluateQuestObjectives()
-        {
-            int ThisQuestUnfinishedObjective = GetThisQuestObjectiveSize();
-
-            foreach(Objective questObjective in questSetting.QuestObjectives)
-            {
-                if(questObjective.GetIsObjectiveCompleted())
-                {
-                    ThisQuestUnfinishedObjective--;
-                }
-            }
-
-            if(ThisQuestUnfinishedObjective == 0)
-            {
-                IsQuestCompleted = true;
-            }
-        }
-        */
+        
     }
-
 }
 
 
@@ -256,9 +258,9 @@ public class QuestEditor : Editor
     {
         //QuestInfoProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.questInformation));
 
-        QuestRewardListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.OnQuestCompletedEvent));
+        QuestRewardListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.ExecutedEventOnQuestCompleted));
 
-        QuestPunishmentListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.OnQuestFailedEvent));
+        QuestPunishmentListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.ExecutedEventOnQuestFailed));
 
         QuestObjectiveListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.QuestObjectives));
         
