@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4561313ce75fa92448e8877966e36ec2, type: 3}
+  m_Name: Ql_WEEK 4
+  m_EditorClassIdentifier: 
+  questSetting:
+    QuestId: 2
+    QuestName: Melihat Sebuah Harapan
+    QuestDescription: 'Player Harus mengumpulkan Objektif ikan lokal serta ikan invasif.  '
+    QuestObjectives:
+    - {fileID: 11400000, guid: ad43b7b47dfb9cb4f9665f8964ed7c32, type: 2}
+    - {fileID: 11400000, guid: 8c0d1b54cd180484e87377b6eb1bfd5c, type: 2}
+    - {fileID: 11400000, guid: 8bd9695addbe03f4ba269226b0de040c, type: 2}
+    ExecutedEventOnQuestCompleted:
+    - {fileID: 11400000, guid: a7884231a5d62b04bb7f5066906e2902, type: 2}
+    ExecutedEventOnQuestFailed:
+    - {fileID: 11400000, guid: 2958fa8aae59b834793a6dec339a0373, type: 2}
