@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Events;
 using UnityEngine;
 
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 
 namespace QuestSystem
@@ -15,9 +12,9 @@ namespace QuestSystem
     public class Quest : ScriptableObject
     {
         [System.Serializable]
-        public struct QuestInformation
+        public struct QuestSetting
         {
-            //[Header("Quest Information")]
+            [Header("Quest Information")]
 
             [Tooltip("Quest Id [Recommended Format: Questline Id_This Quest Id_This Quest(Index/Stage) In Questline]")]
             public string QuestId;
@@ -28,40 +25,26 @@ namespace QuestSystem
             [Tooltip("Quest Description")]
             public string QuestDescription;
 
-            /*
-            [Tooltip("If false, the QuestTimeLimit option will be ignored")]
-            public bool IsQuestHasLimit;
-
-            [Tooltip("Quest Time Limit (Day)")]
-            public int QuestTimeLimit;
+            [Header("Quest Stats")]
             
-            /*
-            [Header("Quest Objective")]
-
             [Tooltip("All of This Quest Objective")]
             public List<Objective> QuestObjectives;
 
-            [Tooltip("If set to false, just skip the QuestTimeLimit option")]
-            public bool IsQuestHasLimit;
-
-            [Tooltip("Quest Time Limit (Day)")]
-            public int QuestTimeLimit;
-
             [Tooltip("All Executed Events When Completing The Quest")]
-            public UnityEvent OnQuestCompletedEvent;
+            public List<QuestResultEvent> ExecutedEventOnQuestCompleted;
 
             [Tooltip("All Executed Event When Failing The Quest")]
-            public UnityEvent OnQuestFailedEvent;
-            */
+            public List<QuestResultEvent> ExecutedEventOnQuestFailed;
         }
-        public QuestInformation questInformation;
+        public QuestSetting questSetting;
 
+        /*
         [HideInInspector]public List<Objective> QuestObjectives;
 
         [HideInInspector]public List<QuestResultEvent> ExecutedEventOnQuestCompleted;
 
         [HideInInspector]public List<QuestResultEvent> ExecutedEventOnQuestFailed;
-
+        */
 
 
         public bool IsQuestActive { get; private set; }
@@ -88,8 +71,8 @@ namespace QuestSystem
         }
         private void DayHasChanged()
         {
-            questInformation.QuestTimeLimit -= 1;
-            if(questInformation.QuestTimeLimit <= 0)
+            questSetting.QuestTimeLimit -= 1;
+            if(questSetting.QuestTimeLimit <= 0)
             {
                 IsQuestFailed = true;
 
@@ -105,7 +88,7 @@ namespace QuestSystem
         {
             if(IsQuestActive)
             {
-                IsQuestCompleted = QuestObjectives.All(objective => objective.IsObjectiveCompleted);
+                IsQuestCompleted = questSetting.QuestObjectives.All(objective => objective.IsObjectiveCompleted);
 
                 if(IsQuestCompleted)
                 {
@@ -118,7 +101,7 @@ namespace QuestSystem
         {
             if(IsQuestActive)
             {
-                IsQuestFailed = QuestObjectives.Any(objective => objective.IsObjectiveFailed);
+                IsQuestFailed = questSetting.QuestObjectives.Any(objective => objective.IsObjectiveFailed);
 
                 if(IsQuestFailed)
                 {
@@ -132,7 +115,7 @@ namespace QuestSystem
         {
             IsQuestActive = true;
 
-            foreach(Objective objective in QuestObjectives)
+            foreach(Objective objective in questSetting.QuestObjectives)
             {
                 objective.InitializeObjective();
 
@@ -149,7 +132,7 @@ namespace QuestSystem
         {
             IsQuestActive = false;
 
-            foreach(Objective objective in QuestObjectives)
+            foreach(Objective objective in questSetting.QuestObjectives)
             {
                 objective.DeInitializeObjective();
                 //objective.ObjectiveCompletedEvent.RemoveAllListeners();
@@ -194,9 +177,9 @@ namespace QuestSystem
         /// <summary> Invoke all event to reward player if not null </summary>
         private void RewardOnQuestCompleted()
         {
-            if(ExecutedEventOnQuestCompleted != null)
+            if(questSetting.ExecutedEventOnQuestCompleted != null)
             {
-                foreach(QuestResultEvent Event in ExecutedEventOnQuestCompleted)
+                foreach(QuestResultEvent Event in questSetting.ExecutedEventOnQuestCompleted)
                 {
                     Event.InvokeQuestResultEvent();
                 }
@@ -206,9 +189,9 @@ namespace QuestSystem
         /// <summary> Invoke all event to punish player if not null </summary>
         private void RewardOnQuestFailed()
         {
-            if(ExecutedEventOnQuestFailed != null)
+            if(questSetting.ExecutedEventOnQuestFailed != null)
             {
-                foreach(QuestResultEvent Event in ExecutedEventOnQuestFailed)
+                foreach(QuestResultEvent Event in questSetting.ExecutedEventOnQuestFailed)
                 {
                     Event.InvokeQuestResultEvent();
                 }
@@ -218,51 +201,47 @@ namespace QuestSystem
         /// <summary> sending all collected data to objective </summary>
         public void SendProgressFromQuestToObjectives(object sendedData)
         {
-            foreach(Objective questObjective in QuestObjectives)
+            foreach(Objective questObjective in questSetting.QuestObjectives)
             {
                 questObjective.AddProgressToObjective(sendedData);
             } 
         }
         
     }
+
 }
 
-
-
-
-
+/*
 #if UNITY_EDITOR
 [CustomEditor(typeof(QuestSystem.Quest))]
 public class QuestEditor : Editor
 {
-    //SerializedProperty QuestInfoProperty;
+    private SerializedProperty QuestIdProperty;
+    private SerializedProperty QuestNameProperty;
+    private SerializedProperty QuestDescriptionProperty;
 
-    List<string> QuestObjectiveType;
-    SerializedProperty QuestObjectiveListProperty;
+    private List<string> QuestObjectiveType;
+    private SerializedProperty QuestObjectiveListProperty;
 
-    List<string> QuestEventType;
-    SerializedProperty QuestRewardListProperty;
-    SerializedProperty QuestPunishmentListProperty;
+    private List<string> QuestEventType;
+    private SerializedProperty QuestRewardListProperty;
+    private SerializedProperty QuestPunishmentListProperty;
 
-
-    //[MenuItem("Asset/Quest", priority = 0)]
-    // [MenuItem("Test/Quest", priority = 0)]
-    // public static void CreateQuest()
-    // {
-    //     var newQuest = CreateInstance<QuestSystem.Quest>();
-        
-    //     ProjectWindowUtil.CreateAsset(newQuest, "quest.asset");
-    // }
 
     void OnEnable()
     {
-        //QuestInfoProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.questInformation));
+        
+        QuestIdProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.questSetting.QuestName));
 
-        QuestRewardListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.ExecutedEventOnQuestCompleted));
+        QuestNameProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.questSetting.QuestName));
 
-        QuestPunishmentListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.ExecutedEventOnQuestFailed));
+        QuestDescriptionProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.questSetting.QuestDescription));
+        
+        QuestObjectiveListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.questSetting.QuestObjectives));
 
-        QuestObjectiveListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.QuestObjectives));
+        QuestRewardListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.questSetting.ExecutedEventOnQuestCompleted));
+        
+        QuestPunishmentListProperty = serializedObject.FindProperty(nameof(QuestSystem.Quest.questSetting.ExecutedEventOnQuestFailed));
         
 
         var LookUpQuestObjective = typeof(QuestSystem.Objective);
@@ -280,88 +259,35 @@ public class QuestEditor : Editor
             .ToList();
 
         var LookUpOnFailedQuestEvent = typeof(QuestSystem.QuestResultEvent);
-        QuestEventType = System.AppDomain.CurrentDomain.GetAssemblies()
+        QuestEventType.AddRange( System.AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(assembly => assembly.GetTypes())
             .Where(x => x.IsClass && !x.IsAbstract && x.IsSubclassOf(LookUpOnFailedQuestEvent))
             .Select(type => type.Name)
-            .ToList();
+            .ToList() );
     }
 
 
     public override void OnInspectorGUI()
     {
-        //base.OnInspectorGUI();
-        //serializedObject.Update();
-        DrawDefaultInspector();
-        // var child = QuestInfoProperty.Copy();
-        // var depth = child.depth;
-        // child.NextVisible(true);
-
-        //EditorGUILayout.LabelField("Quest Info", EditorStyles.boldLabel);
-        //EditorGUILayout.PropertyField(QuestInfoProperty);
-
-        //EditorGUILayout.LabelField("Quest Reward", EditorStyles.boldLabel);
-        //EditorGUILayout.PropertyField(QuestRewardProperty);
+        serializedObject.Update();
         
-        
-        // while(child.depth > depth)
-        // {
-        //     EditorGUILayout.PropertyField(child, true);
-        //     child.NextVisible(true);
-        // }
+        EditorGUILayout.PropertyField(QuestIdProperty);
+        EditorGUILayout.PropertyField(QuestNameProperty);
+        EditorGUILayout.PropertyField(QuestDescriptionProperty);
 
-        /*
-        int choice = EditorGUILayout.Popup("Add new Quest Objective", -1, QuestObjectiveType.ToArray());
-        if(choice != -1)
-        {
-            var newInstance = ScriptableObject.CreateInstance(QuestObjectiveType[choice]);
-
-            AssetDatabase.AddObjectToAsset(newInstance, target);
-
-            QuestObjectiveListProperty.InsertArrayElementAtIndex(QuestObjectiveListProperty.arraySize);
-            QuestObjectiveListProperty.GetArrayElementAtIndex(QuestObjectiveListProperty.arraySize-1).objectReferenceValue = newInstance;
-        }
-
-
-        Editor ed = null;
-        int toDelete = -1;
-        
-        for(int i=0; i<QuestObjectiveListProperty.arraySize; ++i)
-        {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.BeginVertical();
-            var item = QuestObjectiveListProperty.GetArrayElementAtIndex(i);
-            SerializedObject SO = new SerializedObject(item.objectReferenceValue);
-
-            Editor.CreateCachedEditor(item.objectReferenceValue, null, ref ed);
-
-            ed.OnInspectorGUI();
-            EditorGUILayout.EndVertical();
-
-            if(GUILayout.Button("-", GUILayout.Width(32)))
-            {
-                toDelete = i;
-            }
-            EditorGUILayout.EndHorizontal();
-        }
-
-        if(toDelete != -1)
-        {
-            var item = QuestObjectiveListProperty.GetArrayElementAtIndex(toDelete).objectReferenceValue;
-            DestroyImmediate(item, true);
-
-            //Need to do it twice, first to nullify the entry, second to actually remove it
-            QuestObjectiveListProperty.DeleteArrayElementAtIndex(toDelete);
-            QuestObjectiveListProperty.DeleteArrayElementAtIndex(toDelete);
-        }
-        */
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("List 1:");
         CreateMenu("Quest Objectives",QuestObjectiveType, QuestObjectiveListProperty);
+        
 
-
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("List 2:");
         CreateMenu("Quest Completed Events",QuestEventType, QuestRewardListProperty);
+        
 
-
-        CreateMenu("Quest Failed Events",QuestEventType, QuestPunishmentListProperty);
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("List 3:");
+        CreateMenu("Quest Failed Events",QuestEventType,QuestPunishmentListProperty);
 
 
         serializedObject.ApplyModifiedProperties();
@@ -396,7 +322,6 @@ public class QuestEditor : Editor
             ed.OnInspectorGUI();
             EditorGUILayout.EndVertical();
 
-            //if(GUILayout.Button("-", GUILayout.Width(32)))
             if(GUILayout.Button("Delete"))
             {
                 toDelete = i;
@@ -418,5 +343,11 @@ public class QuestEditor : Editor
 }
 
 #endif
+*/
+
+
+
+
+
 
 

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace QuestSystem
 {
+    [CreateAssetMenu(fileName = "TimeLimited Objective", menuName = "Scriptable Objects/Quest Assets/Quest Objective/Timed Quest Objective")]
     public class TimeLimited : Objective
     {
         [System.Serializable]

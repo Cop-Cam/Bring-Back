@@ -406,7 +406,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: 1e5cdb2473137aa43adfc205585a9654, type: 2}
+      - m_Target: {fileID: 11400000, guid: c037c3827fb080146aaba28ddd6c1c47, type: 2}
         m_TargetAssemblyTypeName: QuestSystem.Quest, Assembly-CSharp
         m_MethodName: InitializeQuest
         m_Mode: 1
