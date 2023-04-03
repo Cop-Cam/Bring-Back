@@ -9,9 +9,9 @@ namespace QuestSystem
     public class QuestManager : GenericSingletonClass<QuestManager>
     {
         public Dictionary<string, Quest> QuestDictionary {get; private set;}
-        public List<Quest> CurrentActivatedQuestList {get; private set;}
-        public List<Quest> CurrentFailedQuestList {get; private set;}
-        public List<Quest> CurrentCompletedQuestList {get; private set;}
+        public List<Quest> CurrentActivatedQuestList;// {get; private set;}
+        public List<Quest> CurrentFailedQuestList; //{get; private set;}
+        public List<Quest> CurrentCompletedQuestList; //{get; private set;}
 
         public override void Awake()
         {
@@ -51,7 +51,7 @@ namespace QuestSystem
         {
             List<Quest> questList = new List<Quest>();
 
-            GetAllQuestSOAssets(questList, "Assets/ScriptableObjects/Questline");
+            GetAllQuestSOAssets(questList, "Assets/ScriptableObjects/Quests");
 
             if(questList != null)
             {
@@ -77,7 +77,6 @@ namespace QuestSystem
                     questList.Add(character);
                 }
             }
-        
         }
 
         private void AssignQuestToQuestDictionary(List<Quest> questList, Dictionary<string, Quest> questDictionary)
@@ -86,7 +85,7 @@ namespace QuestSystem
             {
                 if(!questDictionary.ContainsValue(questData))
                 {
-                    questDictionary.Add(questData.questInformation.QuestId, questData);
+                    questDictionary.Add(questData.questSetting.QuestId, questData);
                 }
             }
         }
@@ -100,7 +99,7 @@ namespace QuestSystem
             CurrentCompletedQuestList?.Remove(questInstance);
             CurrentFailedQuestList?.Remove(questInstance);
 
-            ShowListConditionForDebug();
+            //ShowListConditionForDebug();
         }
         private void HandleFailedQuest(Quest questInstance)
         {
@@ -108,7 +107,7 @@ namespace QuestSystem
             CurrentCompletedQuestList?.Remove(questInstance);
             CurrentFailedQuestList.Add(questInstance);
 
-            ShowListConditionForDebug();
+            //ShowListConditionForDebug();
         }
         private void HandleCompletedQuest(Quest questInstance)
         {
@@ -116,9 +115,10 @@ namespace QuestSystem
             CurrentCompletedQuestList.Add(questInstance);
             CurrentFailedQuestList?.Remove(questInstance);
 
-            ShowListConditionForDebug();
+            //ShowListConditionForDebug();
         }
 
+        /*
         private void ShowListConditionForDebug()
         {
             Debug.Log("CurrentActivatedQuestList size : " + CurrentActivatedQuestList.Count);
@@ -142,7 +142,7 @@ namespace QuestSystem
                 Debug.Log("Quest Name: " + quest.questInformation.QuestName);
             }
         }
-
+        */
         public void SendProgressFromQuestManagerToQuest(object sendedData)
         {
             if(sendedData != null)

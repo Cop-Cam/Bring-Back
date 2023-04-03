@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace QuestSystem
 {
-    public class GetFishesPoint : Objective
+    [CreateAssetMenu(fileName = "CollectFishesPoint Objective", menuName = "Scriptable Objects/Quest Assets/Quest Objective/Collect Fishes Point Objective")]
+    public class CollectFishesPoint : Objective
     {
         [System.Serializable]
         public struct FishObjectiveSetting
