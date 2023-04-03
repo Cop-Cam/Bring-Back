@@ -74,6 +74,15 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
     {
         if(isInObject && InteractedGameObject != null)
         {
+            IInteractable interactable = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<IInteractable>();
+            if(interactable != null)
+            {
+                Debug.Log("current interacted item :"+InteractedGameObject.transform.parent.gameObject.name);
+                InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
+                interactable.OnInteracted();
+            }
+            
+            /*
             if(InteractedGameObject.transform.parent.gameObject.CompareTag("Inventory"))
             {
                 InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
@@ -82,6 +91,7 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
                 localInventory.OnInteracted();
                 //ShopSystem.Instance.OpenShopMenu(localInventory); 
             }
+            */
         }
     }
     

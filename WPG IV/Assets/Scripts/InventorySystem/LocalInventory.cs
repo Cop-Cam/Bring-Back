@@ -17,7 +17,7 @@ public class LocalInventory : InteractableObjects
         ShowItemParticle();
     }
 
-    public virtual void OnInteracted()
+    public override void OnInteracted()
     {
         //ShopSystem.Instance.OpenShopMenu(localInventory); 
     }

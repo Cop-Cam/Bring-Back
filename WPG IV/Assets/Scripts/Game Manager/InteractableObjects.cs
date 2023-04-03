@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InteractableObjects : MonoBehaviour
+public class InteractableObjects : MonoBehaviour, IInteractable
 {
     [SerializeField] protected float IconHeightFromObject;
     protected GameObject InteractableIndicator_GO;
@@ -30,20 +29,8 @@ public class InteractableObjects : MonoBehaviour
         SetInteractIcon(GameDatabase.Instance.InteractIconDefault_Sprite, GameDatabase.Instance.InteractIconActivatedDefault_Color, GameDatabase.Instance.InteractIconDeactivatedDefault_Color);
     }
 
-    // private void SetIconBasedOnTag()
-    // {
-    //     GameObject thisObjParent = transform.parent.gameObject;
-    //     switch(thisObjParent.tag)
-    //     {
-    //         case "inventory":
-    //             SetInteractIcon();
-    //             break;
-    //     }
-    // }
-
     public virtual void PlayerIsInRangeIndicator(bool isInRange)
     {
-        
         if(isInRange)
         {
             InteractIcon_GO.GetComponent<Image>().color = InteractIcon_ActivatedColor;
@@ -54,15 +41,15 @@ public class InteractableObjects : MonoBehaviour
         }
     }
 
-    // protected virtual void LateUpdate() 
-    // {
-    //     InteractableIndicator.transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward, Camera.main.transform.rotation * Vector3.up);
-    // }
-
     protected virtual void SetInteractIcon(Sprite sprite, Color InRangeColor, Color OutRangeColor)
     {
         InteractIcon_GO.GetComponent<Image>().sprite = sprite;
         InteractIcon_ActivatedColor = InRangeColor;
         InteractIcon_DeactivatedColor = OutRangeColor;
+    }
+
+    public virtual void OnInteracted()
+    {
+
     }
 }
