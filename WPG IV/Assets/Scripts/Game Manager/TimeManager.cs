@@ -101,4 +101,6 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     {
         return hours;
     }
+
+    
 }
