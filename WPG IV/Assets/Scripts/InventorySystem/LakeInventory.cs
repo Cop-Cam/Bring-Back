@@ -6,16 +6,15 @@ public class LakeInventory : LocalInventory
     [Tooltip("Masukkan Semua Jenis Ikan Yang Bisa Muncul Pada Danau Ini")]
     [SerializeField] private InventoryItemData[] InvansiveFishesInThisLake;
 
-    [SerializeField] private int EnergyNeeded = 0;
+    [SerializeField] private int EnergyNeeded = 10;
 
+    /*
     protected override void Start() 
     {
         base.Start();
-        if(EnergyNeeded == 0)
-        {
-            EnergyNeeded = 10;
-        }
     }
+    */
+
     // Update is called once per frame
     protected override void Update()
     {
@@ -27,7 +26,7 @@ public class LakeInventory : LocalInventory
     {
         if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
         {
-            PlayerResourceManager.Instance.ChangeEnergy(-(10));
+            PlayerResourceManager.Instance.ChangeEnergy(-(EnergyNeeded));
             //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
             int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
             //Debug.Log("rand: "+rand);

@@ -50,14 +50,14 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
             //Debug.Log("masuk ke interactable");
             isInObject = true;
             InteractedGameObject = hitData.collider.gameObject;
-            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerIsInRangeIndicator(true);
+            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(true);
         }
         else if(!Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) && (isInObject || InteractedGameObject != null))
         {
             //Debug.Log("keluar dari interactable");
             isInObject = false;
             Debug.Log("GAmeobject= "+ InteractedGameObject.name);
-            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerIsInRangeIndicator(false);
+            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(false);
             InteractedGameObject = null;
         }
     }
@@ -74,12 +74,15 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
     {
         if(isInObject && InteractedGameObject != null)
         {
-            IInteractable interactable = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<IInteractable>();
-            if(interactable != null)
+            //IInteractable interactable = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<IInteractable>();
+
+            InteractableObjects interactableObjects = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<InteractableObjects>();
+
+            if(interactableObjects != null)
             {
                 Debug.Log("current interacted item :"+InteractedGameObject.transform.parent.gameObject.name);
                 InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
-                interactable.OnInteracted();
+                interactableObjects.OnInteracted();
             }
             
             /*

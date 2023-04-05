@@ -95,12 +95,24 @@ namespace QuestSystem
 
         private void HandleActivatedQuest(Quest questInstance)
         {
-            CurrentActivatedQuestList.Add(questInstance);
-            CurrentCompletedQuestList?.Remove(questInstance);
-            CurrentFailedQuestList?.Remove(questInstance);
-
-            //ShowListConditionForDebug();
+            if(!CurrentFailedQuestList.Contains(questInstance) && !CurrentCompletedQuestList.Contains(questInstance))
+            {
+                if(!CurrentActivatedQuestList.Contains(questInstance))
+                {
+                    CurrentActivatedQuestList?.Add(questInstance);
+                }
+                else
+                {
+                    Debug.LogWarning("Quest is already activated!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Quest is already completed or failed!");
+                questInstance.DeinitializeQuest();
+            }
         }
+
         private void HandleFailedQuest(Quest questInstance)
         {
             CurrentActivatedQuestList?.Remove(questInstance);
