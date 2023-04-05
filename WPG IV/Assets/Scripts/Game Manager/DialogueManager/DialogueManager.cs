@@ -158,7 +158,8 @@ namespace DialogueSystem
             int index = 0;
             foreach (Choice choice in currentChoices)
             {
-                choiceButtonPrefab.GetComponent<ChoiceButtonScript>().SetThisButtonChoiceIndex(index);
+                //choiceButtonPrefab.GetComponent<ChoiceButtonScript>().SetThisButtonChoiceIndex(index);
+                choiceButtonPrefab.GetComponent<ButtonScript>().onClick.AddListener(() => MakeChoice(index));
                 choiceButtonPrefab.transform.Find("Choice").transform.Find("ChoiceText").GetComponent<TextMeshProUGUI>().text = choice.text;
 
                 //choices[index].gameObject.SetActive(true);

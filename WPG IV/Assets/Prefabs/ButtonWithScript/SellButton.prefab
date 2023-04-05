@@ -95,8 +95,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: SellButton
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6526388977843061685, guid: 2fcdf202dd9e19f47a4bce4c67a90083, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fcdf202dd9e19f47a4bce4c67a90083, type: 3}
 --- !u!1 &588210291397873209 stripped
 GameObject:
@@ -110,7 +109,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 588210291397873209}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9aa3d0d253aa394d82ef7bac5f77fab, type: 3}
   m_Name: 
@@ -148,7 +147,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   itemData: {fileID: 0}
-  thisObjButton: {fileID: 0}
+  thisObjButton: {fileID: 3171373975422721851}
 --- !u!114 &6053261010481994383 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8097662074698342072, guid: 2fcdf202dd9e19f47a4bce4c67a90083, type: 3}

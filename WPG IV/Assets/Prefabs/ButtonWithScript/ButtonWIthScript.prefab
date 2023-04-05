@@ -200,8 +200,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  itemData: {fileID: 0}
-  thisObjButton: {fileID: 6526388977843061685}
 --- !u!1 &5777252617063161914
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,14 +30,13 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
    
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         ShopUI.SetActive(false);
         currentOpenedInventory = null;
     }
 
-
-    bool CheckResourceMoney(InventoryItemData itemData)
+    private bool CheckResourceMoney(InventoryItemData itemData)
     {
         if(PlayerResourceManager.Instance.PlayerMoney >= itemData.itemBuyPrice)
         {
@@ -66,7 +65,6 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         //StartCoroutine(RefreshShop());
         StartCoroutine(RefreshMoney());
     }
-
     public void CloseShopMenu()
     {
         //StopCoroutine(RefreshShop());
@@ -83,8 +81,9 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     }
 
     
-    //Dipasang pada button beli
-    public void ButtonEventBuyItem(InventoryItemData itemData)
+    #region Button Events For Shop        
+    
+    private void ButtonEventBuyItem(InventoryItemData itemData)
     {
         if(CheckResourceMoney(itemData))
         {
@@ -94,9 +93,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         }
         RefreshShopOnClick();
     }
-
-    //Dipasang pada button jual
-    public void ButtonEventSellItem()
+    private void ButtonEventSellItem()
     {
         if(currentOpenedInventory.IsItemReadyToSellorCollect())
         {
@@ -109,8 +106,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         }
         RefreshShopOnClick();
     }
-
-    public void ButtonEventCollectItem()
+    private void ButtonEventCollectItem()
     {
         if(currentOpenedInventory.IsItemReadyToSellorCollect())
         {
@@ -127,21 +123,28 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         RefreshShopOnClick();
     }
 
+    #endregion
+
+
     //setting up semua barang yang ada di shop buat beli maupun jual
-    void SettingUpShop()
+    private void SettingUpShop()
     {
         SetBuyItemInShop();
         SetSellItemInShop();
         SetCollectItemInShop();
     }
 
-    void SetBuyItemInShop()
+    #region SettingUpItemInShopMethods
+
+    private void SetBuyItemInShop()
     {
         foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.Instance.ListItem)
         {
             BuyableItemPrefab.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = listItem.Value.itemBuyPrice.ToString();
             BuyableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = listItem.Value.icon;
-            BuyableItemPrefab.GetComponent<BuyButtonScript>().SetButtonItemData(listItem.Value);
+            //BuyableItemPrefab.GetComponent<BuyButtonScript>().SetButtonItemData(listItem.Value);
+            BuyableItemPrefab.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventBuyItem(listItem.Value));
+
 
             if(currentOpenedInventory.IsInventoryAvailable())
             {
@@ -170,7 +173,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         }
     }
 
-    void SetSellItemInShop()
+    private void SetSellItemInShop()
     {
         if(currentOpenedInventory.IsInventoryAvailable())
         {
@@ -180,7 +183,9 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         {
             SellableItemPrefab.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = currentOpenedInventory.GetCurrentSavedItemData().itemBuyPrice.ToString();
             SellableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
-            SellableItemPrefab.GetComponent<SellButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
+            //SellableItemPrefab.GetComponent<SellButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
+            SellableItemPrefab.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventSellItem());
+
             
             if(currentOpenedInventory.IsItemReadyToSellorCollect())
             {
@@ -195,7 +200,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         Instantiate(SellableItemPrefab, SellGridLayout.transform);
     }
 
-    void SetCollectItemInShop()
+    private void SetCollectItemInShop()
     {
         if(currentOpenedInventory.IsInventoryAvailable())
         {
@@ -204,7 +209,9 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         else if(!currentOpenedInventory.IsInventoryAvailable())
         {
             CollectableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
-            CollectableItemPrefab.GetComponent<CollectButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
+            //CollectableItemPrefab.GetComponent<CollectButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
+            CollectableItemPrefab.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventCollectItem());
+
             
             if(currentOpenedInventory.IsItemReadyToSellorCollect())
             {
@@ -219,6 +226,8 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         Instantiate(CollectableItemPrefab, CollectGridLayout.transform);
     }
 
+    #endregion
+
     void RefreshShopOnClick()
     {
         ClearingUpShop();
@@ -232,6 +241,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
         ClearingUpCollectGrid();
     }
 
+    #region ClearingUpItemInShopMethods
     void ClearingUpBuyGrid()
     {
         foreach(Transform BuyableItemPrefab in BuyGridLayout.transform)
@@ -255,6 +265,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
             GameObject.Destroy(CollectableItemPrefab.gameObject);
         }
     }
+    #endregion
 
     IEnumerator RefreshMoney()
     {
