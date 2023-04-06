@@ -45,9 +45,9 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     }
 */
 
-    [SerializeField]public float minutes = 0;
-    [SerializeField]public float hours = 8;
-    [SerializeField]public float timer = 15;
+    [SerializeField]public int minutes = 0;
+    [SerializeField]public int hours = 8;
+    [SerializeField]public int timer = 15;
     [SerializeField]public int date = 1;
 
     //public delegate void TimeManagerEvent();
