@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ql_WEEK 3
   m_EditorClassIdentifier: 
   questSetting:
-    QuestId: 2
+    QuestId: 3
     QuestName: Melihat Sebuah Harapan
     QuestDescription: 'Player Harus mengumpulkan Objektif ikan lokal serta ikan invasif.  '
     QuestObjectives:

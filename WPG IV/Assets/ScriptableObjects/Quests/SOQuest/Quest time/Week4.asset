@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Week4
   m_EditorClassIdentifier: 
   timeLimitSetting:
-    TimeLimitByDay: 28
+    TimeLimitByDay: 7
