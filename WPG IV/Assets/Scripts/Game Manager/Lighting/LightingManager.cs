@@ -4,16 +4,21 @@ using UnityEngine;
 public class LightingManager : GenericSingletonClass<LightingManager>
 {
     [SerializeField]Light sun;
-    [SerializeField]float speed = 10f;
-    private float currentRotation = 0.0f;
-
     [SerializeField] TimeManager time;
+    [SerializeField] float hour;
+    [SerializeField] float min;
+    [SerializeField] float rotationSpeed = 0.12f;
     
     void Update() {
         //transform.Rotate(Time.deltaTime*time.hours*speed,0,0);
+        hour = time.hours;
+        min = time.minutes;
+        float timeinsecond = time.hours * 3600 + time.minutes * 60;
 
-        float rotationAmount = speed * Time.deltaTime / 60.0f;
-        currentRotation += rotationAmount;
-        transform.rotation = Quaternion.Euler(0.0f, currentRotation, 0.0f);
+        float angle = (timeinsecond / 86400.0f * 360.0f) - 90.0f;
+
+        Quaternion targetRotation = Quaternion.Euler(angle, 0, 0);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
     }
 }
