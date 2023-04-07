@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4561313ce75fa92448e8877966e36ec2, type: 3}
+  m_Name: Ql_WEEK 1
+  m_EditorClassIdentifier: 
+  questSetting:
+    QuestId: 1
+    QuestName: Awal dari sebuah mimpi
+    QuestDescription: Player Harus mengumpulkan Objektif ikan lokal serta ikan invasif.
+    QuestObjectives:
+    - {fileID: 11400000, guid: fdd1dfc13b227b941951d5255be9725b, type: 2}
+    - {fileID: 11400000, guid: 672516121dcebf74aa90fb201da6ee1d, type: 2}
+    - {fileID: 11400000, guid: c8f954256517395448734ea796ce807a, type: 2}
+    ExecutedEventOnQuestCompleted:
+    - {fileID: 11400000, guid: bb43f5b1d3575a24c988e3d83d7e9796, type: 2}
+    ExecutedEventOnQuestFailed:
+    - {fileID: 11400000, guid: 2958fa8aae59b834793a6dec339a0373, type: 2}

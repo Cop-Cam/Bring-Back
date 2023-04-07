@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9c2c60704e12a44283982925019fed8, type: 3}
+  m_Name: FishSeed_PutriDuyung
+  m_EditorClassIdentifier: 
+  id: FishSeed_PutriDuyung
+  displayName: Benih Putri Duyung
+  icon: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
+  itemDescription: BEnih doang
+  itemBuyPrice: 500
+  itemSellPrice: 250
+  FishData: {fileID: 11400000, guid: 7ff8ceffd01abdb4a993c8e37e2de078, type: 2}
