@@ -34,6 +34,9 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     {
         ShopUI.SetActive(false);
         currentOpenedInventory = null;
+        //UIManager.Instance.AddUiObjToList(ShopUI);
+        
+        UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
     }
 
     private bool CheckResourceMoney(InventoryItemData itemData)
@@ -58,8 +61,8 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
 
         SettingUpShop(); //Menyeting isi shop
 
-        //ShopUI.SetActive(true);
-        UIManager.Instance.ShopUI.SetActive(true);
+        ShopUI.SetActive(true);
+        //UIManager.Instance.ShopUI.SetActive(true);
 
 
         //StartCoroutine(RefreshShop());
@@ -74,8 +77,8 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
 
         ClearingUpShop();
         
-        //ShopUI.SetActive(false); //Menutup tab menu pilihan beli atau jual
-        UIManager.Instance.ShopUI.SetActive(false);
+        ShopUI.SetActive(false); //Menutup tab menu pilihan beli atau jual
+        //UIManager.Instance.ShopUI.SetActive(false);
 
         InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true); //pemain boleh bergerak
     }

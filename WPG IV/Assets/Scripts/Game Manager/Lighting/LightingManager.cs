@@ -9,6 +9,11 @@ public class LightingManager : GenericSingletonClass<LightingManager>
     [SerializeField] float min;
     [SerializeField] float rotationSpeed = 0.12f;
     
+    private void Start()
+    {
+        time = TimeManager.Instance;
+    }
+
     void Update() {
         //transform.Rotate(Time.deltaTime*time.hours*speed,0,0);
         hour = time.hours;

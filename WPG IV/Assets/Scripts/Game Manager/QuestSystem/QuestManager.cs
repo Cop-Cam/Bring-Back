@@ -25,6 +25,11 @@ namespace QuestSystem
             CurrentCompletedQuestList = new List<Quest>();
         }
 
+        private void Start() 
+        {
+            UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
+        }
+
         //For Getting and Assigning all Quest SO Assets
         #region SettingUpMethods
         

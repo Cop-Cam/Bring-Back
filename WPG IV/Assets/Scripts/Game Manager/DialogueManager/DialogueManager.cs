@@ -37,7 +37,7 @@ namespace DialogueSystem
         private const string LAYOUT_TAG = "layout";
 
 
-        void Start()
+        private void Start()
         {
             dialogueIsPlaying = false;
             dialogueIsWriting = false;
@@ -51,6 +51,9 @@ namespace DialogueSystem
             //     choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             //     index++;
             // } 
+
+            UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
+
         }
 
         // void Update() //awalnya update saja

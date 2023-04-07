@@ -14,7 +14,7 @@ public class InputManager : GenericSingletonClass<InputManager>
     {
         if(playerInputActionMapAsset == null)
         {
-            GetInputAction();;
+            GetInputAction();
         }
         if(playerInputActionMapAsset == null)
         {
@@ -22,11 +22,7 @@ public class InputManager : GenericSingletonClass<InputManager>
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     void GetInputAction()
     {
