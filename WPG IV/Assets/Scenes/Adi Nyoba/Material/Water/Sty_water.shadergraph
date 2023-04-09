@@ -1224,9 +1224,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 975.2000732421875,
-            "y": -20.799968719482423,
-            "width": 207.9998779296875,
+            "x": 983.2000122070313,
+            "y": -42.400020599365237,
+            "width": 207.99993896484376,
             "height": 325.60003662109377
         }
     },
@@ -1740,10 +1740,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1192.4725341796875,
-            "y": -720.5905151367188,
-            "width": 0.0,
-            "height": 0.0
+            "x": -1192.0,
+            "y": -719.2000122070313,
+            "width": 162.39990234375,
+            "height": 33.60009765625
         }
     },
     "m_Slots": [
@@ -2554,7 +2554,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 0.0,
+    "m_Value": 3.0,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -2935,9 +2935,9 @@
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_RenderFace": 2,
+    "m_RenderFace": 0,
     "m_AlphaClip": false,
-    "m_CastShadows": true,
+    "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_CustomEditorGUI": "",
     "m_SupportVFX": false
@@ -3607,7 +3607,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 0.5,
+    "m_Value": -0.5,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
@@ -3874,7 +3874,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": 1.0,
+    "m_Value": -1.0,
     "m_FloatType": 0,
     "m_RangeValues": {
         "x": 0.0,
