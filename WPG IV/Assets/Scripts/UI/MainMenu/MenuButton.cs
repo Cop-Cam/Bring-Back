@@ -1,13 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class MenuButton : MonoBehaviour
+public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
 {
     [SerializeField] MenuButtonController menuButtonController;
     [SerializeField] Animator animator;
     [SerializeField] AnimatorFunctions animatorFunctions;
     [SerializeField] int thisIndex;
+    [SerializeField] GameObject deactivate;
+    [SerializeField] GameObject activate;
+
+    private bool click = false;
 
     // Update is called once per frame
     void Update()
@@ -15,9 +21,10 @@ public class MenuButton : MonoBehaviour
         if (menuButtonController.index == thisIndex)
         {
             animator.SetBool("selected", true);
-            if (Input.GetAxis("Submit") == 1) // press enter
+            if (Input.GetAxis("Submit") == 1 || click == true) // press enter
             {
                 animator.SetBool("pressed", true);
+                click = false;
             }
             else if (animator.GetBool("pressed"))
             {
@@ -32,9 +39,16 @@ public class MenuButton : MonoBehaviour
                 else if (thisIndex == 1)
                 {
                     // open setting
+                    StartCoroutine(OpenSettings());
                     Debug.Log("setting opened");
                 }
                 else if (thisIndex == 2)
+                {
+                    // open credit
+                    StartCoroutine(OpenCredit());
+                    Debug.Log("Credit opened");
+                }
+                else if (thisIndex == 3)
                 {
                     Application.Quit();
                     Debug.Log("application quit");
@@ -45,7 +59,34 @@ public class MenuButton : MonoBehaviour
         {
             animator.SetBool("selected", false);
         }
+    }
 
+    IEnumerator OpenSettings()
+    {
+        yield return new WaitForSeconds(.6f);
 
+        // active and deactive panel/gameobject menu
+        deactivate.SetActive(false);
+        activate.SetActive(true);
+    }
+
+    IEnumerator OpenCredit()
+    {
+        yield return new WaitForSeconds(.6f);
+
+        // active and deactive panel/gameobject menu
+        deactivate.SetActive(false);
+        activate.SetActive(true);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        menuButtonController.index = thisIndex;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!click)
+            click = true;
     }
 }

@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class AnimatorFunctions : MonoBehaviour
 {
-	[SerializeField] MenuButtonController menuButtonController;
-	public bool disableOnce;
+    [SerializeField] InteractAudio interactAudio;
+    public bool disableOnce;
 
-	void PlaySound(AudioClip whichSound){
-		if(!disableOnce){
-			menuButtonController.audioSource.PlayOneShot (whichSound);
-		}else{
-			disableOnce = false;
-		}
-	}
-}	
+    void PlaySound(AudioClip whichSound)
+    {
+        if (!disableOnce)
+        {
+            interactAudio.audioSource.PlayOneShot(whichSound);
+        }
+        else
+        {
+            disableOnce = false;
+        }
+    }
+}
