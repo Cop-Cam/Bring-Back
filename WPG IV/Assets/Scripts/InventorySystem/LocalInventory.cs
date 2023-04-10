@@ -1,4 +1,4 @@
-
+using System;
 using UnityEngine;
 
 public class LocalInventory : InteractableObjects
@@ -19,7 +19,7 @@ public class LocalInventory : InteractableObjects
 
     public override void OnInteracted()
     {
-        //ShopSystem.Instance.OpenShopMenu(localInventory); 
+        throw new NotImplementedException();
     }
 
     //Inserting Item Method, can use method overloader

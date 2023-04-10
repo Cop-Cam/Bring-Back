@@ -118,7 +118,7 @@ MonoBehaviour:
   dialogueText: {fileID: 1102883867702506215}
   displayNameText: {fileID: 5244806754683806476}
   portraitAnimator: {fileID: 0}
-  dialogueSpeed: 2
+  dialogueSpeed: 0.1
   continueButton: {fileID: 7224633220400661296}
   choiceButtonPrefab: {fileID: 12037484256240876, guid: bc7631dd3ec3dce49a4bfe32d9fff4c1, type: 3}
   choiceGridLayout: {fileID: 329890363075287864}

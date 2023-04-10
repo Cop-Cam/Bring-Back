@@ -41,7 +41,7 @@ public class PondInventory : LocalInventory
 
     public override void OnInteracted()
     {
-        ShopSystem.Instance.OpenShopMenu(this); 
+        ShopManager.Instance.OpenShopMenu(this); 
     }
 
     public override void InsertItem(InventoryItemData insertedItem)

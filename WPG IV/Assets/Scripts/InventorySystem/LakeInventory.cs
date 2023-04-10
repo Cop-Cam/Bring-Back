@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LakeInventory : LocalInventory
 {
@@ -12,8 +13,10 @@ public class LakeInventory : LocalInventory
     protected override void Start() 
     {
         base.Start();
+        
     }
     */
+    
 
     // Update is called once per frame
     protected override void Update()
@@ -31,9 +34,10 @@ public class LakeInventory : LocalInventory
             int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
             //Debug.Log("rand: "+rand);
             currentSavedItem = InvansiveFishesInThisLake[rand];
-            //Debug.Log("mendapat: "+InvansiveFishesInThisLake[rand].displayName);
-            InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
-            //send fiish to player
+
+            LakeUIController.Instance.OpenLakeUI(this);
+
+            //InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false);
         }
         else
         {
@@ -42,21 +46,7 @@ public class LakeInventory : LocalInventory
         }
     }
 
-    // void Init()
-    // {
-    //     foreach(InventoryItemData item in GameDatabase.Instance.List_InventoryItemData_AllItem.Values)
-    //     {
-    //         if(item is FishItemData)
-    //         {
-    //             FishItemData currentFish = item as FishItemData; 
-    //             if(currentFish.fishTypes == FishItemData.FishTypes.Invansive)
-    //             {
-    //                 ListInvansiveFishes.Add(currentFish);
-    //             }
-    //         }
-    //     }
-    // }
-
+    
     //Inserting Item Method, can use method overloader
     public override void InsertItem(InventoryItemData insertedItem)
     {
@@ -137,8 +127,10 @@ public class LakeInventory : LocalInventory
         }
     }
 
+    
     public override InventoryItemData GetCurrentSavedItemData()
     {
         return currentSavedItem;
     }
+    
 }

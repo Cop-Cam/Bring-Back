@@ -43,10 +43,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1989656654382126015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3771f940024d8024385dd3255b84aed6, type: 3}
+  m_Script: {fileID: 11500000, guid: c182f81b723f9dd4c94925afe8b85648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShopUI: {fileID: 7804297747718919708}
+  ShopUI: {fileID: 4459569855253798090}
   BuyGridLayout: {fileID: 8144803622708046466}
   SellGridLayout: {fileID: 3830445226351728676}
   CollectGridLayout: {fileID: 5576088916655442035}

@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 
 //Untuk letak jenis-jenis ikan yang bisa dibeli
-public class ShopSystem : GenericSingletonClass<ShopSystem>
+public class ShopManager : GenericSingletonClass<ShopManager>
 {
     [Tooltip("Masukkan GameObject parent untuk UI")]
     public GameObject ShopUI;
@@ -71,7 +71,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     public void CloseShopMenu()
     {
         //StopCoroutine(RefreshShop());
-        StopCoroutine(RefreshMoney());
+        StopAllCoroutines();
 
         currentOpenedInventory = null; //inventory yang dibuka dihapus
 
@@ -143,19 +143,21 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     {
         foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.Instance.ListItem)
         {
-            BuyableItemPrefab.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = listItem.Value.itemBuyPrice.ToString();
-            BuyableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = listItem.Value.icon;
+            var _button = Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
+
+            _button.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = listItem.Value.itemBuyPrice.ToString();
+            _button.transform.Find("Icon").GetComponent<Image>().sprite = listItem.Value.icon;
             //BuyableItemPrefab.GetComponent<BuyButtonScript>().SetButtonItemData(listItem.Value);
-            BuyableItemPrefab.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventBuyItem(listItem.Value));
+            _button.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventBuyItem(listItem.Value));
 
 
             if(currentOpenedInventory.IsInventoryAvailable())
             {
-                BuyableItemPrefab.GetComponent<Button>().interactable = true;
+                _button.GetComponent<ButtonScript>().interactable = true;
             }
             else if(!currentOpenedInventory.IsInventoryAvailable())
             {
-                BuyableItemPrefab.GetComponent<Button>().interactable = false;
+                _button.GetComponent<ButtonScript>().interactable = false;
             }
 
             //Khusus pond inventory //mengecekj adakah pakan pada pond
@@ -164,69 +166,72 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
                 PondInventory otherInventory = currentOpenedInventory as PondInventory;
                 if(otherInventory.isPondFishFeeded())
                 {
-                    BuyableItemPrefab.GetComponent<Button>().interactable = false;
+                    _button.GetComponent<ButtonScript>().interactable = false;
                 }
                 else if(!otherInventory.isPondFishFeeded())
                 {
-                    BuyableItemPrefab.GetComponent<Button>().interactable = true;
+                    _button.GetComponent<ButtonScript>().interactable = true;
                 }
             }
             
-            Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
+            // Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
         }
     }
 
     private void SetSellItemInShop()
     {
+        var _button = Instantiate(SellableItemPrefab, SellGridLayout.transform);
+
         if(currentOpenedInventory.IsInventoryAvailable())
         {
-            SellableItemPrefab.GetComponent<Button>().interactable = false;   
+            _button.GetComponent<ButtonScript>().interactable = false;   
         }
         else if(!currentOpenedInventory.IsInventoryAvailable())
         {
-            SellableItemPrefab.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = currentOpenedInventory.GetCurrentSavedItemData().itemBuyPrice.ToString();
-            SellableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
+            _button.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = currentOpenedInventory.GetCurrentSavedItemData().itemSellPrice.ToString();
+            _button.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
             //SellableItemPrefab.GetComponent<SellButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
-            SellableItemPrefab.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventSellItem());
+            _button.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventSellItem());
 
             
             if(currentOpenedInventory.IsItemReadyToSellorCollect())
             {
-                SellableItemPrefab.GetComponent<Button>().interactable = true;
+                _button.GetComponent<ButtonScript>().interactable = true;
             }
             else if(!currentOpenedInventory.IsItemReadyToSellorCollect())
             {
-                SellableItemPrefab.GetComponent<Button>().interactable = false;
+                _button.GetComponent<ButtonScript>().interactable = false;
             }
         }
 
-        Instantiate(SellableItemPrefab, SellGridLayout.transform);
+        // Instantiate(SellableItemPrefab, SellGridLayout.transform);
     }
 
     private void SetCollectItemInShop()
     {
+        var _button = Instantiate(CollectableItemPrefab, CollectGridLayout.transform);
         if(currentOpenedInventory.IsInventoryAvailable())
         {
-            CollectableItemPrefab.GetComponent<Button>().interactable = false;   
+            _button.GetComponent<ButtonScript>().interactable = false;   
         }
         else if(!currentOpenedInventory.IsInventoryAvailable())
         {
-            CollectableItemPrefab.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
+            _button.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
             //CollectableItemPrefab.GetComponent<CollectButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
-            CollectableItemPrefab.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventCollectItem());
+            _button.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventCollectItem());
 
             
             if(currentOpenedInventory.IsItemReadyToSellorCollect())
             {
-                CollectableItemPrefab.GetComponent<Button>().interactable = true;
+                _button.GetComponent<ButtonScript>().interactable = true;
             }
             else if(!currentOpenedInventory.IsItemReadyToSellorCollect())
             {
-                CollectableItemPrefab.GetComponent<Button>().interactable = false;
+                _button.GetComponent<ButtonScript>().interactable = false;
             }
         }
 
-        Instantiate(CollectableItemPrefab, CollectGridLayout.transform);
+        //Instantiate(CollectableItemPrefab, CollectGridLayout.transform);
     }
 
     #endregion
@@ -270,7 +275,7 @@ public class ShopSystem : GenericSingletonClass<ShopSystem>
     }
     #endregion
 
-    IEnumerator RefreshMoney()
+    private IEnumerator RefreshMoney()
     {
         while(true)
         {

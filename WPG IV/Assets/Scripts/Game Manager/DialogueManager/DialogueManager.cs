@@ -24,8 +24,8 @@ namespace DialogueSystem
         [SerializeField] private GameObject choiceGridLayout; //prefab button
         
 
-        private GameObject[] choices; //background pilihan
-        private TextMeshProUGUI[] choicesText; //text pilihan
+        //private GameObject[] choices; //background pilihan
+        //private TextMeshProUGUI[] choicesText; //text pilihan
 
         private Story currentStory;
         
@@ -64,6 +64,7 @@ namespace DialogueSystem
 
         public void EnterDialogue(TextAsset inkJSON)
         {
+            Debug.Log("dialogue start");
             InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false);
 
             currentStory = new Story(inkJSON.text);
@@ -73,7 +74,7 @@ namespace DialogueSystem
 
             //reset tagValue in protreit etc
             displayNameText.text = "???";
-            portraitAnimator.Play("default");
+            //portraitAnimator.Play("default");
             //layoutAnimator.Play("default");
 
             //mengecek apakah inkJSON file berisi
@@ -104,9 +105,14 @@ namespace DialogueSystem
         {
             //agar bisa skip dengan rapi
             dialogueIsWriting = false;
-            //StopAllCoroutines(); //menghentikan method WriteText
+            
 
-            StopCoroutine(WriteText()); //menghentikan method WriteText
+            // not working becoz coroutine always make new instance
+            // another workaround is storing coroutine reference then 
+            // stop it using the reference
+            //StopCoroutine(WriteText()); 
+
+            StopAllCoroutines(); //menghentikan method WriteText
 
             dialogueText.text = ""; //membersihkan text
 
@@ -156,17 +162,39 @@ namespace DialogueSystem
             }
         }
 
+        private IEnumerator SelectFirstChoice(GameObject firstChoiceButtonPrefab) //not used
+        {
+            // Event System requires we clear it first, then wait
+            // for at least one frame before we set the current selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            yield return new WaitForEndOfFrame();
+            EventSystem.current.SetSelectedGameObject(firstChoiceButtonPrefab);
+        }
+
+
         private void SetChoiceButton(List<Choice> currentChoices)
         {
             int index = 0;
             foreach (Choice choice in currentChoices)
             {
+                //used instead index coz for some reason using index return reference instead value
+                int tempInt = index;
+
+                var _button = Instantiate(choiceButtonPrefab, choiceGridLayout.transform);  
                 //choiceButtonPrefab.GetComponent<ChoiceButtonScript>().SetThisButtonChoiceIndex(index);
-                choiceButtonPrefab.GetComponent<ButtonScript>().onClick.AddListener(() => MakeChoice(index));
-                choiceButtonPrefab.transform.Find("Choice").transform.Find("ChoiceText").GetComponent<TextMeshProUGUI>().text = choice.text;
+
+                _button.transform.Find("Choice").transform.Find("ChoiceText").GetComponent<TextMeshProUGUI>().text = choice.text;
+            
+                _button.GetComponent<ButtonScript>().onClick.AddListener(() => MakeChoice(tempInt));
 
                 //choices[index].gameObject.SetActive(true);
                 //choicesText[index].text = choice.text;
+
+
+                //Instantiate(choiceButtonPrefab, choiceGridLayout.transform);
+
+                if(tempInt == 0) StartCoroutine(SelectFirstChoice(_button));
+
                 index++;
             } 
         }
@@ -220,14 +248,6 @@ namespace DialogueSystem
                 continueButton.SetActive(true); //button continue diaktifkan
             }
         }
-
-
-        // private IEnumerator SelectFirstChoice() //not used
-        // {
-        //     EventSystem.current.SetSelectedGameObject(null);
-        //     yield return new WaitForEndOfFrame();
-        //     EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
-        // }
 
         public void MakeChoice(int choiceIndex)
         {
