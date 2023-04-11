@@ -600,9 +600,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d653eee02a33c4c4d9688c56e42fc3a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LakeInventoryUI: {fileID: 1080853981136581871}
+  LakeInventoryCanvas: {fileID: 5944837184202093409}
   CurrentPlayerMoneyText: {fileID: 2018933056882738472}
   CurrentFishImages: {fileID: 8027708135271761505}
+  CurrentFishName: {fileID: 5553280566188109794}
   CollectButton: {fileID: 3869295042358714161}
   SellButton: {fileID: 272141311386300839}
 --- !u!1 &5944837184202093409
