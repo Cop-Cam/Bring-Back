@@ -28,6 +28,10 @@ public class ShopManager : GenericSingletonClass<ShopManager>
     
     LocalInventory currentOpenedInventory;
    
+    public void AddMoneyTemp(int money)
+    {
+        PlayerResourceManager.Instance.ChangeMoney(money);
+    }
 
     // Start is called before the first frame update
     private void Start()
@@ -144,6 +148,9 @@ public class ShopManager : GenericSingletonClass<ShopManager>
         foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.Instance.ListItem)
         {
             var _button = Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
+
+            //testing
+            _button.transform.Find("Name").transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = listItem.Value.displayName;
 
             _button.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = listItem.Value.itemBuyPrice.ToString();
             _button.transform.Find("Icon").GetComponent<Image>().sprite = listItem.Value.icon;

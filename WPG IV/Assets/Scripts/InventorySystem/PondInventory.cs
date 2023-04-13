@@ -8,12 +8,40 @@ public class PondInventory : LocalInventory
     protected FishFeedItemData currentSavedFeed;
     private int FishDaysToMatureDecrement;
 
+    [Tooltip("Model yang digunakan untuk keadaan kosong")]
+    [SerializeField] private GameObject OnEmptyModel;
+    
+    [Tooltip("Model yang digunakan untuk keadaan penuh")]
+    [SerializeField] private GameObject OnFullModel;
+
+    [Tooltip("Model Default yang digunakan saat ini")]
+    [SerializeField] private GameObject DefaultModel;
+
+    
+    private void ChangeModel(GameObject otherModel)
+    {
+        //if(DefaultModel != otherModel) Destroy(DefaultModel);
+        if(DefaultModel == otherModel) return;
+
+        LayerMask temp = DefaultModel.layer;
+
+        Destroy(DefaultModel);
+
+        DefaultModel = Instantiate(otherModel, transform.parent.position, transform.parent.rotation, transform.parent);
+
+        DefaultModel.layer = temp;
+    }
+
     void OnEnable()
     {
+        if(TimeManager.Instance == null) return;
+        
         TimeManager.Instance.OnDayChanged += DayHasChanged;
     }
     void OnDisable()
     {
+        if(TimeManager.Instance == null) return;
+
         TimeManager.Instance.OnDayChanged -= DayHasChanged;
     }
     void DayHasChanged()
@@ -31,13 +59,11 @@ public class PondInventory : LocalInventory
         currentSavedFish = null;
         currentSavedFeed = null;
         FishDaysToMatureDecrement = 0;
+
+        //for changing model 
+        IsInventoryAvailable();
     }
-    // Update is called once per frame
-    protected override void Update()
-    {
-        ShowInventoryStatus();
-        ShowItemParticle();
-    }
+    
 
     public override void OnInteracted()
     {
@@ -61,55 +87,23 @@ public class PondInventory : LocalInventory
             //StartCoroutine(FishMaturingMethod());
         }
         currentSavedItem = null;
+
+        IsInventoryAvailable();
     }
 
-    
     //Konversi SO seed ikan menjadi SO ikan
     FishItemData ConvertSeedToFish(FishSeedItemData currentSavedFishSeed)
     {
         return currentSavedFishSeed.SendFishDataFromSeed();
     }
-
     
     //Remove data
     public override InventoryItemData RemoveItem()
     {
         InventoryItemData sendedSavedItem = currentSavedFish as InventoryItemData;
         currentSavedFish = null;
+        IsInventoryAvailable();
         return sendedSavedItem;
-    }
-
-    //Menunjukkan Status Inventory
-    protected override void ShowInventoryStatus()
-    {
-        if(IsInventoryAvailable())
-        {
-            
-        }
-    }
-    protected override void ShowItemParticle()
-    {
-        if(IsInventoryAvailable())
-        {
-            //muncul partikel penuh
-        }
-        else
-        {
-            //tidak muncul partikel penuh
-        }
-    }
-
-    //idk
-    public override void ShowInventoryItem()
-    {
-        if(IsInventoryAvailable())
-        {
-            
-        }
-        else if(!IsInventoryAvailable())
-        {
-            Debug.Log("Inventory kosong!");
-        }
     }
 
     //mengecek kepenuhan inventory
@@ -117,10 +111,14 @@ public class PondInventory : LocalInventory
     {
         if(currentSavedFish == null) //jika tidak ada ikan
         {
+            ChangeModel(OnEmptyModel);
+  
             return true;
         }
         else //jika ada ikan
         {
+            ChangeModel(OnFullModel);
+
             return false;
         }
     }

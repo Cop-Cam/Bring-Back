@@ -31,10 +31,14 @@ namespace QuestSystem
 
         private void OnEnable()
         {
+            if(TimeManager.Instance == null) return;
+
             SubscribeToDayChanged();
         }
         private void OnDisable()
         {
+            if(TimeManager.Instance == null) return;
+
             UnSubscribeToDayChanged();
         }
 

@@ -23,7 +23,7 @@ public class LightingManager : GenericSingletonClass<LightingManager>
         float angle = (timeinsecond / 86400.0f * 360.0f) - 90.0f;
 
         Quaternion targetRotation = Quaternion.Euler(angle, 0, 0);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        sun.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
     }
 }

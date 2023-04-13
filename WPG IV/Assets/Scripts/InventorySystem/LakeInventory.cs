@@ -16,17 +16,15 @@ public class LakeInventory : LocalInventory
         
     }
     */
-    
-
-    // Update is called once per frame
-    protected override void Update()
-    {
-        ShowInventoryStatus();
-        ShowItemParticle();
-    }
 
     public override void OnInteracted()
     {
+        if(InvansiveFishesInThisLake == null) 
+        {
+            Debug.LogWarning("There is no fish in this lake!");
+            return;
+        }
+
         if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
         {
             PlayerResourceManager.Instance.ChangeEnergy(-(EnergyNeeded));
@@ -59,39 +57,6 @@ public class LakeInventory : LocalInventory
         InventoryItemData sendedSavedItem = currentSavedItem;
         currentSavedItem = null;
         return sendedSavedItem;
-    }
-
-    //Menunjukkan status inventory
-    protected override void ShowInventoryStatus()
-    {
-        if(IsInventoryAvailable())
-        {
-            
-        }
-    }
-
-    protected override void ShowItemParticle()
-    {
-        if(IsInventoryAvailable())
-        {
-            //muncul partikel penuh
-        }
-        else
-        {
-            //tidak muncul partikel penuh
-        }
-    }
-
-    public override void ShowInventoryItem()
-    {
-        if(IsInventoryAvailable())
-        {
-            
-        }
-        else if(!IsInventoryAvailable())
-        {
-            Debug.Log("Inventory kosong!");
-        }
     }
 
     //mengecek kepenuhan inventory
