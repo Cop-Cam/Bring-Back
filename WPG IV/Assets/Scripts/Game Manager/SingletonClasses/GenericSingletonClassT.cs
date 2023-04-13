@@ -33,6 +33,7 @@ public class GenericSingletonClass<T> : MonoBehaviour where T : Component
         else 
         {
             Destroy (gameObject);
+            Debug.Log("another instance of "+instance.GetType()+" inside of "+gameObject.name);
         }
     }
 }

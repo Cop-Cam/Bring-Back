@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
+
 
 //Place this shit in front of player for spawning fishes
 public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>

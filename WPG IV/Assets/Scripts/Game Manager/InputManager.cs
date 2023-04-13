@@ -6,7 +6,7 @@ using UnityEditor;
 
 public class InputManager : GenericSingletonClass<InputManager>
 {
-    public GameObject playerObj;
+    //public GameObject playerObj;
     public InputActionAsset playerInputActionMapAsset;
     
     // Start is called before the first frame update
