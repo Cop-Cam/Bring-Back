@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Seed_Boeseman
   displayName: Benih Boeseman
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 6e72d363133e2bb4dab0f5c493320a96, type: 3}
   itemDescription: Boeseman
   itemBuyPrice: 10000
   itemSellPrice: 0

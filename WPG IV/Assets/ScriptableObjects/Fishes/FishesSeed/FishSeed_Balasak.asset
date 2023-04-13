@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Seed_Balasak
   displayName: Benih Balasak
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: db05d809994febb4dbd40e26d3e1db39, type: 3}
   itemDescription: Tengadak
   itemBuyPrice: 4000
   itemSellPrice: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Seed_Tengadak
   displayName: Benih Tengadak
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 74e867bb1c219584c91ec10475b610ad, type: 3}
   itemDescription: Tengadak
   itemBuyPrice: 500
   itemSellPrice: 0
