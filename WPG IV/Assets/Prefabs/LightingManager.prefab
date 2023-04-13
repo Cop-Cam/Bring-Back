@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 364237891776226748}
   - component: {fileID: 2927004986391584534}
+  - component: {fileID: 8459370128368240622}
+  - component: {fileID: 609740459215184458}
   m_Layer: 0
   m_Name: Directional LIght
   m_TagString: Untagged
@@ -41,7 +43,7 @@ Light:
   m_GameObject: {fileID: 969471876292013807}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 2
+  m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.56400144, g: 0.56400144, b: 0.56400144, a: 1}
   m_Intensity: 1
@@ -50,13 +52,13 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.508
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 1.39
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -94,6 +96,43 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &8459370128368240622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969471876292013807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+--- !u!114 &609740459215184458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969471876292013807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0c2a6866f0e7c468e5621fd88e724c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sun: {fileID: 2927004986391584534}
+  time: {fileID: 0}
+  hour: 0
+  min: 0
+  rotationSpeed: 0.12
 --- !u!1 &1544600790429678835
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +175,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6996964500245661698}
-  - component: {fileID: 5971505021531327733}
   m_Layer: 0
   m_Name: Lighting
   m_TagString: Untagged
@@ -159,19 +197,3 @@ Transform:
   m_Father: {fileID: 1544600790429678833}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5971505021531327733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2925243248528052784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f0c2a6866f0e7c468e5621fd88e724c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timescale: 0.1
-  DirectionalLight: {fileID: 2927004986391584534}
-  Preset: {fileID: 11400000, guid: ab7581742c1a4eb4099c71d4603caaf9, type: 2}
-  TimeOfDay: 6.9273686
