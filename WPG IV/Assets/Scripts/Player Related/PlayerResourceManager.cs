@@ -1,4 +1,4 @@
-
+using System;
 using UnityEngine;
 
 
@@ -15,19 +15,18 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     //currently collected item data
     //[SerializeField] private InventoryItemData PlayerSavedInventoryItem;
     
+    public static event Action OnMoneyChange;
+
+    public override void Awake()
+    {
+        base.Awake();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         PlayerMoney = 0;
         PlayerEnergy = 100;
-    }
-
-    //Meng-update tampilan uang
-    void ShowCurrentMoney() 
-    {
-        //MoneyText.text = PlayerMoney.ToString();
-        Debug.Log("current money: " + PlayerMoney);
     }
 
     //Digunakan di class lain yang membutuhkan
@@ -43,6 +42,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     public void ChangeMoney(int MoneyChange)
     {
         PlayerMoney += MoneyChange;
+        OnMoneyChange();
     }
     public void ChangeEnergy(float EnergyChange)
     {

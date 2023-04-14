@@ -34,18 +34,12 @@ public class PondInventory : LocalInventory
 
     void OnEnable()
     {   
-        do
-        {
-            TimeManager.Instance.OnDayChanged += DayHasChanged;
-        } 
-        while (TimeManager.Instance == null);
+        TimeManager.OnDayChanged += DayHasChanged;
     }
 
     void OnDisable()
     {
-        if(TimeManager.Instance == null) return;
-
-        TimeManager.Instance.OnDayChanged -= DayHasChanged;
+        TimeManager.OnDayChanged -= DayHasChanged;
     }
     void DayHasChanged()
     {

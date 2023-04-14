@@ -54,7 +54,7 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     //event yang didelegate
     //public static event TimeManagerEvent OnDayChanged;
 
-    public event Action OnDayChanged;
+    public static event Action OnDayChanged;
 
 
     //for whatever reason this currentlu worked for preventing instantiating after game stopped

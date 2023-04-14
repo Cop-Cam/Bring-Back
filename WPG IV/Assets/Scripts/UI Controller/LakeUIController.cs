@@ -23,7 +23,15 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
     // [SerializeField] private GameObject SellButtonPrefab;
     // [SerializeField] private GameObject SellButtonGridLayout;
 
-    
+    private void OnEnable()
+    {
+        PlayerResourceManager.OnMoneyChange += UpdateUIStatus;
+    }
+
+    private void OnDisable() 
+    {
+        PlayerResourceManager.OnMoneyChange -= UpdateUIStatus;
+    }
 
 
     // Start is called before the first frame update
@@ -35,11 +43,9 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
         LakeInventoryCanvas.SetActive(false);
     }
 
-    private IEnumerator UpdateUIStatus()
+    private void UpdateUIStatus()
     {
         CurrentPlayerMoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
-
-        yield return null;
     }
 
     public void OpenLakeUI(LakeInventory lakeInventory)
@@ -51,8 +57,6 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
         SettingUpUiInformation();
         
         SettingUpButton();
-
-        StartCoroutine(UpdateUIStatus());
         
         LakeInventoryCanvas.SetActive(true);
     }
