@@ -57,6 +57,12 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     public event Action OnDayChanged;
 
 
+    //for whatever reason this currentlu worked for preventing instantiating after game stopped
+    public override void Awake() 
+    {
+        base.Awake();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
