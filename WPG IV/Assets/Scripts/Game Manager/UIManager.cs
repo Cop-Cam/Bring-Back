@@ -38,7 +38,7 @@ public class UIManager : GenericSingletonClass<UIManager>
     public void AddGameObjectToDictionary(GameObject obj)
     {
         ManagerWithUIObj.Add(obj.name, obj);
-        Debug.Log("new: "+obj.name);
+        Debug.Log("new ui: "+obj.name);
         Debug.Log("size: "+ManagerWithUIObj.Count);
     }
 }

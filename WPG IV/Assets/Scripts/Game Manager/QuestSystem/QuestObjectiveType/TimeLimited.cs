@@ -22,23 +22,27 @@ namespace QuestSystem
         {
             //listen to OnDayChanged in TimeManager
             //so when ondaychanged fired, dayhaschanged run
-            TimeManager.Instance.OnDayChanged += DayHasChanged; 
+            
+            do
+            {
+                TimeManager.Instance.OnDayChanged += DayHasChanged;
+            } 
+            while (TimeManager.Instance == null);
+            //TimeManager.Instance.OnDayChanged += DayHasChanged; 
         }
         private void UnSubscribeToDayChanged()
         {
+            if(TimeManager.Instance == null) return;
+
             TimeManager.Instance.OnDayChanged -= DayHasChanged;
         }
 
         private void OnEnable()
         {
-            if(TimeManager.Instance == null) return;
-
             SubscribeToDayChanged();
         }
         private void OnDisable()
         {
-            if(TimeManager.Instance == null) return;
-
             UnSubscribeToDayChanged();
         }
 

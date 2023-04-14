@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 public class TLCtrl : MonoBehaviour
 {
     [SerializeField] private PlayableDirector timelineToPlay;
-    [SerializeField] TimeManager time;
+    TimeManager time;
     [SerializeField] int hour;
     [SerializeField] int min;
     [SerializeField] int date;
@@ -15,6 +15,7 @@ public class TLCtrl : MonoBehaviour
 
     void Start() {
         Debug.Log("started ctrl");
+        time = TimeManager.Instance;
     }
 
     void Update(){

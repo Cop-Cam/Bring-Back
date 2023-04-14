@@ -60,7 +60,7 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("its started");
+        //Debug.Log("its started");
         InvokeRepeating("Timer", 1.0f, timer);
     }
 

@@ -29,11 +29,13 @@ public class GenericSingletonClass<T> : MonoBehaviour where T : Component
         {
             instance = this as T;
             //DontDestroyOnLoad (this.gameObject);
+            Debug.Log("new instance of "+instance.GetType()+" inside of "+gameObject.name);
+
         } 
         else 
         {
             Destroy (gameObject);
-            Debug.Log("another instance of "+instance.GetType()+" inside of "+gameObject.name);
+            Debug.LogWarning("another instance of "+instance.GetType()+" inside of "+gameObject.name);
         }
     }
 }

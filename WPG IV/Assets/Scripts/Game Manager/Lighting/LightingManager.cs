@@ -3,7 +3,8 @@ using UnityEngine;
 //[ExecuteAlways]
 public class LightingManager : GenericSingletonClass<LightingManager>
 {
-    [SerializeField]Light sun;
+    [SerializeField]GameObject LightSourceObj; //object which get rotated
+    [SerializeField]Light sun; //lighting preset i guess?
     [SerializeField] TimeManager time;
     [SerializeField] float hour;
     [SerializeField] float min;
@@ -23,7 +24,8 @@ public class LightingManager : GenericSingletonClass<LightingManager>
         float angle = (timeinsecond / 86400.0f * 360.0f) - 90.0f;
 
         Quaternion targetRotation = Quaternion.Euler(angle, 0, 0);
-        sun.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        LightSourceObj.transform.rotation = Quaternion.Slerp(LightSourceObj.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
     }
+    
 }
