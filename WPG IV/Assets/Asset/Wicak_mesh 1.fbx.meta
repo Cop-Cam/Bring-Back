@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 982b1f3c2ba847f47987626b9695ca2f
+guid: b6c3973df6f5f724688407f724915fb8
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,53 +7,43 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Main
-    second: {fileID: 2100000, guid: 9a2d283f6ada7c148a4fdf3aa54d0910, type: 2}
+      name: Kulit
+    second: {fileID: 2100000, guid: 69192d19d251c09409fb8c47f72174c5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Win_fram
-    second: {fileID: 2100000, guid: 3da02e239bfe9884abc4fea4a48e3920, type: 2}
+      name: Rambut
+    second: {fileID: 2100000, guid: 64c82234951f9544fb7d9695e42b4a65, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: barrel
-    second: {fileID: 2100000, guid: fc279661be601e446b1ad6cd9d964b66, type: 2}
+      name: base_mata.001
+    second: {fileID: 2100000, guid: fdfc16400cd3ac1419bdd4235ee13c32, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: barrel_metal
-    second: {fileID: 2100000, guid: 0eaa5ae99716f1d4188f7601f915d64a, type: 2}
+      name: mat baju.001
+    second: {fileID: 2100000, guid: 80f1034e90f1e9f4e80539c2dca7a59e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: door
-    second: {fileID: 2100000, guid: c1bb609140f4d9340af08afc014bb8e4, type: 2}
+      name: mat_celana.001
+    second: {fileID: 2100000, guid: c19671887e8c05e4fa9fc1bd2e21b0e5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: glas
-    second: {fileID: 2100000, guid: a933f9215f893d04e9f01edca36db731, type: 2}
+      name: mat_sendal.001
+    second: {fileID: 2100000, guid: 7d6f185df8928354fa188c8fc4408208, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: pilar
-    second: {fileID: 2100000, guid: a3327100cb906a044b82b3877fb80e4c, type: 2}
+      name: pupil
+    second: {fileID: 2100000, guid: de3055da6816e144c8ece735a0fc94af, type: 2}
   - first:
-      type: UnityEngine:Material
+      type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: roof
-    second: {fileID: 2100000, guid: 389340ab7ce3fc64f9af84a661cab093, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: stone
-    second: {fileID: 2100000, guid: 37539c05b5280374288b38fdd3689e4c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: wwalk
-    second: {fileID: 2100000, guid: 4289db3df3ddd6e4bb6ce0acb7e33647, type: 2}
+      name: Pupil Base Color.001
+    second: {fileID: 2800000, guid: 82546c2d112236b40a8dec588c9807f2, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
