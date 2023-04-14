@@ -9,20 +9,14 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
 {
     private LakeInventory lakeInventory;
     [SerializeField] private GameObject LakeInventoryCanvas;
-    [SerializeField] private TextMeshProUGUI CurrentPlayerMoneyText;
+    //[SerializeField] private TextMeshProUGUI CurrentPlayerMoneyText;
     [SerializeField] private Image CurrentFishImages;
     [SerializeField] private TextMeshProUGUI CurrentFishName;
     [SerializeField] private GameObject CollectButton;
     [SerializeField] private GameObject SellButton;
 
-    // [Header("Insert A Prefab for Collect Button and The Grid Which The Button Will Be Instantiated")]
-    // [SerializeField] private GameObject CollectButtonPrefab;
-    // [SerializeField] private GameObject CollectButtonGridLayout;
-
-    // [Header("Insert A Prefab for Sell Button and The Grid Which The Button Will Be Instantiated")]
-    // [SerializeField] private GameObject SellButtonPrefab;
-    // [SerializeField] private GameObject SellButtonGridLayout;
-
+    
+    /*
     private void OnEnable()
     {
         PlayerResourceManager.OnMoneyChange += UpdateUIStatus;
@@ -32,7 +26,11 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
     {
         PlayerResourceManager.OnMoneyChange -= UpdateUIStatus;
     }
-
+    private void UpdateUIStatus()
+    {
+        CurrentPlayerMoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
+    }
+    */
 
     // Start is called before the first frame update
     private void Start()
@@ -43,10 +41,6 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
         LakeInventoryCanvas.SetActive(false);
     }
 
-    private void UpdateUIStatus()
-    {
-        CurrentPlayerMoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
-    }
 
     public void OpenLakeUI(LakeInventory lakeInventory)
     {

@@ -5,10 +5,12 @@ using TMPro;
 public class StatusUIController : GenericSingletonClass<StatusUIController>
 {
     [SerializeField] private TextMeshProUGUI currentGoldText;
+    [SerializeField] private TextMeshProUGUI currentEnergyText;
     // Start is called before the first frame update
     void Start()
     {
         UpdateMoney();
+        UpdateEnergy();
     }
 
     private void UpdateMoney()
@@ -16,14 +18,20 @@ public class StatusUIController : GenericSingletonClass<StatusUIController>
         currentGoldText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
     }
 
+    private void UpdateEnergy()
+    {
+        currentEnergyText.text = PlayerResourceManager.Instance.PlayerEnergy.ToString();
+    }
+
     private void OnEnable() 
     {
         PlayerResourceManager.OnMoneyChange += UpdateMoney;
+        PlayerResourceManager.OnEnergyChange += UpdateEnergy;
     }
 
     private void OnDisable() 
     {
-        //if(PlayerResourceManager.Instance == null) return;
         PlayerResourceManager.OnMoneyChange -= UpdateMoney;
+        PlayerResourceManager.OnEnergyChange -= UpdateEnergy;
     }
 }

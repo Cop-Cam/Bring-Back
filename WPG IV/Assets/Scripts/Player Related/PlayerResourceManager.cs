@@ -16,6 +16,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     //[SerializeField] private InventoryItemData PlayerSavedInventoryItem;
     
     public static event Action OnMoneyChange;
+    public static event Action OnEnergyChange;
 
     public override void Awake()
     {
@@ -25,8 +26,8 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     // Start is called before the first frame update
     void Start()
     {
-        PlayerMoney = 0;
-        PlayerEnergy = 100;
+        ChangeMoney(0);
+        ChangeEnergy(100);
     }
 
     //Digunakan di class lain yang membutuhkan
@@ -47,6 +48,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     public void ChangeEnergy(float EnergyChange)
     {
         PlayerEnergy += EnergyChange;
+        OnEnergyChange();
     }
 
     // public void IncreaseEnergy(float EnergyChange)
