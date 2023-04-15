@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class DontDestroySingletonClass<T> : MonoBehaviour where T : Component
+public class DestroyOnLoadSingletonClass<T> : MonoBehaviour where T : Component
 {
     private static T instance;
     public static T Instance 
@@ -27,7 +27,7 @@ public class DontDestroySingletonClass<T> : MonoBehaviour where T : Component
         if (instance == null) 
         {
             instance = this as T;
-            DontDestroyOnLoad (this.gameObject);
+            //DontDestroyOnLoad (this.gameObject);
         } 
         else 
         {

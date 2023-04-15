@@ -160,12 +160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0c2a6866f0e7c468e5621fd88e724c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightSourceObj: {fileID: 5182906439293126474}
-  sun: {fileID: 2927004986391584534}
-  time: {fileID: 0}
-  hour: 0
-  min: 0
-  rotationSpeed: 0.12
+  DirectionalLight: {fileID: 2927004986391584534}
+  Preset: {fileID: 11400000, guid: ab7581742c1a4eb4099c71d4603caaf9, type: 2}
 --- !u!1 &5182906439293126474
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class ListShopItem : GenericSingletonClass<ListShopItem>
 {
     public Dictionary<string, InventoryItemData> ListItem;
     // Start is called before the first frame update
+
     void Start()
     {
         ListItem = new Dictionary<string, InventoryItemData>();
