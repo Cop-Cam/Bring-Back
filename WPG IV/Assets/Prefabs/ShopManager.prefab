@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9054677122265100278}
   - component: {fileID: 2341449798608114413}
-  - component: {fileID: 8822765375640338973}
+  - component: {fileID: 4281303125882180407}
   m_Layer: 0
   m_Name: Script
   m_TagString: Untagged
@@ -53,7 +53,7 @@ MonoBehaviour:
   SellableItemPrefab: {fileID: 588210291397873209, guid: 67fb4fb6da556ea499d27887e2892513, type: 3}
   CollectableItemPrefab: {fileID: 2171983464968583285, guid: b519c322331b21a42880152951f94e70, type: 3}
   MoneyText: {fileID: 2251243352608232892}
---- !u!114 &8822765375640338973
+--- !u!114 &4281303125882180407
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

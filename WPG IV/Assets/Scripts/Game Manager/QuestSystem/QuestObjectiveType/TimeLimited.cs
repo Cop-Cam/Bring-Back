@@ -50,7 +50,7 @@ namespace QuestSystem
             }
             */
 
-            if(timeLimitSetting.TimeLimitByDay >= TimeManager.Instance.date)
+            if(timeLimitSetting.TimeLimitByDay >= TimeManager.Instance.currentDate)
             {
                 EvaluateObjective();
             }
@@ -115,7 +115,7 @@ namespace QuestSystem
             }
             */
 
-            if(timeLimitSetting.TimeLimitByDay <= TimeManager.Instance.date)
+            if(timeLimitSetting.TimeLimitByDay <= TimeManager.Instance.currentDate)
             {
                 return true;
             }

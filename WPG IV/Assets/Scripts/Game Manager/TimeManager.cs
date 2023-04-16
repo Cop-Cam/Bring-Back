@@ -110,15 +110,24 @@ public class TimeManager : GenericSingletonClass<TimeManager>
         return hours;
     }
     */
-    [SerializeField]private float realtimesecond = 0;
-    [SerializeField]public float minutes = 0;
-    [SerializeField]public float hours = 8;
-    [SerializeField]public float timer = 15;
-    [SerializeField]public float date = 1;
 
-    [SerializeField] private float gameDuration = 600f; //10 minutes in seconds
+
+    [SerializeField]private float ingamesecond = 15.0f;
+    [SerializeField]private float realtimesecond = 600.0f;
+
+    [SerializeField]private float startingSecond = 0;
+    [SerializeField]private float startingMinute = 0;
+    [SerializeField]private float startingHour = 8;
+    [SerializeField]private float startingDate = 1;
+
+    [field: SerializeField]public float currentSecond {get; private set;}
+    [field: SerializeField]public float currentMinute {get; private set;}
+    [field: SerializeField]public float currentHour {get; private set;}
+    [field: SerializeField]public float currentDate {get; private set;}
 
     public static float totalTime {get; private set;}
+
+    private float timescale;
 
     //public delegate void TimeManagerEvent();
     //event yang didelegate
@@ -136,55 +145,58 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     // Start is called before the first frame update
     void Start()
     {
-        //Debug.Log("its started");
-        Time.timeScale = gameDuration / 15.0f /3600.0f;
-
-        InvokeRepeating("Timer", 1.0f, Time.timeScale);
+        currentSecond = startingSecond;
+        currentMinute = startingMinute;
+        currentHour = startingHour;
+        currentDate = startingDate;
         
+        timescale = (ingamesecond / realtimesecond) * Time.timeScale;
+        
+        Debug.Log("timescale is: "+timescale);
+        Timer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (hours == 24)
-        {
-            DayEnd();
-        }
-
-        realtimesecond += Time.deltaTime;
+        Timer();
     }
 
-    void Timer()
+    private void Timer()
     {
-        minutes++;
-        if (minutes >= 60)
+        
+        // Increment the time by one second every frame
+        currentSecond++;
+        if (currentSecond >= 60)
         {
-            hours++;
-            minutes = 0;
+            currentSecond = 0;
+            currentMinute++;
+            if (currentMinute >= 60)
+            {
+                currentMinute = 0;
+                currentHour++;
+                if (currentHour >= 24)
+                {
+                    currentHour = 0;
+                    DayEnd();
+                }
+            }
         }
         
 
-        totalTime = hours+(minutes/60f);
-        //nge ganggu, dikomen dulu
-        // Debug.Log(hours);
-        // Debug.Log(minutes);   
+        totalTime = currentHour+(currentMinute/60f)+(currentSecond/3600f);
+            
     }
 
     void DayEnd()
     {
-        hours = 6;
-        minutes = 0;
-        date++;
+        currentHour = 6;
+        currentMinute = 0;
+        currentSecond = 0;
+        currentDate++;
 
         //Event dijalankan
         OnDayChanged();
     }
-
-
-    public float CalculateTimeOfDay()
-    {
-        return hours;
-    }
-
     
 }

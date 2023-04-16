@@ -19,7 +19,7 @@ public class TLCtrl : MonoBehaviour
     }
 
     void Update(){
-        if (time.date == date && time.hours == hour){
+        if (time.currentDate == date && time.currentHour == hour){
             PlayTimeline(); 
         } 
 

@@ -28,7 +28,7 @@ public class GenericSingletonClass<T> : MonoBehaviour where T : Component
         if (instance == null) 
         {
             instance = this as T;
-            DontDestroyOnLoad (this.gameObject);
+            //DontDestroyOnLoad (this.gameObject);
             Debug.Log("new instance of "+instance.GetType()+" inside of "+gameObject.name);
 
         } 

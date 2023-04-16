@@ -11,7 +11,7 @@ public class CameraManager : GenericSingletonClass<CameraManager>
     // Start is called before the first frame update
     void Start()
     {
-        vcam = GetComponent<CinemachineVirtualCamera>();
+        //vcam = GetComponent<CinemachineVirtualCamera>();
         
         if(tPlayer == null)
         {
@@ -21,9 +21,4 @@ public class CameraManager : GenericSingletonClass<CameraManager>
         vcam.Follow = tPlayer.transform;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    
-    }
 }

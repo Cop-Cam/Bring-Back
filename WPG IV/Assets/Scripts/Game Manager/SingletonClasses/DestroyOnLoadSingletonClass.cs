@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-public class DestroyOnLoadSingletonClass<T> : MonoBehaviour where T : Component
+public class DontDestroyOnLoadSingletonClass<T> : MonoBehaviour where T : Component
 {
     private static T instance;
     public static T Instance 
