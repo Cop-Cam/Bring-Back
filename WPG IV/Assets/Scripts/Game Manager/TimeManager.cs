@@ -153,13 +153,14 @@ public class TimeManager : GenericSingletonClass<TimeManager>
         timescale = (ingamesecond / realtimesecond) * Time.timeScale;
         
         Debug.Log("timescale is: "+timescale);
-        Timer();
+
+        InvokeRepeating("Timer", 1.0f, timescale);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Timer();
+        
     }
 
     private void Timer()
@@ -183,7 +184,7 @@ public class TimeManager : GenericSingletonClass<TimeManager>
             }
         }
         
-
+        //convert all to hour based
         totalTime = currentHour+(currentMinute/60f)+(currentSecond/3600f);
             
     }

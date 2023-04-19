@@ -145,7 +145,7 @@ public class ShopManager : GenericSingletonClass<ShopManager>
 
     private void SetBuyItemInShop()
     {
-        foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.Instance.ListItem)
+        foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.ListItem)
         {
             var _button = Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
 

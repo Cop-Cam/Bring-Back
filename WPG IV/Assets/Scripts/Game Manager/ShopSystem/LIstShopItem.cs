@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class ListShopItem : GenericSingletonClass<ListShopItem>
 {
-    public Dictionary<string, InventoryItemData> ListItem;
+    public static Dictionary<string, InventoryItemData> ListItem;
     // Start is called before the first frame update
 
     void Start()
@@ -13,7 +13,7 @@ public class ListShopItem : GenericSingletonClass<ListShopItem>
         ListItem = new Dictionary<string, InventoryItemData>();
         while(true)
         {
-            if(GameDatabase.Instance.isGameDatabaseReady)
+            if(GameDatabase.isGameDatabaseReady)
             {
                 SettingUpDictionary();
                 break;
@@ -72,7 +72,7 @@ public class ListShopItem : GenericSingletonClass<ListShopItem>
 
     void SettingUpListShopFromGameDatabaseDictionary(List<InventoryItemData> itemList)
     {
-        foreach(InventoryItemData item in GameDatabase.Instance.List_InventoryItemData_AllItem.Values)
+        foreach(InventoryItemData item in GameDatabase.List_InventoryItemData_AllItem.Values)
         {
             if(item is FishFeedItemData)
             {

@@ -12,11 +12,11 @@ public class UIManager : GenericSingletonClass<UIManager>
  
 
     //mungkin bisa pake list, tapi gtw caramu makenya
-    private List<GameObject> GameUIList;
+    private static List<GameObject> GameUIList;
 
 
     //atau mungkin bisa pake dict, tapi gtw caramu makenya
-    private Dictionary<string, GameObject> ManagerWithUIObj;
+    private static Dictionary<string, GameObject> ManagerWithUIObj;
 
     // Start is called before the first frame update
     void Start()

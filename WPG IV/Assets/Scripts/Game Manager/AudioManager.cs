@@ -13,11 +13,11 @@ public class AudioManager : GenericSingletonClass<AudioManager>
         public AudioClip Clip;
     }
 
-    [SerializeField] private List<Sound> MusicList;
-    [SerializeField] private List<Sound> SfxList;
+    [field:SerializeField] private List<Sound> MusicList;
+    [field:SerializeField] private List<Sound> SfxList;
 
-    [SerializeField] private AudioSource MusicSource;
-    [SerializeField] private AudioSource SfxSource;
+    [field:SerializeField] private AudioSource MusicSource;
+    [field:SerializeField] private AudioSource SfxSource;
 
     private void Start()
     {

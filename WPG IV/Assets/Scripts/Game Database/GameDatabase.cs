@@ -5,8 +5,8 @@ using UnityEditor;
 
 public class GameDatabase : GenericSingletonClass<GameDatabase>
 {
-    public Dictionary<string, InventoryItemData> List_InventoryItemData_AllItem{get; private set;}
-    public bool isGameDatabaseReady{get; private set;}
+    public static Dictionary<string, InventoryItemData> List_InventoryItemData_AllItem{get; private set;}
+    public static bool isGameDatabaseReady{get; private set;}
 
     [Header("Sprite")]
     public Sprite InteractIconDefault_Sprite;
