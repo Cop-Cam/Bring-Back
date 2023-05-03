@@ -43,25 +43,25 @@ MonoBehaviour:
   active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.9
+    m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.32
   scatter:
     m_OverrideState: 1
-    m_Value: 0.8
+    m_Value: 0.982
   clamp:
     m_OverrideState: 1
     m_Value: 65472
   tint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 1, g: 0.8594525, b: 0.4660377, a: 1}
   highQualityFiltering:
     m_OverrideState: 1
     m_Value: 0
   skipIterations:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 3
   dirtTexture:
     m_OverrideState: 1
     m_Value: {fileID: 2800000, guid: 69e847bbff1cf5449a4ee0bbd045dbc9, type: 3}
@@ -100,7 +100,7 @@ MonoBehaviour:
   active: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.922308, y: 1, z: 0.81666684, w: 0}
+    m_Value: {x: 0.9278991, y: 1, z: 0.95422727, w: 0}
   midtones:
     m_OverrideState: 1
     m_Value: {x: 1, y: 0.99863094, z: 0.914752, w: 0.007299303}
