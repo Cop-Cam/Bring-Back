@@ -8,6 +8,9 @@ public class PlayerController : GenericSingletonClass<PlayerController>
     [SerializeField] private float playerSpeed;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GameObject playerObj;
+
+
+    [SerializeField] private Animator playerAnimator;
     
 
     // Start is called before the first frame update
@@ -32,6 +35,10 @@ public class PlayerController : GenericSingletonClass<PlayerController>
                 rb = playerObj?.transform?.parent?.GetComponentInChildren<Rigidbody>();
                 
             }
+        }
+        if(playerAnimator == null)
+        {
+            playerAnimator = playerObj.GetComponent<Animator>();
         }
     }
 
@@ -59,6 +66,7 @@ public class PlayerController : GenericSingletonClass<PlayerController>
 
             rb.MovePosition(rb.position + (movement * playerSpeed * Time.deltaTime));
            // m_player.transform.Translate(movement * playerSpeed * Time.deltaTime, Space.World);
+            playerAnimator.SetFloat("Speed", movement.sqrMagnitude);
         }
 
     }

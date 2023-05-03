@@ -18,8 +18,8 @@ public class ListShopItem : GenericSingletonClass<ListShopItem>
                 SettingUpDictionary();
                 break;
             }
-            Debug.Log("not ready");
         }
+        
     }
 
     // public void Init()

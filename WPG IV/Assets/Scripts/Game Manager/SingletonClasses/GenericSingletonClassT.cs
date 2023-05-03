@@ -17,6 +17,7 @@ public class GenericSingletonClass<T> : MonoBehaviour where T : Component
                     GameObject obj = new GameObject ();
                     obj.name = typeof(T).Name;
                     instance = obj.AddComponent<T>();
+                    Debug.LogWarning("created another instance of "+instance.GetType()+" inside of "+obj.name+" using getter");
                 }
             }
             return instance;
