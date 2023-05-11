@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class InputManager : GenericSingletonClass<InputManager>
 {
@@ -11,6 +14,13 @@ public class InputManager : GenericSingletonClass<InputManager>
     
     // Start is called before the first frame update
     void Start()
+    {
+        
+    }
+
+
+    #if UNITY_EDITOR
+    void OnValidate()
     {
         if(playerInputActionMapAsset == null)
         {
@@ -21,9 +31,7 @@ public class InputManager : GenericSingletonClass<InputManager>
             Debug.LogWarning("InputAction masih kosong");
         }
     }
-
     
-
     void GetInputAction()
     {
         string[] assetNames = AssetDatabase.FindAssets("IA_PlayerInputAction", new[]{"Assets/Input Actions"});
@@ -34,6 +42,9 @@ public class InputManager : GenericSingletonClass<InputManager>
             playerInputActionMapAsset = character;
         }
     }
+    #endif
+    
+
 
     //Untuk mematikan atau menghidupkan pergerakkan pemain
     public void IsPlayerAllowedToMove(bool isAllowed)

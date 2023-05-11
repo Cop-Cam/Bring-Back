@@ -146,10 +146,7 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
         SortItemFromAddressable(itemList);
     }
 
-    #endif
-
     //mengambil data SO fish pada folder yang ditentukan
-   
     void GetAllFishes(List<InventoryItemData> fishItemList)
     {
         string[] assetNamesEndemic = AssetDatabase.FindAssets("t:FishItemData t:FishItemData.fishTypes.Endemic", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Endemic"});
@@ -188,6 +185,10 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
             fishFeedList.Add(character);
         }
     }
+
+    #endif
+
+   
     
     /*
     
@@ -282,7 +283,7 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
 
     
     */
-    
+
     /*
     void SettingUpBaseDictionary()
     {

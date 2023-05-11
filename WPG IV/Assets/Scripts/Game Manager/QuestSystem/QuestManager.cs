@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace QuestSystem
 {
@@ -18,7 +21,7 @@ namespace QuestSystem
             base.Awake();
             QuestDictionary = new Dictionary<string, Quest>();
             
-            SettingUpQuestlineDictionary();
+            //SettingUpQuestlineDictionary();
 
             CurrentActivatedQuestList = new List<Quest>();
             CurrentFailedQuestList = new List<Quest>();
@@ -30,6 +33,7 @@ namespace QuestSystem
             UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
         }
 
+    #if UNITY_EDITOR
         //For Getting and Assigning all Quest SO Assets
         #region SettingUpMethods
         
@@ -96,6 +100,7 @@ namespace QuestSystem
         }
 
         #endregion
+    #endif
 
 
         private void HandleActivatedQuest(Quest questInstance)
