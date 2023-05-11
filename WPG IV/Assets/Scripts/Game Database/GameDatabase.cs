@@ -12,14 +12,13 @@ using UnityEditor;
 public class GameDatabase : GenericSingletonClass<GameDatabase>
 {
 
-    [SerializeField] private List<InventoryItemData> itemList; //= new List<InventoryItemData>();
+    [SerializeField] private List<InventoryItemData> itemList = new List<InventoryItemData>();
 
     //public Dictionary<string, InventoryItemData> DB_InventoryItems{get; private set;}
 
-
-    public Dictionary<string, FishItemData> DB_FishItems{get; private set;}
-    public Dictionary<string, FishSeedItemData> DB_FishSeeds{get; private set;}
-    public Dictionary<string, FishFeedItemData> DB_FishFeeds{get; private set;}
+    public Dictionary<string, FishItemData> DB_FishItems {get; private set;} = new Dictionary<string, FishItemData>();
+    public Dictionary<string, FishSeedItemData> DB_FishSeeds {get; private set;} = new Dictionary<string, FishSeedItemData>();
+    public Dictionary<string, FishFeedItemData> DB_FishFeeds {get; private set;} = new Dictionary<string, FishFeedItemData>();
 
     //public static bool isGameDatabaseReady{get; private set;}
 
@@ -35,6 +34,8 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
         //DB_InventoryItems = new Dictionary<string, InventoryItemData>();
         //SettingUpDatabaseDictionary();
         //isGameDatabaseReady = true;
+        Debug.Log("itemlist size: "+itemList.Count);
+        SortAllItemInGame(itemList);
     }
 
     /*
@@ -84,12 +85,8 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
     */
 
 
-    private void SortItemFromAddressable(List<InventoryItemData> list)
+    private void SortAllItemInGame(List<InventoryItemData> list)
     {
-        DB_FishItems = new Dictionary<string, FishItemData>();
-        DB_FishSeeds = new Dictionary<string, FishSeedItemData>();
-        DB_FishFeeds = new Dictionary<string, FishFeedItemData>();
-
         foreach (InventoryItemData SO in list)
         {
             if(SO is not InventoryItemData)
@@ -133,17 +130,18 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
 
     void OnValidate()
     {
-        itemList = new List<InventoryItemData>();
+        itemList.Clear();
+        //itemList = new List<InventoryItemData>();
         GetAllFishes(itemList);
         GetAllFishesFeed(itemList);
         GetAllFishesSeed(itemList);
 
         if(itemList == null || itemList.Count == 0)
         {
-            Debug.LogWarning("templist is empty");
+            Debug.LogError("templist is empty");
             return;
         }
-        SortItemFromAddressable(itemList);
+        
     }
 
     //mengambil data SO fish pada folder yang ditentukan

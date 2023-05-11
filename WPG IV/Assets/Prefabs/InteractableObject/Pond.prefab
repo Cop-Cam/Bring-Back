@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9fbbdc97d0583f48938b716b3d5c3c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugcube: {fileID: 1526578222267835924, guid: cde5f660b9175214dbb093ec65033940, type: 3}
   OnEmptyModel: {fileID: 919132149155446097, guid: 5b05b8108e8c71e47946c8cadf499fa4, type: 3}
   OnFullModel: {fileID: 919132149155446097, guid: b34d0a682fb76db4686408102df61753, type: 3}
   DefaultModel: {fileID: 7958836904694677170}

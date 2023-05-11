@@ -9,40 +9,47 @@ using UnityEditor;
 
 public class InputManager : GenericSingletonClass<InputManager>
 {
-    //public GameObject playerObj;
-    public static InputActionAsset playerInputActionMapAsset;
-    
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private InputActionAsset playerInputActionAsset;
+    public InputActionAsset PlayerInputActionAsset
     {
-        
-    }
-
-
-    #if UNITY_EDITOR
-    void OnValidate()
-    {
-        if(playerInputActionMapAsset == null)
-        {
-            GetInputAction();
-        }
-        if(playerInputActionMapAsset == null)
-        {
-            Debug.LogWarning("InputAction masih kosong");
-        }
+        get { return playerInputActionAsset; }
+        private set { playerInputActionAsset = value; }
     }
     
-    void GetInputAction()
+    public override void Awake() 
     {
-        string[] assetNames = AssetDatabase.FindAssets("IA_PlayerInputAction", new[]{"Assets/Input Actions"});
-        foreach(string inputActionAsset in assetNames)
+        if(playerInputActionAsset == null)
         {
-            var IApath = AssetDatabase.GUIDToAssetPath(inputActionAsset);
-            var character = AssetDatabase.LoadAssetAtPath<InputActionAsset>(IApath);
-            playerInputActionMapAsset = character;
-        }
+            Debug.LogError("input asset is null");
+        } 
     }
-    #endif
+    
+
+
+    // #if UNITY_EDITOR
+    // void OnValidate()
+    // {
+    //     if(playerInputActionMapAsset == null)
+    //     {
+    //         GetInputAction();
+    //     }
+    //     if(playerInputActionMapAsset == null)
+    //     {
+    //         Debug.LogWarning("InputAction masih kosong");
+    //     }
+    // }
+    
+    // void GetInputAction()
+    // {
+    //     string[] assetNames = AssetDatabase.FindAssets("IA_PlayerInputAction", new[]{"Assets/Input Actions"});
+    //     foreach(string inputActionAsset in assetNames)
+    //     {
+    //         var IApath = AssetDatabase.GUIDToAssetPath(inputActionAsset);
+    //         var character = AssetDatabase.LoadAssetAtPath<InputActionAsset>(IApath);
+    //         playerInputActionMapAsset = character;
+    //     }
+    // }
+    // #endif
     
 
 
@@ -51,11 +58,11 @@ public class InputManager : GenericSingletonClass<InputManager>
     {
         if(isAllowed)
         {
-            playerInputActionMapAsset.FindActionMap("Player").FindAction("Move").Enable();
+            playerInputActionAsset.FindActionMap("Player").FindAction("Move").Enable();
         }
         else if(!isAllowed)
         {
-            playerInputActionMapAsset.FindActionMap("Player").FindAction("Move").Disable();
+            playerInputActionAsset.FindActionMap("Player").FindAction("Move").Disable();
         }
         //playerObj.transform.Find("Controller").gameObject.SetActive(isAllowed = !isAllowed);
         // if(isAllowed)
@@ -72,11 +79,11 @@ public class InputManager : GenericSingletonClass<InputManager>
     {
         if(isAllowed)
         {
-            playerInputActionMapAsset.FindActionMap("Player").FindAction("Interact").Enable();
+            playerInputActionAsset.FindActionMap("Player").FindAction("Interact").Enable();
         }
         else if(!isAllowed)
         {
-            playerInputActionMapAsset.FindActionMap("Player").FindAction("Interact").Disable();
+            playerInputActionAsset.FindActionMap("Player").FindAction("Interact").Disable();
         }
         //playerObj.transform.Find("Interactor").gameObject.SetActive(isAllowed = !isAllowed);
 

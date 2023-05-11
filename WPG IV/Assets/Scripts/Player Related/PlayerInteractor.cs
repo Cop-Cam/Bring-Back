@@ -25,12 +25,6 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
         // InteractableIndicator.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void FixedUpdate()
     {
         DrawRayCast();
@@ -71,6 +65,8 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 
     void Interact()
     {
+
+
         if(isInObject && InteractedGameObject != null)
         {
             //IInteractable interactable = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<IInteractable>();
@@ -79,10 +75,13 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 
             if(interactableObjects != null)
             {
-                Debug.Log("current interacted item :"+InteractedGameObject.transform.parent.gameObject.name);
+
+                //Debug.Log("current interacted item :"+InteractedGameObject.transform.parent.gameObject.name);
                 InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
                 interactableObjects.OnInteracted();
             }
+            
+           
             
             /*
             if(InteractedGameObject.transform.parent.gameObject.CompareTag("Inventory"))

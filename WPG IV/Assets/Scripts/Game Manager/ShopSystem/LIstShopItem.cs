@@ -52,6 +52,12 @@ public class ListShopItem : GenericSingletonClass<ListShopItem>
 
     private void SettingUpListShopFromGameDatabaseDictionary(List<InventoryItemData> itemList)
     {
+        if(GameDatabase.Instance.DB_FishFeeds is null || GameDatabase.Instance.DB_FishFeeds.Count == 0)
+        {
+            Debug.LogError("somehow database is null or zero");
+            return;
+        }
+
         foreach(FishFeedItemData feed in GameDatabase.Instance.DB_FishFeeds.Values)
         {
             ListItem.Add(feed as InventoryItemData);
