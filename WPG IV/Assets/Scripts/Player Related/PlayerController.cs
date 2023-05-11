@@ -66,7 +66,7 @@ public class PlayerController : GenericSingletonClass<PlayerController>
 
             rb.MovePosition(rb.position + (movement * playerSpeed * Time.deltaTime));
            // m_player.transform.Translate(movement * playerSpeed * Time.deltaTime, Space.World);
-            playerAnimator.SetFloat("Speed", movement.sqrMagnitude);
+            //playerAnimator.SetFloat("Speed", movement.sqrMagnitude);
         }
 
     }

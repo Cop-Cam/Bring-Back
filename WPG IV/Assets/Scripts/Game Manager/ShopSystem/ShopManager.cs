@@ -145,17 +145,18 @@ public class ShopManager : GenericSingletonClass<ShopManager>
 
     private void SetBuyItemInShop()
     {
-        foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.ListItem)
+        //foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.ListItem)
+        foreach(InventoryItemData listItem in ListShopItem.Instance.ListItem)
         {
             var _button = Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
 
             //testing
-            _button.transform.Find("Name").transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = listItem.Value.displayName;
+            _button.transform.Find("Name").transform.Find("NameText").GetComponent<TextMeshProUGUI>().text = listItem.displayName;
 
-            _button.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = listItem.Value.itemBuyPrice.ToString();
-            _button.transform.Find("Icon").GetComponent<Image>().sprite = listItem.Value.icon;
+            _button.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = listItem.itemBuyPrice.ToString();
+            _button.transform.Find("Icon").GetComponent<Image>().sprite = listItem.icon;
             //BuyableItemPrefab.GetComponent<BuyButtonScript>().SetButtonItemData(listItem.Value);
-            _button.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventBuyItem(listItem.Value));
+            _button.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventBuyItem(listItem));
 
 
             if(currentOpenedInventory.IsInventoryAvailable())
@@ -168,7 +169,7 @@ public class ShopManager : GenericSingletonClass<ShopManager>
             }
 
             //Khusus pond inventory //mengecekj adakah pakan pada pond
-            if(currentOpenedInventory is PondInventory && listItem.Value is FishFeedItemData)
+            if(currentOpenedInventory is PondInventory && listItem is FishFeedItemData)
             {
                 PondInventory otherInventory = currentOpenedInventory as PondInventory;
                 if(otherInventory.isPondFishFeeded())

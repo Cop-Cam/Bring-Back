@@ -5,107 +5,121 @@ using UnityEditor;
 
 public class ListShopItem : GenericSingletonClass<ListShopItem>
 {
-    public static Dictionary<string, InventoryItemData> ListItem;
+    public List<InventoryItemData> ListItem {get; private set;}
+    //public static Dictionary<string, InventoryItemData> ListItem;
     // Start is called before the first frame update
-
-    void Start()
+    
+    public override void Awake() 
     {
-        ListItem = new Dictionary<string, InventoryItemData>();
-        while(true)
+        base.Awake();
+        //ListItem = new Dictionary<string, InventoryItemData>();
+        ListItem = new List<InventoryItemData>();
+    }
+    private void Start()
+    {
+        SettingUpListShopFromGameDatabaseDictionary(ListItem);
+
+        // ListItem = new Dictionary<string, InventoryItemData>();
+        // while(true)
+        // {
+        //     if(GameDatabase.isGameDatabaseReady)
+        //     {
+        //         SettingUpDictionary();
+        //         break;
+        //     }
+        // }
+
+
+        // List<ScriptableObject> tempList = new List<ScriptableObject>();
+
+        // AddressablesManager.Instance.LoadAllAssetsByKey("shopitem", tempList);
+
+        // List<InventoryItemData> sortedTempList = new List<InventoryItemData>();
+        
+        // SortItemFromAddressable(tempList, sortedTempList);
+
+        // SettingUpList(sortedTempList);
+
+    }
+
+    // private void AssignItemToShopableItem(List<InventoryItemData> itemList)
+    // {
+    //     foreach(var itemData in itemList)
+    //     {
+    //         ListItem.Add(itemData);
+    //     }
+    // }
+
+    private void SettingUpListShopFromGameDatabaseDictionary(List<InventoryItemData> itemList)
+    {
+        foreach(FishFeedItemData feed in GameDatabase.Instance.DB_FishFeeds.Values)
         {
-            if(GameDatabase.isGameDatabaseReady)
-            {
-                SettingUpDictionary();
-                break;
-            }
+            ListItem.Add(feed as InventoryItemData);
+        }
+
+        foreach(FishSeedItemData seed in GameDatabase.Instance.DB_FishSeeds.Values)
+        {
+            ListItem.Add(seed as InventoryItemData);
         }
         
-    }
-
-    // public void Init()
-    // {
-    //     ListItem = new Dictionary<string, InventoryItemData>();
-    //     SettingUpDictionary();
-    // }
-
-    // //mengambil data SO fish pada folder yang ditentukan
-    // void GetAllFishes(List<InventoryItemData> fishItemList)
-    // {
-    //     string[] assetNames = AssetDatabase.FindAssets("Fish", new[]{"Assets/ScriptableObjects/Fishes/FishesItem"});
-    //     foreach(string SOName in assetNames)
-    //     {
-    //         var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-    //         var character = AssetDatabase.LoadAssetAtPath<FishItemData>(SOpath);
-    //         fishItemList.Add(character);
-    //     }
-    // }
-
-    // void GetAllFishesSeed(List<InventoryItemData> fishSeedList)
-    // {
-    //     string[] assetNames = AssetDatabase.FindAssets("FishSeed", new[]{"Assets/ScriptableObjects/Fishes/FishesSeed"});
-    //     foreach(string SOName in assetNames)
-    //     {
-    //         var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-    //         var character = AssetDatabase.LoadAssetAtPath<FishSeedItemData>(SOpath);
-    //         fishSeedList.Add(character);
-    //     }
-    // }
-
-    // void GetAllFishesFeed(List<InventoryItemData> fishFeedList)
-    // {
-    //     string[] assetNames = AssetDatabase.FindAssets("FishFeed", new[]{"Assets/ScriptableObjects/Fishes/FishesFeed"});
-    //     foreach(string SOName in assetNames)
-    //     {
-    //         var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-    //         var character = AssetDatabase.LoadAssetAtPath<FishFeedItemData>(SOpath);
-    //         fishFeedList.Add(character);
-    //     }
-    // }
-
-    void AssignItemToDictionary(List<InventoryItemData> itemList)
-    {
-        foreach(var itemData in itemList)
+        if(itemList == null || itemList.Count == 0)
         {
-            ListItem.Add(itemData.id, itemData);
+            Debug.LogWarning("There Is No Item Master!");
         }
+        
+        
+        // foreach(InventoryItemData item in itemList)
+        // {
+        //     if(item is FishFeedItemData)
+        //     {
+        //         itemList.Add(item);
+        //     }
+        //     if(item is FishSeedItemData)
+        //     {
+        //         itemList.Add(item);
+        //     }
+        // }
     }
-
-    void SettingUpListShopFromGameDatabaseDictionary(List<InventoryItemData> itemList)
+    /*
+    private void SettingUpList(List<InventoryItemData> sortedList)
     {
-        foreach(InventoryItemData item in GameDatabase.List_InventoryItemData_AllItem.Values)
-        {
-            if(item is FishFeedItemData)
-            {
-                itemList.Add(item);
-            }
-            if(item is FishSeedItemData)
-            {
-                itemList.Add(item);
-            }
-        }
-    }
+        //List<InventoryItemData> itemList = new List<InventoryItemData>();
 
-    void SettingUpDictionary()
-    {
-        List<InventoryItemData> itemList = new List<InventoryItemData>();
-
-        SettingUpListShopFromGameDatabaseDictionary(itemList);
+        SettingUpListShopFromGameDatabaseDictionary(sortedList);
         //GetAllFishes(itemList);
         //GetAllFishesSeed(itemList);
         //GetAllFishesFeed(itemList);
 
-        if(itemList != null)
+        if(sortedList != null)
         {
-            AssignItemToDictionary(itemList);
+            AssignItemToShopableItem(sortedList);
         }
-        else if(itemList == null)
+        else if(sortedList == null)
         {
-            Debug.Log("There Is No Item Master!");
+            Debug.LogWarning("There Is No Item Master!");
         }
     }
 
-    public InventoryItemData GetItemFromDictionary(string key)
+    // public InventoryItemData GetItemFromDictionary(string key)
+    // {
+    //     return ListItem[key];
+    // }
+
+    private void SortItemFromAddressable(List<ScriptableObject> list, List<InventoryItemData> sortedList)
     {
-        return ListItem[key];
+        foreach (ScriptableObject SO in list)
+        {
+            if(SO is not InventoryItemData)
+            {
+                list.Remove(SO);
+            }
+            else
+            {
+                sortedList.Add(SO as InventoryItemData);
+            }
+        }
+
+        list = null;
     }
+    */
 }
