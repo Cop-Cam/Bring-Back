@@ -11,7 +11,7 @@ namespace QuestSystem
 {
     public class QuestManager : GenericSingletonClass<QuestManager>
     {
-        public Dictionary<string, Quest> QuestDictionary {get; private set;}
+        private Dictionary<string, Quest> QuestDictionary;
         public List<Quest> CurrentActivatedQuestList;// {get; private set;}
         public List<Quest> CurrentFailedQuestList; //{get; private set;}
         public List<Quest> CurrentCompletedQuestList; //{get; private set;}
@@ -19,7 +19,7 @@ namespace QuestSystem
         public override void Awake()
         {
             base.Awake();
-            QuestDictionary = new Dictionary<string, Quest>();
+            QuestDictionary = GameDatabase.Instance.DB_Quests;
             
             //SettingUpQuestlineDictionary();
 
@@ -33,6 +33,7 @@ namespace QuestSystem
             UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
         }
 
+    /*
     #if UNITY_EDITOR
         //For Getting and Assigning all Quest SO Assets
         #region SettingUpMethods
@@ -101,7 +102,7 @@ namespace QuestSystem
 
         #endregion
     #endif
-
+    */
 
         private void HandleActivatedQuest(Quest questInstance)
         {

@@ -19,7 +19,7 @@ public class LakeInventory : LocalInventory
 
     public override void OnInteracted()
     {
-        if(InvansiveFishesInThisLake == null) 
+        if(InvansiveFishesInThisLake == null || InvansiveFishesInThisLake.Length == 0) 
         {
             Debug.LogWarning("There is no fish in this lake!");
             return;
@@ -27,6 +27,10 @@ public class LakeInventory : LocalInventory
 
         if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
         {
+            InputManager.Instance.IsPlayerAllowedToMove(false);
+            InputManager.Instance.IsPlayerAllowedToInteract(false);
+
+
             PlayerResourceManager.Instance.ChangeEnergy(-(EnergyNeeded));
             //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
             int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
@@ -40,7 +44,8 @@ public class LakeInventory : LocalInventory
         else
         {
             Debug.Log("energy tidak cukup");
-            InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
+            InputManager.Instance.IsPlayerAllowedToInteract(true);
+            InputManager.Instance.IsPlayerAllowedToMove(true);
         }
     }
 

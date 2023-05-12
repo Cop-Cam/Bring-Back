@@ -11,6 +11,12 @@ namespace DialogueSystem
         
         public override void OnInteracted()
         {
+            if(DialogueManager.Instance.dialogueIsPlaying)
+            {
+                DialogueManager.Instance.ContinueStory();
+                return;
+            }
+
             DialogueManager.Instance.EnterDialogue(inkJSON);
         }
         

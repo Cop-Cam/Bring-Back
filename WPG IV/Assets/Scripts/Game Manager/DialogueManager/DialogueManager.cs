@@ -29,8 +29,9 @@ namespace DialogueSystem
 
         private Story currentStory;
         
-        private bool dialogueIsPlaying; //mengecek dialog sedang berjalan atau tidak
+        public bool dialogueIsPlaying {get; private set;} //mengecek dialog sedang berjalan atau tidak
         private bool dialogueIsWriting; //mengecek dialog sedang berjalan atau tidak
+        private bool dialogueIsInChoice;  //mengecek apakah dialog sedang dalam posisi memilih atau choice
 
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
@@ -41,6 +42,7 @@ namespace DialogueSystem
         {
             dialogueIsPlaying = false;
             dialogueIsWriting = false;
+            dialogueIsInChoice = false;
             //dialoguePanel.SetActive(false);
             dialogueCanvas.SetActive(false);
 
@@ -64,8 +66,12 @@ namespace DialogueSystem
 
         public void EnterDialogue(TextAsset inkJSON)
         {
-            Debug.Log("dialogue start");
-            InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false);
+            if(dialogueIsPlaying)
+            {
+                return;
+            }
+
+            InputManager.Instance.IsPlayerAllowedToMove(false);
 
             currentStory = new Story(inkJSON.text);
             dialogueIsPlaying = true;
@@ -98,19 +104,32 @@ namespace DialogueSystem
             dialogueCanvas.SetActive(false);
             dialogueText.text = "";
 
-            InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
+            InputManager.Instance.IsPlayerAllowedToMove(true);
         }
 
         public void ContinueStory()
         {
+            //for skipping to display full dialogue
+            if(dialogueIsWriting)
+            {
+                dialogueIsWriting = false;
+                return;
+            }
+
+            //for waiting player choice in choice text
+            if(dialogueIsInChoice)
+            {
+                return;
+            }
+
+
             //agar bisa skip dengan rapi
             dialogueIsWriting = false;
-            
 
-            // not working becoz coroutine always make new instance
+            // Below line is not working becoz coroutine always make new instance
             // another workaround is storing coroutine reference then 
             // stop it using the reference
-            //StopCoroutine(WriteText()); 
+            //StopCoroutine(WriteText());// 
 
             StopAllCoroutines(); //menghentikan method WriteText
 
@@ -119,7 +138,6 @@ namespace DialogueSystem
             if(currentStory.canContinue)
             {
                 StartCoroutine(WriteText());
-                DisplayChoices();   
                 HandleTags(currentStory.currentTags);
             }
             else
@@ -211,6 +229,8 @@ namespace DialogueSystem
         {
             if(currentStory.currentChoices.Count > 0)
             {
+                dialogueIsInChoice = true;
+
                 continueButton.SetActive(false); //button continue dihilangkan sementara untuk pemaksaan memilih choice
 
                 List<Choice> currentChoices = currentStory.currentChoices;
@@ -236,24 +256,25 @@ namespace DialogueSystem
 
                 //StartCoroutine(SelectFirstChoice());
             }
-            else
-            {
-                // for(int index = choices.Length-1; index>0; index--)
-                // {
-                //     choices[index].gameObject.SetActive(false);
-                //     choicesText[index].text = "";
-                // } 
-                ClearChoiceButton();
+            // else
+            // {
+            //     ClearChoiceButton();
 
-                continueButton.SetActive(true); //button continue diaktifkan
-            }
+            //     continueButton.SetActive(true); //button continue diaktifkan
+            // }
         }
 
         public void MakeChoice(int choiceIndex)
         {
             currentStory.ChooseChoiceIndex(choiceIndex);
 
+            dialogueIsInChoice = false;
+
             ContinueStory();
+
+            ClearChoiceButton();
+
+            continueButton.SetActive(true); //button continue diaktifkan
         }
 
         
@@ -267,6 +288,7 @@ namespace DialogueSystem
             {
                 if(!dialogueIsWriting) //mengecek apakah dialog sedang ditulis
                 {
+                    DisplayFullText(messageToDisplay);
                     break;
                 }
                 else
@@ -276,6 +298,14 @@ namespace DialogueSystem
                     yield return new WaitForSeconds(dialogueSpeed);
                 }
             }
+
+            DisplayChoices();   
+        }
+
+        private void DisplayFullText(string messageToDisplay)
+        {
+            dialogueText.text = ""; //membersihkan text
+            dialogueText.text = messageToDisplay;
         }
     }
 }

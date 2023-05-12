@@ -44,8 +44,6 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
 
     public void OpenLakeUI(LakeInventory lakeInventory)
     {
-        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false);
-
         this.lakeInventory = lakeInventory;
 
         SettingUpUiInformation();
@@ -65,8 +63,9 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
      
         StopAllCoroutines();
 
-        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
-        
+
+        InputManager.Instance.IsPlayerAllowedToInteract(true);
+        InputManager.Instance.IsPlayerAllowedToMove(true);        
     }
 
     private void ButtonEventSellItem()

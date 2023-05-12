@@ -97,9 +97,9 @@ public class InputManager : GenericSingletonClass<InputManager>
         // }
     }
 
-    public void IsPlayerAllowedToDoPlayerMapsInput(bool isAllowed)
-    {
-        IsPlayerAllowedToInteract(isAllowed);
-        IsPlayerAllowedToMove(isAllowed);
-    }
+    // public void IsPlayerAllowedToDoPlayerMapsInput(bool isAllowed)
+    // {
+    //     IsPlayerAllowedToInteract(isAllowed);
+    //     IsPlayerAllowedToMove(isAllowed);
+    // }
 }

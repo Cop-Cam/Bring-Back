@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 //using UnityEngine.AddressableAssets;
 //using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -12,13 +13,14 @@ using UnityEditor;
 public class GameDatabase : GenericSingletonClass<GameDatabase>
 {
 
-    [SerializeField] private List<InventoryItemData> itemList = new List<InventoryItemData>();
+    [SerializeField] private List<ScriptableObject> itemList = new List<ScriptableObject>();
 
     //public Dictionary<string, InventoryItemData> DB_InventoryItems{get; private set;}
 
     public Dictionary<string, FishItemData> DB_FishItems {get; private set;} = new Dictionary<string, FishItemData>();
     public Dictionary<string, FishSeedItemData> DB_FishSeeds {get; private set;} = new Dictionary<string, FishSeedItemData>();
     public Dictionary<string, FishFeedItemData> DB_FishFeeds {get; private set;} = new Dictionary<string, FishFeedItemData>();
+    public Dictionary<string, QuestSystem.Quest> DB_Quests {get; private set;} = new Dictionary<string, QuestSystem.Quest>();
 
     //public static bool isGameDatabaseReady{get; private set;}
 
@@ -34,7 +36,7 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
         //DB_InventoryItems = new Dictionary<string, InventoryItemData>();
         //SettingUpDatabaseDictionary();
         //isGameDatabaseReady = true;
-        Debug.Log("itemlist size: "+itemList.Count);
+        //Debug.Log("itemlist size: "+itemList.Count);
         SortAllItemInGame(itemList);
     }
 
@@ -85,31 +87,36 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
     */
 
 
-    private void SortAllItemInGame(List<InventoryItemData> list)
+    private void SortAllItemInGame(List<ScriptableObject> list)
     {
-        foreach (InventoryItemData SO in list)
+        foreach (ScriptableObject SO in list)
         {
-            if(SO is not InventoryItemData)
+            if(SO is InventoryItemData)
             {
-                continue;
+                InventoryItemData tempInventoryItem = SO as InventoryItemData;
+
+                if(tempInventoryItem is FishFeedItemData)
+                {
+                    FishFeedItemData temp = tempInventoryItem as FishFeedItemData;
+                    DB_FishFeeds.Add(temp.id, temp);
+                }
+                else if(tempInventoryItem is FishItemData)
+                {
+                    FishItemData temp = tempInventoryItem as FishItemData;
+                    DB_FishItems.Add(temp.id, temp);
+                }
+                else if(tempInventoryItem is FishSeedItemData)
+                {
+                    FishSeedItemData temp = tempInventoryItem as FishSeedItemData;
+                    DB_FishSeeds.Add(temp.id, temp);
+                }
             }
 
-            if(SO is FishFeedItemData)
+            if(SO is QuestSystem.Quest)
             {
-                FishFeedItemData temp = SO as FishFeedItemData;
-                DB_FishFeeds.Add(temp.id, temp);
+                QuestSystem.Quest temp = SO as QuestSystem.Quest;
+                DB_Quests.Add(temp.questSetting.QuestId, temp);
             }
-            else if(SO is FishItemData)
-            {
-                FishItemData temp = SO as FishItemData;
-                DB_FishItems.Add(temp.id, temp);
-            }
-            else if(SO is FishSeedItemData)
-            {
-                FishSeedItemData temp = SO as FishSeedItemData;
-                DB_FishSeeds.Add(temp.id, temp);
-            }
-            
         }
 
         //list = null;
@@ -135,24 +142,28 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
         GetAllFishes(itemList);
         GetAllFishesFeed(itemList);
         GetAllFishesSeed(itemList);
+        GetAllQuest(itemList);
 
         if(itemList == null || itemList.Count == 0)
         {
             Debug.LogError("templist is empty");
             return;
         }
-        
+
+        //remove duplication in list
+        itemList = itemList.Distinct().ToList();
     }
 
+
     //mengambil data SO fish pada folder yang ditentukan
-    void GetAllFishes(List<InventoryItemData> fishItemList)
+    void GetAllFishes(List<ScriptableObject> fishItemList)
     {
         string[] assetNamesEndemic = AssetDatabase.FindAssets("t:FishItemData t:FishItemData.fishTypes.Endemic", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Endemic"});
         foreach(string SOName in assetNamesEndemic)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
             var character = AssetDatabase.LoadAssetAtPath<FishItemData>(SOpath);
-            fishItemList.Add(character);
+            fishItemList.Add(character as ScriptableObject);
         }
 
         string[] assetNamesInvansive = AssetDatabase.FindAssets("t:FishItemData t:FishItemData.fishTypes.Invansive", new[]{"Assets/ScriptableObjects/Fishes/FishesItem/Invansive"});
@@ -160,30 +171,100 @@ public class GameDatabase : GenericSingletonClass<GameDatabase>
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
             var character = AssetDatabase.LoadAssetAtPath<FishItemData>(SOpath);
-            fishItemList.Add(character);
+            fishItemList.Add(character as ScriptableObject);
         }
     }
-    void GetAllFishesSeed(List<InventoryItemData> fishSeedList)
+    void GetAllFishesSeed(List<ScriptableObject> fishSeedList)
     {
         string[] assetNames = AssetDatabase.FindAssets("t:FishSeedItemData", new[]{"Assets/ScriptableObjects/Fishes/FishesSeed"});
         foreach(string SOName in assetNames)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
             var character = AssetDatabase.LoadAssetAtPath<FishSeedItemData>(SOpath);
-            fishSeedList.Add(character);
+            fishSeedList.Add(character as ScriptableObject);
         }
     }
-    void GetAllFishesFeed(List<InventoryItemData> fishFeedList)
+    void GetAllFishesFeed(List<ScriptableObject> fishFeedList)
     {
         string[] assetNames = AssetDatabase.FindAssets("t:FishFeedItemData", new[]{"Assets/ScriptableObjects/Fishes/FishesFeed"});
         foreach(string SOName in assetNames)
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
             var character = AssetDatabase.LoadAssetAtPath<FishFeedItemData>(SOpath);
-            fishFeedList.Add(character);
+            fishFeedList.Add(character as ScriptableObject);
+        }
+    }
+    
+    private void GetAllQuest(List<ScriptableObject> questList)
+    {
+        //List<QuestSystem.Quest> questList = new List<QuestSystem.Quest>();
+
+        GetAllQuestSOAssets(questList, "Assets/ScriptableObjects/Quests");
+
+        // if(questList != null)
+        // {
+        //     AssignQuestToQuestDictionary(questList, DB_Quests);
+        // }
+        // else if(questList == null)
+        // {
+        //     Debug.Log("There Is No Quest Master!");
+        // }
+    }
+
+    private void GetAllQuestSOAssets(List<ScriptableObject> questList, string path)
+    {
+        string[] pathList = GetSubFoldersRecursive(path);
+
+        foreach(string assetPath in pathList)
+        {
+            string[] assetNames = AssetDatabase.FindAssets("t:Quest", new[]{assetPath});
+            foreach(string SOName in assetNames)
+            {
+                var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+                var character = AssetDatabase.LoadAssetAtPath<QuestSystem.Quest>(SOpath);
+
+                // if(questList.Contains(character as ScriptableObject))
+                // {
+                //     Debug.Log("this quest is contained already");
+                //     continue;
+                // }
+
+                questList.Add(character as ScriptableObject);
+            }
         }
     }
 
+    private static string[] GetSubFoldersRecursive(string root)
+    {
+        var paths = new List<string>();
+
+        // If there are no further subfolders then AssetDatabase.GetSubFolders returns 
+        // an empty array => foreach will not be executed
+        // This is the exit point for the recursion
+        foreach (var path in AssetDatabase.GetSubFolders(root))
+        {
+            // add this subfolder itself
+            paths.Add(path);
+
+            // If this has no further subfolders then simply no new elements are added
+            paths.AddRange(GetSubFoldersRecursive(path));
+        }
+
+        return paths.ToArray();
+    }
+        
+    
+
+    // private void AssignQuestToQuestDictionary(List<QuestSystem.Quest> questList, Dictionary<string, QuestSystem.Quest> questDictionary)
+    // {
+    //     foreach(QuestSystem.Quest questData in questList)
+    //     {
+    //         if(!questDictionary.ContainsValue(questData))
+    //         {
+    //             questDictionary.Add(questData.questSetting.QuestId, questData);
+    //         }
+    //     }
+    // }
     #endif
 
    
