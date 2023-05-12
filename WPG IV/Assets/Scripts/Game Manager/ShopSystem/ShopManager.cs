@@ -28,6 +28,8 @@ public class ShopManager : GenericSingletonClass<ShopManager>
     
     LocalInventory currentOpenedInventory;
    
+    public bool isShopOpened {get; private set;} = false; 
+
     public void AddMoneyTemp(int money)
     {
         PlayerResourceManager.Instance.ChangeMoney(money);
@@ -57,7 +59,15 @@ public class ShopManager : GenericSingletonClass<ShopManager>
 
     public void OpenShopMenu(LocalInventory otherLocalInventory)
     {
-        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //pemain tidak boleh bergerak
+        if(isShopOpened)
+        {
+            CloseShopMenu();
+            isShopOpened = false;
+            return;
+        }
+
+        isShopOpened = true;
+        InputManager.Instance.IsPlayerAllowedToMove(false); //hanya mematikan pergerakkan pemain
 
         MoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
 
@@ -67,7 +77,6 @@ public class ShopManager : GenericSingletonClass<ShopManager>
 
         ShopUI.SetActive(true);
         //UIManager.Instance.ShopUI.SetActive(true);
-
 
         //StartCoroutine(RefreshShop());
         StartCoroutine(RefreshMoney());
@@ -84,7 +93,7 @@ public class ShopManager : GenericSingletonClass<ShopManager>
         ShopUI.SetActive(false); //Menutup tab menu pilihan beli atau jual
         //UIManager.Instance.ShopUI.SetActive(false);
 
-        InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true); //pemain boleh bergerak
+        InputManager.Instance.IsPlayerAllowedToMove(true); //pemain boleh bergerak
     }
 
     

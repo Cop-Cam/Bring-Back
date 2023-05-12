@@ -77,7 +77,8 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
             {
 
                 //Debug.Log("current interacted item :"+InteractedGameObject.transform.parent.gameObject.name);
-                InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
+                //InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan input gerak dan interact pemain
+                //InputManager.Instance.IsPlayerAllowedToMove(false); //hanya mematikan pergerakkan pemain
                 interactableObjects.OnInteracted();
             }
             
