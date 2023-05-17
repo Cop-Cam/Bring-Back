@@ -3,7 +3,22 @@ guid: 449fa7547085e2141b9bdc7ad2cb5367
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: f851426b1a66be94b8067e9b0803f755, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.006
+    second: {fileID: 2100000, guid: 0a59088ef7ac3b149beae7c641c9b53c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: taljem
+    second: {fileID: 2100000, guid: 78386c239019ea840850738e4665469f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InvansiveFishesInThisLake: []
-  EnergyNeeded: 0
+  EnergyNeeded: 10
 --- !u!1001 &2417100790566544368
 PrefabInstance:
   m_ObjectHideFlags: 0
