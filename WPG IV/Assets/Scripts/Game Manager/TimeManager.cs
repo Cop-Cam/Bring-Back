@@ -112,22 +112,23 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     */
 
 
-    [SerializeField]private float ingamesecond = 15.0f;
-    [SerializeField]private float realtimesecond = 600.0f;
+    //[SerializeField]private float unscaledtime = 0f;
+    //[SerializeField]private float ingamesecond = 15.0f;
+    //[SerializeField]private float realtimesecond = 600.0f;
 
-    [SerializeField]private float startingSecond = 0;
+    //[SerializeField]private float startingSecond = 0;
+    [SerializeField]private float timescale;
     [SerializeField]private float startingMinute = 0;
     [SerializeField]private float startingHour = 8;
     [SerializeField]private float startingDate = 1;
 
-    [field: SerializeField]public float currentSecond {get; private set;}
+    //[field: SerializeField]public float currentSecond {get; private set;}
     [field: SerializeField]public float currentMinute {get; private set;}
     [field: SerializeField]public float currentHour {get; private set;}
     [field: SerializeField]public float currentDate {get; private set;}
 
     public static float totalTime {get; private set;}
 
-    private float timescale;
 
     //public delegate void TimeManagerEvent();
     //event yang didelegate
@@ -143,26 +144,64 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        currentSecond = startingSecond;
+        //currentSecond = startingSecond;
         currentMinute = startingMinute;
         currentHour = startingHour;
         currentDate = startingDate;
         
-        timescale = (ingamesecond / realtimesecond) * Time.timeScale;
+        //Debug.LogWarning("before: "+Time.timeScale);
+        //timescale = (ingamesecond / realtimesecond) * Time.timeScale;
+        //timescale = ingamesecond;
+        //Debug.LogWarning("after: "+Time.timeScale);
         
-        Debug.Log("timescale is: "+timescale);
+        //Debug.Log("timescale is: "+timescale);
 
-        InvokeRepeating("Timer", 1.0f, timescale);
+        //InvokeRepeating("Timer", 1.0f, timescale);
+        //InvokeRepeating("Unscaledtime", 1.0f, Time.deltaTime);
+        //StartCoroutine(Unscaledtime());
+        StartCoroutine(Timer());
+
     }
 
-    // Update is called once per frame
-    void Update()
+    /*
+    private IEnumerator Unscaledtime()
     {
-        
+        while(true)
+        {
+            unscaledtime++;
+            yield return new WaitForSecondsRealtime(1);
+
+        }
+    }*/
+
+    private IEnumerator Timer()
+    {
+        while(true)
+        {
+            LightingManager.Instance.UpdateLightingPublic(totalTime);
+
+            yield return new WaitForSeconds(timescale);
+
+            currentMinute+=10;
+            if (currentMinute >= 60)
+            {
+                currentMinute = 0;
+                currentHour++;
+                if (currentHour >= 24)
+                {
+                    currentHour = 0;
+                    DayEnd();
+                }
+            }
+
+            //convert all to hour based
+            totalTime = currentHour+(currentMinute/60f);//+(currentSecond/3600f);
+        }
     }
 
+    /*
     private void Timer()
     {
         
@@ -188,12 +227,12 @@ public class TimeManager : GenericSingletonClass<TimeManager>
         totalTime = currentHour+(currentMinute/60f)+(currentSecond/3600f);
             
     }
+    */
 
     void DayEnd()
     {
         currentHour = 6;
         currentMinute = 0;
-        currentSecond = 0;
         currentDate++;
 
         //Event dijalankan

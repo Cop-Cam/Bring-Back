@@ -11,9 +11,10 @@ public class LightingManager : GenericSingletonClass<LightingManager>
 
     private void Start()
     {
-        Debug.Log("timetotal: "+TimeManager.totalTime);
+        //Debug.Log("timetotal: "+TimeManager.totalTime);
     }
 
+    /*
     private void Update()
     {
         if (Preset == null)
@@ -30,12 +31,20 @@ public class LightingManager : GenericSingletonClass<LightingManager>
         }
         else
         {
-            UpdateLighting(TimeOfDay / 24f);
+            TimeOfDay = TimeManager.totalTime;
 
+            UpdateLighting(TimeOfDay / 24f);
             //UpdateLighting(TimeManager.totalTime);
         }
     }
+    */
 
+    public void UpdateLightingPublic(float TimeOfDay)
+    {
+        if (Preset == null) return;
+
+        UpdateLighting(TimeOfDay / 24f);
+    }
 
     private void UpdateLighting(float timePercent)
     {
