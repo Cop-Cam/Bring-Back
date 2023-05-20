@@ -6,9 +6,9 @@ public class BuyButtonScript : ButtonScript
         base.Start();
     }
 
-    protected override void OnClick()
-    {
-        ShopSystem.Instance.ButtonEventBuyItem(itemData);
-    }
+    // protected override void OnClick()
+    // {
+    //     ShopSystem.Instance.ButtonEventBuyItem(itemData);
+    // }
     
 }

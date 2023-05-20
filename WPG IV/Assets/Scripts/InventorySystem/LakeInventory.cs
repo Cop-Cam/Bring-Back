@@ -1,63 +1,55 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LakeInventory : LocalInventory
 {
     [Tooltip("Masukkan Semua Jenis Ikan Yang Bisa Muncul Pada Danau Ini")]
     [SerializeField] private InventoryItemData[] InvansiveFishesInThisLake;
 
-    [SerializeField] private int EnergyNeeded = 0;
+    [SerializeField] private int EnergyNeeded = 10;
 
+    /*
     protected override void Start() 
     {
         base.Start();
-        if(EnergyNeeded == 0)
-        {
-            EnergyNeeded = 10;
-        }
+        
     }
-    // Update is called once per frame
-    protected override void Update()
-    {
-        ShowInventoryStatus();
-        ShowItemParticle();
-    }
+    */
 
     public override void OnInteracted()
     {
+        if(InvansiveFishesInThisLake == null || InvansiveFishesInThisLake.Length == 0) 
+        {
+            Debug.LogWarning("There is no fish in this lake!");
+            return;
+        }
+
         if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
         {
-            PlayerResourceManager.Instance.ChangeEnergy(-(10));
+            InputManager.Instance.IsPlayerAllowedToMove(false);
+            InputManager.Instance.IsPlayerAllowedToInteract(false);
+
+
+            PlayerResourceManager.Instance.ChangeEnergy(-(EnergyNeeded));
             //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
             int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
             //Debug.Log("rand: "+rand);
             currentSavedItem = InvansiveFishesInThisLake[rand];
-            //Debug.Log("mendapat: "+InvansiveFishesInThisLake[rand].displayName);
-            InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
-            //send fiish to player
+
+            LakeUIController.Instance.OpenLakeUI(this);
+
+            //InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false);
         }
         else
         {
             Debug.Log("energy tidak cukup");
-            InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(true);
+            InputManager.Instance.IsPlayerAllowedToInteract(true);
+            InputManager.Instance.IsPlayerAllowedToMove(true);
         }
     }
 
-    // void Init()
-    // {
-    //     foreach(InventoryItemData item in GameDatabase.Instance.List_InventoryItemData_AllItem.Values)
-    //     {
-    //         if(item is FishItemData)
-    //         {
-    //             FishItemData currentFish = item as FishItemData; 
-    //             if(currentFish.fishTypes == FishItemData.FishTypes.Invansive)
-    //             {
-    //                 ListInvansiveFishes.Add(currentFish);
-    //             }
-    //         }
-    //     }
-    // }
-
+    
     //Inserting Item Method, can use method overloader
     public override void InsertItem(InventoryItemData insertedItem)
     {
@@ -70,39 +62,6 @@ public class LakeInventory : LocalInventory
         InventoryItemData sendedSavedItem = currentSavedItem;
         currentSavedItem = null;
         return sendedSavedItem;
-    }
-
-    //Menunjukkan status inventory
-    protected override void ShowInventoryStatus()
-    {
-        if(IsInventoryAvailable())
-        {
-            
-        }
-    }
-
-    protected override void ShowItemParticle()
-    {
-        if(IsInventoryAvailable())
-        {
-            //muncul partikel penuh
-        }
-        else
-        {
-            //tidak muncul partikel penuh
-        }
-    }
-
-    public override void ShowInventoryItem()
-    {
-        if(IsInventoryAvailable())
-        {
-            
-        }
-        else if(!IsInventoryAvailable())
-        {
-            Debug.Log("Inventory kosong!");
-        }
     }
 
     //mengecek kepenuhan inventory
@@ -138,8 +97,10 @@ public class LakeInventory : LocalInventory
         }
     }
 
+    
     public override InventoryItemData GetCurrentSavedItemData()
     {
         return currentSavedItem;
     }
+    
 }

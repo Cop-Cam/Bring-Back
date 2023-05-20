@@ -16,7 +16,7 @@ public class ButtonScript : Button
             return m_graphics;
         }
     }
-
+    /*
     [SerializeField] protected InventoryItemData itemData;
     [SerializeField] private Button thisObjButton;
 
@@ -43,6 +43,7 @@ public class ButtonScript : Button
     {
         itemData = other;
     }
+    */
 
     protected override void DoStateTransition(SelectionState state, bool instant)
     {

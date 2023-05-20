@@ -1,4 +1,4 @@
-
+using System;
 using UnityEngine;
 
 public class LocalInventory : InteractableObjects
@@ -10,16 +10,11 @@ public class LocalInventory : InteractableObjects
         base.Start();
         currentSavedItem = null;
     }
-    // Update is called once per frame
-    protected virtual void Update()
-    {
-        ShowInventoryStatus();
-        ShowItemParticle();
-    }
+    
 
-    public virtual void OnInteracted()
+    public override void OnInteracted()
     {
-        //ShopSystem.Instance.OpenShopMenu(localInventory); 
+        throw new NotImplementedException();
     }
 
     //Inserting Item Method, can use method overloader
@@ -37,36 +32,7 @@ public class LocalInventory : InteractableObjects
     }
 
     //Menunjukkan status inventory
-    protected virtual void ShowInventoryStatus()
-    {
-        if(IsInventoryAvailable())
-        {
-            
-        }
-    }
-    protected virtual void ShowItemParticle()
-    {
-        if(IsInventoryAvailable())
-        {
-            //muncul partikel penuh
-        }
-        else
-        {
-            //tidak muncul partikel penuh
-        }
-    }
-
-    public virtual void ShowInventoryItem()
-    {
-        if(IsInventoryAvailable())
-        {
-            
-        }
-        else if(!IsInventoryAvailable())
-        {
-            Debug.Log("Inventory kosong!");
-        }
-    }
+    
 
     //mengecek kepenuhan inventory
     public virtual bool IsInventoryAvailable()

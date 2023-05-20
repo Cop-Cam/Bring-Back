@@ -1,37 +1,50 @@
 using UnityEngine;
 
-//[ExecuteAlways]
+[ExecuteAlways]
 public class LightingManager : GenericSingletonClass<LightingManager>
 {
     //Scene References
-    //[SerializeField] private float timescale;
-
     [SerializeField] private Light DirectionalLight;
     [SerializeField] private LightingPreset Preset;
     //Variables
-    //[SerializeField, Range(0, 24)] private float TimeOfDay;
+    [SerializeField, Range(0, 24)] private float TimeOfDay;
 
+    private void Start()
+    {
+        //Debug.Log("timetotal: "+TimeManager.totalTime);
+    }
 
+    /*
     private void Update()
     {
         if (Preset == null)
             return;
 
-        UpdateLighting(TimeManager.Instance.hours);
+        if (Application.isPlaying)
+        {
+            TimeOfDay = TimeManager.totalTime;
+            //(Replace with a reference to the game time)
+            // TimeOfDay += Time.deltaTime;
+            // TimeOfDay %= 24; //Modulus to ensure always between 0-24
+            UpdateLighting(TimeOfDay / 24f);
+            //UpdateLighting(TimeManager.totalTime);
+        }
+        else
+        {
+            TimeOfDay = TimeManager.totalTime;
 
-        // if (Application.isPlaying)
-        // {
-        //     //(Replace with a reference to the game time)
-        //     //TimeOfDay += Time.deltaTime * timescale;
-        //     //TimeOfDay %= 24; //Modulus to ensure always between 0-24
-        //     UpdateLighting(TimeManager.instance.TimeOfDay / 24f);
-        // }
-        // else
-        // {
-        //     UpdateLighting(TimeManager.instance.TimeOfDay / 24f);
-        // }
+            UpdateLighting(TimeOfDay / 24f);
+            //UpdateLighting(TimeManager.totalTime);
+        }
     }
+    */
 
+    public void UpdateLightingPublic(float TimeOfDay)
+    {
+        if (Preset == null) return;
+
+        UpdateLighting(TimeOfDay / 24f);
+    }
 
     private void UpdateLighting(float timePercent)
     {
@@ -74,4 +87,31 @@ public class LightingManager : GenericSingletonClass<LightingManager>
             }
         }
     }
+
+    /*
+    [SerializeField]GameObject LightSourceObj; //object which get
+    [SerializeField]Light sun; //lighting preset i guess?
+    [SerializeField] TimeManager time;
+    [SerializeField] float hour;
+    [SerializeField] float min;
+    [SerializeField] float rotationSpeed = 0.12f;
+    
+    private void Start()
+    {
+        time = TimeManager.Instance;
+    }
+
+    void Update() {
+        //transform.Rotate(Time.deltaTime*time.hours*speed,0,0);
+        hour = time.hours;
+        min = time.minutes;
+        float timeinsecond = time.hours * 3600 + time.minutes * 60;
+
+        float angle = (timeinsecond / 86400.0f * 360.0f) - 90.0f;
+
+        Quaternion targetRotation = Quaternion.Euler(angle, 0, 0);
+        LightSourceObj.transform.rotation = Quaternion.Slerp(LightSourceObj.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+    }
+    */
 }

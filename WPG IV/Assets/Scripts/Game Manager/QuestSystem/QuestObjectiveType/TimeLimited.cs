@@ -9,24 +9,25 @@ namespace QuestSystem
         [System.Serializable]
         private struct TimeLimitSetting
         {
-            [Tooltip("How many days needed for this objective to be active")]
+            [Tooltip("The last day for this objective to be active")]
             public int TimeLimitByDay;
         }
         [SerializeField] private TimeLimitSetting timeLimitSetting;
 
-        private int TimeLeft; 
-        public bool TimeIsUp {get; private set;}
+        //private int TimeLeft; 
+        //public bool TimeIsUp {get; private set;}
 
 
         private void SubscribeToDayChanged()
         {
             //listen to OnDayChanged in TimeManager
             //so when ondaychanged fired, dayhaschanged run
-            TimeManager.Instance.OnDayChanged += DayHasChanged; 
+            
+            TimeManager.OnDayChanged += DayHasChanged;
         }
         private void UnSubscribeToDayChanged()
         {
-            TimeManager.Instance.OnDayChanged -= DayHasChanged;
+            TimeManager.OnDayChanged -= DayHasChanged;
         }
 
         private void OnEnable()
@@ -40,19 +41,28 @@ namespace QuestSystem
 
         private void DayHasChanged() 
         {
+            /*
             TimeLeft -= 1;
             if(TimeLeft <= 0)
             {
                 TimeIsUp = true;
                 EvaluateObjective();
             }
+            */
+
+            if(timeLimitSetting.TimeLimitByDay >= TimeManager.Instance.currentDate)
+            {
+                EvaluateObjective();
+            }
+
+
         }
 
 
         public override void InitializeObjective()
         {
             base.InitializeObjective();
-            TimeLeft = timeLimitSetting.TimeLimitByDay;    
+            //TimeLeft = timeLimitSetting.TimeLimitByDay;    
             SubscribeToDayChanged();
         }
 
@@ -67,7 +77,7 @@ namespace QuestSystem
         {
             Debug.Log("=========================================================");
             Debug.Log("Origin Time : " + timeLimitSetting.TimeLimitByDay);
-            Debug.Log("Time Left: " + TimeLeft);
+            //Debug.Log("Time Left: " + TimeLeft);
             Debug.Log("IsObjectiveCompleted: "+IsObjectiveCompleted);
             Debug.Log("=========================================================");
         }
@@ -75,7 +85,7 @@ namespace QuestSystem
         protected override void EvaluateObjective()
         {
             IsObjectiveCompleted = CheckIsObjectiveCompleted();
-
+            
             if(IsObjectiveCompleted)
             { 
                 ObjectiveIsCompleted();
@@ -86,12 +96,14 @@ namespace QuestSystem
             }
         }
 
+        
         ///<summary>
         ///Keep returning true so the quest can be completed by getting all its objective is completed bool. 
         ///If return false, then the quest will be failed instantly by EvaluateObjective method.
         ///</summary>
         private bool CheckIsObjectiveCompleted()
         {
+            /*
             if(TimeIsUp)
             {
                 IsObjectiveFailed = true;
@@ -101,11 +113,23 @@ namespace QuestSystem
             {
                 return true;
             }
+            */
+
+            if(timeLimitSetting.TimeLimitByDay <= TimeManager.Instance.currentDate)
+            {
+                return true;
+            }
+            else
+            {
+                IsObjectiveFailed = true;
+                return false;
+            }
         }
+        
 
         public override void AddProgressToObjective(object sendedData)
         {
-            EvaluateObjective();
+            //EvaluateObjective();
         }
     }
 }

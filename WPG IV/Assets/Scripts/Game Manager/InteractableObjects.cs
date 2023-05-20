@@ -1,68 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InteractableObjects : MonoBehaviour
+public abstract class InteractableObjects : MonoBehaviour
 {
-    [SerializeField] protected float IconHeightFromObject;
-    protected GameObject InteractableIndicator_GO;
-    protected GameObject InteractIcon_GO;
-    protected Color InteractIcon_ActivatedColor;
-    protected Color InteractIcon_DeactivatedColor;
+    [System.Serializable]
+    protected struct InteractableObjectSetting
+    {
+        public float IconHeightFromObject;
+        public GameObject InteractableIndicatorObj;
+        public GameObject InteractIconObj;
+        public Color ActivatedInteractIconColor;
+        public Color DeactivatedInteractIconColor;
+    }
+    protected InteractableObjectSetting interactableObjectSetting;
 
     protected virtual void Start()
     {
-        while(InteractableIndicator_GO == null)
+        if(interactableObjectSetting.InteractableIndicatorObj == null)
         {
-            InteractableIndicator_GO = transform.parent.Find("InteractIndicator").gameObject;
+            interactableObjectSetting.InteractableIndicatorObj = transform.parent.Find("InteractIndicator").gameObject;
         }
-        while(InteractIcon_GO == null)
+        if(interactableObjectSetting.InteractIconObj == null)
         {
-            InteractIcon_GO = InteractableIndicator_GO.transform.Find("Canvas").Find("InteractIcon").gameObject;
+            interactableObjectSetting.InteractIconObj = interactableObjectSetting.InteractableIndicatorObj.transform.Find("Canvas").Find("InteractIcon").gameObject;
         }
-        if(IconHeightFromObject == 0)
+        if(interactableObjectSetting.IconHeightFromObject == 0)
         {
-            IconHeightFromObject = 2;
+            interactableObjectSetting.IconHeightFromObject = 2;
         }
-        InteractableIndicator_GO.transform.position = new Vector3(transform.position.x, transform.position.y+IconHeightFromObject, transform.position.z);
+        interactableObjectSetting.InteractableIndicatorObj.transform.position = new Vector3(transform.position.x, transform.position.y+interactableObjectSetting.IconHeightFromObject, transform.position.z);
         
         SetInteractIcon(GameDatabase.Instance.InteractIconDefault_Sprite, GameDatabase.Instance.InteractIconActivatedDefault_Color, GameDatabase.Instance.InteractIconDeactivatedDefault_Color);
     }
 
-    // private void SetIconBasedOnTag()
-    // {
-    //     GameObject thisObjParent = transform.parent.gameObject;
-    //     switch(thisObjParent.tag)
-    //     {
-    //         case "inventory":
-    //             SetInteractIcon();
-    //             break;
-    //     }
-    // }
-
-    public virtual void PlayerIsInRangeIndicator(bool isInRange)
+    public virtual void PlayerRaycastIsInRangeIndicator(bool isInRange)
     {
-        
         if(isInRange)
         {
-            InteractIcon_GO.GetComponent<Image>().color = InteractIcon_ActivatedColor;
+            interactableObjectSetting.InteractIconObj.GetComponent<Image>().color = interactableObjectSetting.ActivatedInteractIconColor;
         }
         else if(!isInRange)
         {
-            InteractIcon_GO.GetComponent<Image>().color = InteractIcon_DeactivatedColor;
+            interactableObjectSetting.InteractIconObj.GetComponent<Image>().color = interactableObjectSetting.DeactivatedInteractIconColor;
         }
     }
 
-    // protected virtual void LateUpdate() 
-    // {
-    //     InteractableIndicator.transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward, Camera.main.transform.rotation * Vector3.up);
-    // }
-
     protected virtual void SetInteractIcon(Sprite sprite, Color InRangeColor, Color OutRangeColor)
     {
-        InteractIcon_GO.GetComponent<Image>().sprite = sprite;
-        InteractIcon_ActivatedColor = InRangeColor;
-        InteractIcon_DeactivatedColor = OutRangeColor;
+        interactableObjectSetting.InteractIconObj.GetComponent<Image>().sprite = sprite;
+        interactableObjectSetting.ActivatedInteractIconColor = InRangeColor;
+        interactableObjectSetting.DeactivatedInteractIconColor = OutRangeColor;
     }
+
+    public abstract void OnInteracted();
 }

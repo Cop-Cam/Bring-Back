@@ -7,9 +7,9 @@ public class CollectButtonScript : ButtonScript
         base.Start();
     }
 
-    protected override void OnClick()
-    {
-        ShopSystem.Instance.ButtonEventCollectItem();
-    }
+    // protected override void OnClick()
+    // {
+    //     ShopSystem.Instance.ButtonEventCollectItem();
+    // }
 
 }

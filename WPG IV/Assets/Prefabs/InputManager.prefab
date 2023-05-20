@@ -76,3 +76,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d7ec2776b76ee4cafa5421110ba43b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInputActionAsset: {fileID: -944628639613478452, guid: 0dac25f9de4d3f44f8347e4ed52371b1, type: 3}

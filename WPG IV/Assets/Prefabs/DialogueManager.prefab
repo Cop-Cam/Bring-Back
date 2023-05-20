@@ -70,6 +70,58 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!1 &367677808724742310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9062149920637492641}
+  - component: {fileID: 4339649197428166036}
+  m_Layer: 0
+  m_Name: Script
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9062149920637492641
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367677808724742310}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 915994785815648410}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4339649197428166036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367677808724742310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04aa7e9adb2166a468c8e9cdec328450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueCanvas: {fileID: 5713394496774659017}
+  dialogueText: {fileID: 1102883867702506215}
+  displayNameText: {fileID: 5244806754683806476}
+  portraitAnimator: {fileID: 0}
+  dialogueSpeed: 0.1
+  continueButton: {fileID: 7224633220400661296}
+  choiceButtonPrefab: {fileID: 12037484256240876, guid: bc7631dd3ec3dce49a4bfe32d9fff4c1, type: 3}
+  choiceGridLayout: {fileID: 329890363075287864}
 --- !u!1 &1478470852917952756
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +131,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 915994785815648410}
-  - component: {fileID: 7265707482666017463}
   m_Layer: 0
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -99,31 +150,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9062149920637492641}
   - {fileID: 4395687503114948895}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7265707482666017463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1478470852917952756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04aa7e9adb2166a468c8e9cdec328450, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialoguePanel: {fileID: 2158370243786174915}
-  dialogueText: {fileID: 1102883867702506215}
-  displayNameText: {fileID: 5244806754683806476}
-  portraitAnimator: {fileID: 0}
-  dialogueSpeed: 2
-  continueButton: {fileID: 7224633220400661296}
-  ChoiceButtonPrefab: {fileID: 12037484256240876, guid: bc7631dd3ec3dce49a4bfe32d9fff4c1, type: 3}
-  ChoiceGridLayout: {fileID: 329890363075287864}
-  choices: []
 --- !u!1 &2158370243786174915
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,7 +535,7 @@ RectTransform:
   m_Children:
   - {fileID: 4915476525484486616}
   m_Father: {fileID: 915994785815648410}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -890,7 +921,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7224633220400661296}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -901,7 +932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -46.843002, y: 14.064098}
+  m_AnchoredPosition: {x: -46.843018, y: 14.064114}
   m_SizeDelta: {x: 83.6858, y: 18.1289}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5991472176118356772
@@ -986,8 +1017,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
+      - m_Target: {fileID: 4339649197428166036}
+        m_TargetAssemblyTypeName: DialogueSystem.DialogueManager, Assembly-CSharp
         m_MethodName: ContinueStory
         m_Mode: 1
         m_Arguments:

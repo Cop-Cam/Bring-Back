@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[ExecuteAlways]
 public class TimeManager : GenericSingletonClass<TimeManager>
 {
    /*
@@ -45,22 +46,29 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     }
 */
 
+/*
     [SerializeField]public float minutes = 0;
     [SerializeField]public float hours = 8;
     [SerializeField]public float timer = 15;
-    [SerializeField]public int date = 1;
+    [SerializeField]public float date = 1;
 
     //public delegate void TimeManagerEvent();
     //event yang didelegate
     //public static event TimeManagerEvent OnDayChanged;
 
-    public event Action OnDayChanged;
+    public static event Action OnDayChanged;
 
+
+    //for whatever reason this currentlu worked for preventing instantiating after game stopped
+    public override void Awake() 
+    {
+        base.Awake();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("its started");
+        //Debug.Log("its started");
         InvokeRepeating("Timer", 1.0f, timer);
     }
 
@@ -101,4 +109,134 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     {
         return hours;
     }
+    */
+
+
+    //[SerializeField]private float unscaledtime = 0f;
+    //[SerializeField]private float ingamesecond = 15.0f;
+    //[SerializeField]private float realtimesecond = 600.0f;
+
+    //[SerializeField]private float startingSecond = 0;
+    [SerializeField]private float timescale;
+    [SerializeField]private float startingMinute = 0;
+    [SerializeField]private float startingHour = 8;
+    [SerializeField]private float startingDate = 1;
+
+    //[field: SerializeField]public float currentSecond {get; private set;}
+    [field: SerializeField]public float currentMinute {get; private set;}
+    [field: SerializeField]public float currentHour {get; private set;}
+    [field: SerializeField]public float currentDate {get; private set;}
+
+    public static float totalTime {get; private set;}
+
+
+    //public delegate void TimeManagerEvent();
+    //event yang didelegate
+    //public static event TimeManagerEvent OnDayChanged;
+
+    public static event Action OnDayChanged;
+
+
+    //for whatever reason this currentlu worked for preventing instantiating after game stopped
+    public override void Awake() 
+    {
+        base.Awake();
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        //currentSecond = startingSecond;
+        currentMinute = startingMinute;
+        currentHour = startingHour;
+        currentDate = startingDate;
+        
+        //Debug.LogWarning("before: "+Time.timeScale);
+        //timescale = (ingamesecond / realtimesecond) * Time.timeScale;
+        //timescale = ingamesecond;
+        //Debug.LogWarning("after: "+Time.timeScale);
+        
+        //Debug.Log("timescale is: "+timescale);
+
+        //InvokeRepeating("Timer", 1.0f, timescale);
+        //InvokeRepeating("Unscaledtime", 1.0f, Time.deltaTime);
+        //StartCoroutine(Unscaledtime());
+        StartCoroutine(Timer());
+
+    }
+
+    /*
+    private IEnumerator Unscaledtime()
+    {
+        while(true)
+        {
+            unscaledtime++;
+            yield return new WaitForSecondsRealtime(1);
+
+        }
+    }*/
+
+    private IEnumerator Timer()
+    {
+        while(true)
+        {
+            LightingManager.Instance.UpdateLightingPublic(totalTime);
+
+            yield return new WaitForSeconds(timescale);
+
+            currentMinute+=10;
+            if (currentMinute >= 60)
+            {
+                currentMinute = 0;
+                currentHour++;
+                if (currentHour >= 24)
+                {
+                    currentHour = 0;
+                    DayEnd();
+                }
+            }
+
+            //convert all to hour based
+            totalTime = currentHour+(currentMinute/60f);//+(currentSecond/3600f);
+        }
+    }
+
+    /*
+    private void Timer()
+    {
+        
+        // Increment the time by one second every frame
+        currentSecond++;
+        if (currentSecond >= 60)
+        {
+            currentSecond = 0;
+            currentMinute++;
+            if (currentMinute >= 60)
+            {
+                currentMinute = 0;
+                currentHour++;
+                if (currentHour >= 24)
+                {
+                    currentHour = 0;
+                    DayEnd();
+                }
+            }
+        }
+        
+        //convert all to hour based
+        totalTime = currentHour+(currentMinute/60f)+(currentSecond/3600f);
+            
+    }
+    */
+
+    void DayEnd()
+    {
+        currentHour = 6;
+        currentMinute = 0;
+        currentDate++;
+
+        //Event dijalankan
+        OnDayChanged();
+    }
+    
 }

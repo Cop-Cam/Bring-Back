@@ -6,17 +6,39 @@ using UnityEngine.UI;
 public class UIManager : GenericSingletonClass<UIManager>
 {
     [Tooltip("Masukkan GameObject parent untuk UI Shop")]
-    public GameObject ShopUI;
+    //mungkin bisa satu2 didefinisikan tapi gak nyaman ama sekali aowkowkw
+    //public GameObject ShopUI;
+    
+ 
+
+    //mungkin bisa pake list, tapi gtw caramu makenya
+    private static List<GameObject> GameUIList;
+
+
+    //atau mungkin bisa pake dict, tapi gtw caramu makenya
+    private static Dictionary<string, GameObject> ManagerWithUIObj;
 
     // Start is called before the first frame update
     void Start()
     {
-        ShopUI = ShopSystem.Instance.ShopUI;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Awake()
     {
-        
+        base.Awake();
+
+        ManagerWithUIObj = new Dictionary<string, GameObject>();
+    }
+
+    public void AddUiObjToList(GameObject obj)
+    {
+        GameUIList.Add(obj);
+    }
+
+    public void AddGameObjectToDictionary(GameObject obj)
+    {
+        ManagerWithUIObj.Add(obj.name, obj);
+        Debug.Log("new ui: "+obj.name);
+        Debug.Log("size: "+ManagerWithUIObj.Count);
     }
 }

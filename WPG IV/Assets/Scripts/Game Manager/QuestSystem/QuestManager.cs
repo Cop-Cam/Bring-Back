@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace QuestSystem
 {
     public class QuestManager : GenericSingletonClass<QuestManager>
     {
-        public Dictionary<string, Quest> QuestDictionary {get; private set;}
+        private Dictionary<string, Quest> QuestDictionary;
         public List<Quest> CurrentActivatedQuestList;// {get; private set;}
         public List<Quest> CurrentFailedQuestList; //{get; private set;}
         public List<Quest> CurrentCompletedQuestList; //{get; private set;}
@@ -16,15 +19,22 @@ namespace QuestSystem
         public override void Awake()
         {
             base.Awake();
-            QuestDictionary = new Dictionary<string, Quest>();
+            QuestDictionary = GameDatabase.Instance.DB_Quests;
             
-            SettingUpQuestlineDictionary();
+            //SettingUpQuestlineDictionary();
 
             CurrentActivatedQuestList = new List<Quest>();
             CurrentFailedQuestList = new List<Quest>();
             CurrentCompletedQuestList = new List<Quest>();
         }
 
+        private void Start() 
+        {
+            UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
+        }
+
+    /*
+    #if UNITY_EDITOR
         //For Getting and Assigning all Quest SO Assets
         #region SettingUpMethods
         
@@ -91,16 +101,29 @@ namespace QuestSystem
         }
 
         #endregion
-
+    #endif
+    */
 
         private void HandleActivatedQuest(Quest questInstance)
         {
-            CurrentActivatedQuestList.Add(questInstance);
-            CurrentCompletedQuestList?.Remove(questInstance);
-            CurrentFailedQuestList?.Remove(questInstance);
-
-            //ShowListConditionForDebug();
+            if(!CurrentFailedQuestList.Contains(questInstance) && !CurrentCompletedQuestList.Contains(questInstance))
+            {
+                if(!CurrentActivatedQuestList.Contains(questInstance))
+                {
+                    CurrentActivatedQuestList?.Add(questInstance);
+                }
+                else
+                {
+                    Debug.LogWarning("Quest is already activated!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Quest is already completed or failed!");
+                questInstance.DeinitializeQuest();
+            }
         }
+
         private void HandleFailedQuest(Quest questInstance)
         {
             CurrentActivatedQuestList?.Remove(questInstance);

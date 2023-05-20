@@ -16,7 +16,6 @@ public class TestingBehavior : MonoBehaviour
     //     d = (1 << 4),
     //     e = (1 << 5)
     // };
-
     //public casetest caseTest;
     // Start is called before the first frame update
     void Start()
@@ -41,7 +40,8 @@ public class TestingBehavior : MonoBehaviour
 
     void Awake() 
     {
-        Debug.Log("Awake dipanggil");
+        Debug.LogWarning("Init scene dipanggil");
+        //StartCoroutine(Loading());
     }
 
     public void Method1()
@@ -59,7 +59,10 @@ public class TestingBehavior : MonoBehaviour
         Debug.Log("test: " +test);
     }
 
-
+    // private IEnumerator Loading()
+    // {
+    //     yield return new WaitForSeconds(5);
+    // }
 
     // void TestEnumCase()
     // {

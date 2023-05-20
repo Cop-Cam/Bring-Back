@@ -6,8 +6,8 @@ public class SellButtonScript : ButtonScript
         base.Start();
     }
 
-    protected override void OnClick()
-    {
-        ShopSystem.Instance.ButtonEventSellItem();
-    }
+    // protected override void OnClick()
+    // {
+    //     ShopSystem.Instance.ButtonEventSellItem();
+    // }
 }

@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
+
 
 //Place this shit in front of player for spawning fishes
 public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
@@ -26,12 +25,6 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
         // InteractableIndicator.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void FixedUpdate()
     {
         DrawRayCast();
@@ -50,14 +43,14 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
             //Debug.Log("masuk ke interactable");
             isInObject = true;
             InteractedGameObject = hitData.collider.gameObject;
-            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerIsInRangeIndicator(true);
+            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(true);
         }
         else if(!Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) && (isInObject || InteractedGameObject != null))
         {
             //Debug.Log("keluar dari interactable");
             isInObject = false;
             Debug.Log("GAmeobject= "+ InteractedGameObject.name);
-            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerIsInRangeIndicator(false);
+            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(false);
             InteractedGameObject = null;
         }
     }
@@ -72,8 +65,26 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 
     void Interact()
     {
+
+
         if(isInObject && InteractedGameObject != null)
         {
+            //IInteractable interactable = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<IInteractable>();
+
+            InteractableObjects interactableObjects = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<InteractableObjects>();
+
+            if(interactableObjects != null)
+            {
+
+                //Debug.Log("current interacted item :"+InteractedGameObject.transform.parent.gameObject.name);
+                //InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan input gerak dan interact pemain
+                //InputManager.Instance.IsPlayerAllowedToMove(false); //hanya mematikan pergerakkan pemain
+                interactableObjects.OnInteracted();
+            }
+            
+           
+            
+            /*
             if(InteractedGameObject.transform.parent.gameObject.CompareTag("Inventory"))
             {
                 InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
@@ -82,6 +93,7 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
                 localInventory.OnInteracted();
                 //ShopSystem.Instance.OpenShopMenu(localInventory); 
             }
+            */
         }
     }
     
