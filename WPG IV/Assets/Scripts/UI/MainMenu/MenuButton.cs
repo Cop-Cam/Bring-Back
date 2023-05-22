@@ -44,12 +44,6 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHand
                 }
                 else if (thisIndex == 2)
                 {
-                    // open credit
-                    StartCoroutine(OpenCredit());
-                    Debug.Log("Credit opened");
-                }
-                else if (thisIndex == 3)
-                {
                     Application.Quit();
                     Debug.Log("application quit");
                 }
@@ -62,15 +56,6 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHand
     }
 
     IEnumerator OpenSettings()
-    {
-        yield return new WaitForSeconds(.6f);
-
-        // active and deactive panel/gameobject menu
-        deactivate.SetActive(false);
-        activate.SetActive(true);
-    }
-
-    IEnumerator OpenCredit()
     {
         yield return new WaitForSeconds(.6f);
 
