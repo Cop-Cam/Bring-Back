@@ -117,9 +117,9 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     //[SerializeField]private float realtimesecond = 600.0f;
 
     //[SerializeField]private float startingSecond = 0;
-    [SerializeField]private float timescale;
+    [SerializeField]private float timescale = 15;
     [SerializeField]private float startingMinute = 0;
-    [SerializeField]private float startingHour = 8;
+    [SerializeField]private float startingHour = 6;
     [SerializeField]private float startingDate = 1;
 
     //[field: SerializeField]public float currentSecond {get; private set;}
@@ -180,24 +180,25 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     {
         while(true)
         {
+            //convert all to hour based
+            totalTime = currentHour+(currentMinute/60f);//+(currentSecond/3600f);
             LightingManager.Instance.UpdateLightingPublic(totalTime);
 
             yield return new WaitForSeconds(timescale);
 
-            currentMinute+=10;
+            //currentMinute+=10;
+            IncrementMinute(10);
             if (currentMinute >= 60)
             {
                 currentMinute = 0;
-                currentHour++;
+                //currentHour++;
+                IncrementHour(10);
                 if (currentHour >= 24)
                 {
                     currentHour = 0;
                     DayEnd();
                 }
             }
-
-            //convert all to hour based
-            totalTime = currentHour+(currentMinute/60f);//+(currentSecond/3600f);
         }
     }
 
@@ -231,12 +232,28 @@ public class TimeManager : GenericSingletonClass<TimeManager>
 
     void DayEnd()
     {
-        currentHour = 6;
+        currentHour = startingHour;
         currentMinute = 0;
-        currentDate++;
+        //currentDate++;
+        IncrementDay(1);
 
         //Event dijalankan
         OnDayChanged();
+    }
+
+    public void IncrementMinute(float addedMinutes)
+    {
+        currentMinute += addedMinutes;
+    }
+
+    public void IncrementHour(float addedHours)
+    {
+        currentHour += addedHours;
+    }
+
+    public void IncrementDay(float addedDays)
+    {
+        currentDate += addedDays;
     }
     
 }

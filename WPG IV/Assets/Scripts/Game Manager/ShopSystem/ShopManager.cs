@@ -42,7 +42,7 @@ public class ShopManager : GenericSingletonClass<ShopManager>
         currentOpenedInventory = null;
         //UIManager.Instance.AddUiObjToList(ShopUI);
         
-        UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
+        UIManager.Instance.AddGameObjectToDictionary(this.gameObject);
     }
 
     private bool CheckResourceMoney(InventoryItemData itemData)

@@ -42,8 +42,8 @@ public class LightingManager : GenericSingletonClass<LightingManager>
     public void UpdateLightingPublic(float TimeOfDay)
     {
         if (Preset == null) return;
-
-        UpdateLighting(TimeOfDay / 24f);
+        this.TimeOfDay = TimeOfDay;
+        UpdateLighting(this.TimeOfDay / 24f);
     }
 
     private void UpdateLighting(float timePercent)
@@ -57,7 +57,7 @@ public class LightingManager : GenericSingletonClass<LightingManager>
         {
             DirectionalLight.color = Preset.DirectionalColor.Evaluate(timePercent);
 
-            DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
+            DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 180f, 0));
         }
 
     }

@@ -35,7 +35,7 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
     // Start is called before the first frame update
     private void Start()
     {
-        if(LakeInventoryCanvas==null) LakeInventoryCanvas = UIManager.Instance.transform.parent.GetComponentsInChildren<Transform>()
+        if(LakeInventoryCanvas==null) LakeInventoryCanvas = UIManager.Instance.transform.GetComponentsInChildren<Transform>()
                              .FirstOrDefault(c => c.gameObject.name == "LakeUICanvas")?.gameObject;
 
         LakeInventoryCanvas.SetActive(false);
