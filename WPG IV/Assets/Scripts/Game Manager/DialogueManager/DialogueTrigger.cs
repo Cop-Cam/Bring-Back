@@ -7,8 +7,16 @@ namespace DialogueSystem
 {
     public class DialogueTrigger : InteractableObjects
     {
-        [SerializeField] private TextAsset inkJSON; //asset cerita
+        [SerializeField] private List<TextAsset> inkJSON; //asset cerita
+
+        private int currentProgressedStoryIndex;
         
+        protected override void Start()
+        {
+            base.Start();
+            currentProgressedStoryIndex = 0;
+        }
+
         public override void OnInteracted()
         {
             if(DialogueManager.Instance.dialogueIsPlaying)
@@ -17,7 +25,17 @@ namespace DialogueSystem
                 return;
             }
 
-            DialogueManager.Instance.EnterDialogue(inkJSON);
+            DialogueManager.Instance.EnterDialogue(inkJSON[currentProgressedStoryIndex]);
+            
+            CheckStoryIndexProgress();
+        }
+
+        private void CheckStoryIndexProgress()
+        {
+            if(currentProgressedStoryIndex < inkJSON.Count-1)
+            {
+                currentProgressedStoryIndex++;
+            }
         }
         
         /*

@@ -255,5 +255,10 @@ public class TimeManager : GenericSingletonClass<TimeManager>
     {
         currentDate += addedDays;
     }
+
+    public void ChangeDay()
+    {
+        DayEnd();
+    }
     
 }

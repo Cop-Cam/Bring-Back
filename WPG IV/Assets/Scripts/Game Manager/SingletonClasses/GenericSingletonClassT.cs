@@ -40,10 +40,15 @@ public class GenericSingletonClass<T> : MonoBehaviour where T : Component
                 //DontDestroyOnLoad (this.gameObject);
                 Debug.Log("new instance of "+instance.GetType()+" inside of "+gameObject.name);
             } 
-            else 
+            else if(instance != null && instance == this)
             {
-                Destroy (gameObject);
+                Debug.LogWarning(instance.GetType()+" inside of "+gameObject.name + " is already created before awake (most probably in editor using OnValidate)");
+            } 
+            else
+            {
                 Debug.LogWarning("another instance of "+instance.GetType()+" inside of "+gameObject.name);
+                Debug.LogWarning("current instance of "+instance.GetType()+" is inside of " + instance.gameObject.name);
+                Destroy (gameObject);
             }
         }
     }

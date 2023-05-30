@@ -856,7 +856,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 6155213316785076069}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: AddMoneyTemp
         m_Mode: 3
@@ -1125,8 +1125,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ShopSystem, Assembly-CSharp
+      - m_Target: {fileID: 6155213316785076069}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: CloseShopMenu
         m_Mode: 1
         m_Arguments:

@@ -7,13 +7,14 @@ public abstract class InteractableObjects : MonoBehaviour
     [System.Serializable]
     protected struct InteractableObjectSetting
     {
-        public float IconHeightFromObject;
+        public bool dontFixPosition;
+        public float y_axis_offset;
         public GameObject InteractableIndicatorObj;
         public GameObject InteractIconObj;
         public Color ActivatedInteractIconColor;
         public Color DeactivatedInteractIconColor;
     }
-    protected InteractableObjectSetting interactableObjectSetting;
+    [SerializeField] protected InteractableObjectSetting interactableObjectSetting;
 
     protected virtual void Start()
     {
@@ -25,11 +26,22 @@ public abstract class InteractableObjects : MonoBehaviour
         {
             interactableObjectSetting.InteractIconObj = interactableObjectSetting.InteractableIndicatorObj.transform.Find("Canvas").Find("InteractIcon").gameObject;
         }
-        if(interactableObjectSetting.IconHeightFromObject == 0)
+        if(interactableObjectSetting.y_axis_offset == 0)
         {
-            interactableObjectSetting.IconHeightFromObject = 2;
+            interactableObjectSetting.y_axis_offset = 2;
         }
-        interactableObjectSetting.InteractableIndicatorObj.transform.position = new Vector3(transform.position.x, transform.position.y+interactableObjectSetting.IconHeightFromObject, transform.position.z);
+        
+        if(interactableObjectSetting.dontFixPosition)
+        {
+            //nothing to do, just lazy to change every affected objects
+        }
+        else
+        {
+            interactableObjectSetting.InteractableIndicatorObj.transform.position = 
+                new Vector3(transform.position.x, 
+                    transform.position.y+interactableObjectSetting.y_axis_offset, 
+                    transform.position.z);
+        }
         
         SetInteractIcon(GameDatabase.Instance.InteractIconDefault_Sprite, GameDatabase.Instance.InteractIconActivatedDefault_Color, GameDatabase.Instance.InteractIconDeactivatedDefault_Color);
     }

@@ -10,13 +10,14 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     public int PlayerMoney { get; private set; }
 
     //resource energy
-    public float PlayerEnergy { get; private set; }
+    public int PlayerEnergy { get; private set; }
 
     //currently collected item data
     //[SerializeField] private InventoryItemData PlayerSavedInventoryItem;
     
     public static event Action OnMoneyChange;
     public static event Action OnEnergyChange;
+
 
     public override void Awake()
     {
@@ -30,22 +31,13 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
         ChangeEnergy(100);
     }
 
-    //Digunakan di class lain yang membutuhkan
-    // public void IncreaseMoney(int MoneyChange)
-    // {
-    //     PlayerMoney += MoneyChange;
-    // }
-    // public void DecreaseMoney(int MoneyChange)
-    // {
-    //     PlayerMoney -= MoneyChange;
-    // }
 
     public void ChangeMoney(int MoneyChange)
     {
         PlayerMoney += MoneyChange;
         OnMoneyChange();
     }
-    public void ChangeEnergy(float EnergyChange)
+    public void ChangeEnergy(int EnergyChange)
     {
         PlayerEnergy += EnergyChange;
         OnEnergyChange();

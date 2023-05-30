@@ -30,14 +30,14 @@ namespace QuestSystem
             TimeManager.OnDayChanged -= DayHasChanged;
         }
 
-        private void OnEnable()
-        {
-            SubscribeToDayChanged();
-        }
-        private void OnDisable()
-        {
-            UnSubscribeToDayChanged();
-        }
+        // private void OnEnable()
+        // {
+        //     SubscribeToDayChanged();
+        // }
+        // private void OnDisable()
+        // {
+        //     UnSubscribeToDayChanged();
+        // }
 
         private void DayHasChanged() 
         {
