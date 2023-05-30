@@ -30,7 +30,7 @@ namespace QuestSystem
 
         private void Start() 
         {
-            UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
+            UIManager.Instance.AddGameObjectToDictionary(this.gameObject);
         }
 
     /*

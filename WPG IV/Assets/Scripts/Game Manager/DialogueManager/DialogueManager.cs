@@ -54,7 +54,7 @@ namespace DialogueSystem
             //     index++;
             // } 
 
-            UIManager.Instance.AddGameObjectToDictionary(transform.parent.gameObject);
+            UIManager.Instance.AddGameObjectToDictionary(this.gameObject);
 
         }
 

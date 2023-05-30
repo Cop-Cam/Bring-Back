@@ -1,70 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1989656654382126015
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9054677122265100278}
-  - component: {fileID: 2341449798608114413}
-  - component: {fileID: 3849434179730935524}
-  m_Layer: 0
-  m_Name: Script
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9054677122265100278
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989656654382126015}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5376462884713944818}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2341449798608114413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989656654382126015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c182f81b723f9dd4c94925afe8b85648, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShopUI: {fileID: 4459569855253798090}
-  BuyGridLayout: {fileID: 8144803622708046466}
-  SellGridLayout: {fileID: 3830445226351728676}
-  CollectGridLayout: {fileID: 5576088916655442035}
-  BuyableItemPrefab: {fileID: 4210697713469503563, guid: 9f2485f66cd43c74e99e3ee7b23d7846, type: 3}
-  SellableItemPrefab: {fileID: 588210291397873209, guid: 67fb4fb6da556ea499d27887e2892513, type: 3}
-  CollectableItemPrefab: {fileID: 2171983464968583285, guid: b519c322331b21a42880152951f94e70, type: 3}
-  MoneyText: {fileID: 2251243352608232892}
---- !u!114 &3849434179730935524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989656654382126015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f168fcbb1b3c19b4099b374f45fb28e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2014351906450818060
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,7 +856,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2341449798608114413}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: AddMoneyTemp
         m_Mode: 3
@@ -1190,7 +1125,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2341449798608114413}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ShopSystem, Assembly-CSharp
         m_MethodName: CloseShopMenu
         m_Mode: 1
@@ -1288,6 +1223,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5376462884713944818}
+  - component: {fileID: 6155213316785076069}
+  - component: {fileID: 4330067353118819654}
   m_Layer: 0
   m_Name: ShopManager
   m_TagString: Untagged
@@ -1308,10 +1245,41 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5547862858980874928}
-  - {fileID: 9054677122265100278}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6155213316785076069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804297747718919708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c182f81b723f9dd4c94925afe8b85648, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShopUI: {fileID: 4459569855253798090}
+  BuyGridLayout: {fileID: 8144803622708046466}
+  SellGridLayout: {fileID: 3830445226351728676}
+  CollectGridLayout: {fileID: 5576088916655442035}
+  BuyableItemPrefab: {fileID: 4210697713469503563, guid: 9f2485f66cd43c74e99e3ee7b23d7846, type: 3}
+  SellableItemPrefab: {fileID: 588210291397873209, guid: 67fb4fb6da556ea499d27887e2892513, type: 3}
+  CollectableItemPrefab: {fileID: 2171983464968583285, guid: b519c322331b21a42880152951f94e70, type: 3}
+  MoneyText: {fileID: 2251243352608232892}
+--- !u!114 &4330067353118819654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804297747718919708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f168fcbb1b3c19b4099b374f45fb28e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8144803622708046466
 GameObject:
   m_ObjectHideFlags: 0
