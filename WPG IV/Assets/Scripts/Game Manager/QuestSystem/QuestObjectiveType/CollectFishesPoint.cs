@@ -18,13 +18,15 @@ namespace QuestSystem
 
         
         //mungkin buat dishow di ui
-        public override void GetObjectiveProgression()
+        public override int GetObjectiveProgression()
         {
-            Debug.Log("=========================================================");
-            Debug.Log("Required Fish Types: " + fishObjectiveSetting.fishType);
-            Debug.Log("CurrentFishPoint/RequiredFishPoint: " + FishObjectiveCollectedPoint + (" / ") + fishObjectiveSetting.FishObjectivePointNeeded);
-            Debug.Log("IsObjectiveCompleted: "+IsObjectiveCompleted);
-            Debug.Log("=========================================================");
+            // Debug.Log("=========================================================");
+            // Debug.Log("Required Fish Types: " + fishObjectiveSetting.fishType);
+            // Debug.Log("CurrentFishPoint/RequiredFishPoint: " + FishObjectiveCollectedPoint + (" / ") + fishObjectiveSetting.FishObjectivePointNeeded);
+            // Debug.Log("IsObjectiveCompleted: "+IsObjectiveCompleted);
+            // Debug.Log("=========================================================");
+
+            return FishObjectiveCollectedPoint;
         }
         
         protected override void EvaluateObjective()

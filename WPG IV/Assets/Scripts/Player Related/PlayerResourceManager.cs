@@ -11,6 +11,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
 
     //resource energy
     public int PlayerEnergy { get; private set; }
+    public int PlayerMaxEnergy { get; private set; }
 
     //currently collected item data
     //[SerializeField] private InventoryItemData PlayerSavedInventoryItem;
@@ -28,7 +29,8 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     void Start()
     {
         ChangeMoney(0);
-        ChangeEnergy(100);
+        PlayerMaxEnergy = 100;
+        ChangeEnergy(PlayerMaxEnergy);
     }
 
 
@@ -40,7 +42,21 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     public void ChangeEnergy(int EnergyChange)
     {
         PlayerEnergy += EnergyChange;
+        
+        if(PlayerEnergy >= PlayerMaxEnergy)
+        {
+            PlayerEnergy = PlayerMaxEnergy;
+        }
+
         OnEnergyChange();
+    }
+    public void ChangeMaxEnergy(int EnergyChange)
+    {
+        PlayerMaxEnergy += EnergyChange;
+    }
+    public void ResetEnergy()
+    {
+        PlayerEnergy = PlayerMaxEnergy;
     }
 
     // public void IncreaseEnergy(float EnergyChange)

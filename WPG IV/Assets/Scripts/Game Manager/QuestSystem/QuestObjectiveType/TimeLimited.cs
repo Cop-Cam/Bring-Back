@@ -73,13 +73,15 @@ namespace QuestSystem
         
         
         //mungkin buat dishow di ui
-        public override void GetObjectiveProgression()
+        public override int GetObjectiveProgression()
         {
-            Debug.Log("=========================================================");
-            Debug.Log("Origin Time : " + timeLimitSetting.TimeLimitByDay);
-            //Debug.Log("Time Left: " + TimeLeft);
-            Debug.Log("IsObjectiveCompleted: "+IsObjectiveCompleted);
-            Debug.Log("=========================================================");
+            // Debug.Log("=========================================================");
+            // Debug.Log("Origin Time : " + timeLimitSetting.TimeLimitByDay);
+            // //Debug.Log("Time Left: " + TimeLeft);
+            // Debug.Log("IsObjectiveCompleted: "+IsObjectiveCompleted);
+            // Debug.Log("=========================================================");
+
+            return timeLimitSetting.TimeLimitByDay;
         }
         
         protected override void EvaluateObjective()

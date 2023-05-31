@@ -31,6 +31,7 @@ public class Bed : InteractableObjects
 
         // InputManager.Instance.IsPlayerAllowedToInteract(true);
         // InputManager.Instance.IsPlayerAllowedToMove(true);
+        PlayerResourceManager.Instance.ResetEnergy();
         StartCoroutine(SleepCoroutine());
     }
 

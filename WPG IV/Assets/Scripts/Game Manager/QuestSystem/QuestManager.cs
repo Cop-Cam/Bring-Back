@@ -21,6 +21,11 @@ namespace QuestSystem
             base.Awake();
             QuestDictionary = GameDatabase.Instance.DB_Quests;
             
+            if(GameDatabase.Instance.DB_Quests.Count == 0)
+            {
+                Debug.LogWarning("database quest dict kosong");
+            }
+
             //SettingUpQuestlineDictionary();
 
             CurrentActivatedQuestList = new List<Quest>();

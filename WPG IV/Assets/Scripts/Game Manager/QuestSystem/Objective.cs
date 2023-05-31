@@ -13,7 +13,8 @@ namespace QuestSystem
         public event Action OnObjectiveFailedEvent; //for sending event to quest so it evaluate when an objective is failed 
         protected abstract void EvaluateObjective();
         public abstract void AddProgressToObjective(object Data);
-        public abstract void GetObjectiveProgression();
+        //public abstract void GetObjectiveProgression();
+        public abstract int GetObjectiveProgression();
 
         public virtual void InitializeObjective()
         {
