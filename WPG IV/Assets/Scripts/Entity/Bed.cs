@@ -14,7 +14,7 @@ public class Bed : InteractableObjects
 
     public override void OnInteracted()
     {
-        Debug.Log("trying to sleep");
+        //Debug.Log("trying to sleep");
         InputManager.Instance.IsPlayerAllowedToInteract(false);
         InputManager.Instance.IsPlayerAllowedToMove(false);
         ShowSleepUIConfirmation(true);
@@ -22,10 +22,34 @@ public class Bed : InteractableObjects
 
     public void Sleep()
     {
-        TimeManager.Instance.ChangeDay();
+        // ShowSleepUIConfirmation(false);
+
+        // //StartCoroutine("SleepTransition");
+        // SleepTransition();
+
+        // TimeManager.Instance.ChangeDay();
+
+        // InputManager.Instance.IsPlayerAllowedToInteract(true);
+        // InputManager.Instance.IsPlayerAllowedToMove(true);
+        StartCoroutine(SleepCoroutine());
+    }
+
+    private IEnumerator SleepCoroutine()
+    {
+        Time.timeScale = 0f;
         ShowSleepUIConfirmation(false);
+
+        //StartCoroutine("SleepTransition");
+        SleepTransition();
+
+        TimeManager.Instance.ChangeDay();
+        
+        yield return new WaitForSecondsRealtime(2.5f);
+        
         InputManager.Instance.IsPlayerAllowedToInteract(true);
         InputManager.Instance.IsPlayerAllowedToMove(true);
+        
+        Time.timeScale = 1f;
     }
 
     private void ShowSleepUIConfirmation(bool isActivated)
@@ -38,5 +62,11 @@ public class Bed : InteractableObjects
         ShowSleepUIConfirmation(false);
         InputManager.Instance.IsPlayerAllowedToInteract(true);
         InputManager.Instance.IsPlayerAllowedToMove(true);
+    }
+
+    private void SleepTransition()
+    {
+        StartCoroutine(TransitionManager.Instance.StartTransition());
+        //yield return new WaitForSeconds(1);
     }
 }

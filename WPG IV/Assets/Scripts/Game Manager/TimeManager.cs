@@ -196,7 +196,7 @@ public class TimeManager : GenericSingletonClass<TimeManager>
                 if (currentHour >= 24)
                 {
                     currentHour = 0;
-                    DayEnd();
+                    ChangeDay();
                 }
             }
         }
@@ -258,7 +258,9 @@ public class TimeManager : GenericSingletonClass<TimeManager>
 
     public void ChangeDay()
     {
+        //Time.timeScale = 0f;
         DayEnd();
+        //Time.timeScale = 1f;
     }
     
 }
