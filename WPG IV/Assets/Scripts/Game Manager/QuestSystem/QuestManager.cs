@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using TMPro;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,10 +12,15 @@ namespace QuestSystem
 {
     public class QuestManager : GenericSingletonClass<QuestManager>
     {
+        [SerializeField] private float QuestUIDisplayDuration;
+        [SerializeField] private GameObject QuestEventUICanvas;
+        [SerializeField] private GameObject QuestName;
+        [SerializeField] private GameObject EventName;
+
         private Dictionary<string, Quest> QuestDictionary;
-        public List<Quest> CurrentActivatedQuestList;// {get; private set;}
-        public List<Quest> CurrentFailedQuestList; //{get; private set;}
-        public List<Quest> CurrentCompletedQuestList; //{get; private set;}
+        public List<Quest> CurrentActivatedQuestList {get; private set;}
+        public List<Quest> CurrentFailedQuestList {get; private set;}
+        public List<Quest> CurrentCompletedQuestList {get; private set;}
 
         public override void Awake()
         {
@@ -36,8 +42,47 @@ namespace QuestSystem
         private void Start() 
         {
             UIManager.Instance.AddGameObjectToDictionary(this.gameObject);
+            QuestEventUICanvas.SetActive(false);
         }
 
+        private IEnumerator QuestIsStartedEvent(QuestSystem.Quest currentHandledQuest)
+        {
+            QuestEventUICanvas.SetActive(true);
+            QuestName.GetComponentInChildren<TextMeshProUGUI>().text = currentHandledQuest.questSetting.QuestName;
+            EventName.GetComponentInChildren<TextMeshProUGUI>().text = "Started A Quest";
+
+            yield return new WaitForSecondsRealtime(QuestUIDisplayDuration);
+
+            QuestEventUICanvas.SetActive(false);
+            QuestName.GetComponentInChildren<TextMeshProUGUI>().text = "";
+            EventName.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        }
+
+        private IEnumerator QuestIsFailedEvent(QuestSystem.Quest currentHandledQuest)
+        {
+            QuestEventUICanvas.SetActive(true);
+            QuestName.GetComponentInChildren<TextMeshProUGUI>().text = currentHandledQuest.questSetting.QuestName;
+            EventName.GetComponentInChildren<TextMeshProUGUI>().text = "Failed A Quest";
+
+            yield return new WaitForSecondsRealtime(QuestUIDisplayDuration);
+
+            QuestEventUICanvas.SetActive(false);
+            QuestName.GetComponentInChildren<TextMeshProUGUI>().text = "";
+            EventName.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        }
+
+        private IEnumerator QuestIsCompletedEvent(QuestSystem.Quest currentHandledQuest)
+        {
+            QuestEventUICanvas.SetActive(true);
+            QuestName.GetComponentInChildren<TextMeshProUGUI>().text = currentHandledQuest.questSetting.QuestName;
+            EventName.GetComponentInChildren<TextMeshProUGUI>().text = "Completed A Quest";
+
+            yield return new WaitForSecondsRealtime(QuestUIDisplayDuration);
+
+            QuestEventUICanvas.SetActive(false);
+            QuestName.GetComponentInChildren<TextMeshProUGUI>().text = "";
+            EventName.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        }
     /*
     #if UNITY_EDITOR
         //For Getting and Assigning all Quest SO Assets
@@ -115,6 +160,8 @@ namespace QuestSystem
             {
                 if(!CurrentActivatedQuestList.Contains(questInstance))
                 {
+                    StartCoroutine(QuestIsStartedEvent(questInstance));
+
                     CurrentActivatedQuestList?.Add(questInstance);
                 }
                 else
@@ -131,6 +178,8 @@ namespace QuestSystem
 
         private void HandleFailedQuest(Quest questInstance)
         {
+            StartCoroutine(QuestIsFailedEvent(questInstance));
+
             CurrentActivatedQuestList?.Remove(questInstance);
             CurrentCompletedQuestList?.Remove(questInstance);
             CurrentFailedQuestList.Add(questInstance);
@@ -139,6 +188,8 @@ namespace QuestSystem
         }
         private void HandleCompletedQuest(Quest questInstance)
         {
+            StartCoroutine(QuestIsCompletedEvent(questInstance));
+
             CurrentActivatedQuestList?.Remove(questInstance);
             CurrentCompletedQuestList.Add(questInstance);
             CurrentFailedQuestList?.Remove(questInstance);

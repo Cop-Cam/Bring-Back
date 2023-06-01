@@ -48,7 +48,7 @@ public class GenericSingletonClass<T> : MonoBehaviour where T : Component
             {
                 Debug.LogWarning("another instance of "+instance.GetType()+" inside of "+gameObject.name);
                 Debug.LogWarning("current instance of "+instance.GetType()+" is inside of " + instance.gameObject.name);
-                Destroy (gameObject);
+                Destroy(gameObject);
             }
         }
     }

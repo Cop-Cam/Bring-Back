@@ -37,7 +37,9 @@ public class Bed : InteractableObjects
 
     private IEnumerator SleepCoroutine()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
+        GameManager.Instance.PauseGame(true);
+
         ShowSleepUIConfirmation(false);
 
         //StartCoroutine("SleepTransition");
@@ -50,7 +52,8 @@ public class Bed : InteractableObjects
         InputManager.Instance.IsPlayerAllowedToInteract(true);
         InputManager.Instance.IsPlayerAllowedToMove(true);
         
-        Time.timeScale = 1f;
+        GameManager.Instance.PauseGame(false);
+        //Time.timeScale = 1f;
     }
 
     private void ShowSleepUIConfirmation(bool isActivated)

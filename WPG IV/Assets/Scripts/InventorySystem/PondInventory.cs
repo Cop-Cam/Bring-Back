@@ -69,6 +69,9 @@ public class PondInventory : LocalInventory
 
     public override void InsertItem(InventoryItemData insertedItem)
     {
+        //time is used for inserting fish
+        TimeManager.Instance.IncrementHour(1);
+
         base.InsertItem(insertedItem);
         if(currentSavedItem is FishSeedItemData)
         {

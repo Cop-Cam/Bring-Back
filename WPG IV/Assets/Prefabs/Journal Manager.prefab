@@ -1749,7 +1749,7 @@ GameObject:
   - component: {fileID: 8951964505704406785}
   - component: {fileID: 1618174715902433251}
   m_Layer: 0
-  m_Name: Journal
+  m_Name: Journal Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -21,7 +21,7 @@ public class Journal : GenericSingletonClass<Journal>
     private void Start()
     {
         questManager = QuestSystem.QuestManager.Instance;
-        //testingQuest.InitializeQuest();
+        JournalCanvas.SetActive(false);
         TurnOnRightPage(false);
         //OpenJournal();
     }

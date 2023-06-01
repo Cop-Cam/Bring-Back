@@ -70,6 +70,7 @@ namespace DialogueSystem
             {
                 return;
             }
+            GameManager.Instance.PauseGame(true);
 
             InputManager.Instance.IsPlayerAllowedToMove(false);
 
@@ -97,7 +98,9 @@ namespace DialogueSystem
 
         private IEnumerator ExitDialogue()
         {
-            yield return new WaitForSeconds(0.2f); //agar apabila tombol input sudah digunakan, tidak akan bertabrakan  //misal: tombol jump dan tombol next sama
+            GameManager.Instance.PauseGame(false);
+
+            yield return new WaitForSecondsRealtime(0.2f); //agar apabila tombol input sudah digunakan, tidak akan bertabrakan  //misal: tombol jump dan tombol next sama
 
             dialogueIsPlaying = false;
             //dialoguePanel.SetActive(false);
@@ -185,7 +188,8 @@ namespace DialogueSystem
             // Event System requires we clear it first, then wait
             // for at least one frame before we set the current selected object
             EventSystem.current.SetSelectedGameObject(null);
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
+            yield return new WaitForSecondsRealtime(0.1f);
             EventSystem.current.SetSelectedGameObject(firstChoiceButtonPrefab);
         }
 
@@ -295,7 +299,7 @@ namespace DialogueSystem
                 {
                     dialogueText.text += messageToDisplay[i]; 
                     //nextMessageSound.Play();
-                    yield return new WaitForSeconds(dialogueSpeed);
+                    yield return new WaitForSecondsRealtime(dialogueSpeed);
                 }
             }
 
