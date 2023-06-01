@@ -7,25 +7,29 @@ using System.Linq;
 
 public class Journal : GenericSingletonClass<Journal>
 {
-    [SerializeField]private QuestSystem.Quest testingQuest;
     private QuestSystem.QuestManager questManager;
 
     [SerializeField] private GameObject QuestButtonPrefab;
     [SerializeField] private GameObject QuestButtonGrid;
     [SerializeField] private GameObject QuestObjectivePrefab;
     [SerializeField] private GameObject QuestObjectiveGrid;
+    [SerializeField] private GameObject QuestName;
+    [SerializeField] private GameObject QuestDescriptionArea;
+    [SerializeField] private GameObject QuestObjectiveArea;
     [SerializeField] private GameObject JournalCanvas;
 
     private void Start()
     {
         questManager = QuestSystem.QuestManager.Instance;
-        testingQuest.InitializeQuest();
-        //questManager.InitializeQuest("1");
-        OpenJournal();
+        //testingQuest.InitializeQuest();
+        TurnOnRightPage(false);
+        //OpenJournal();
     }
 
     public void OpenJournal()
     {
+        TurnOnRightPage(false);
+
         JournalCanvas.SetActive(true);
         OpenActiveQuestJournalTab();
     }
@@ -34,6 +38,8 @@ public class Journal : GenericSingletonClass<Journal>
     {
         ClearQuestButtonGrid();
         ClearQuestObjectiveGrid();
+        
+        TurnOnRightPage(false);
 
         JournalCanvas.SetActive(false);
     }
@@ -46,12 +52,27 @@ public class Journal : GenericSingletonClass<Journal>
         }
     }
 
+    private void TurnOnRightPage(bool condition)
+    {
+        QuestName.SetActive(condition);
+        QuestDescriptionArea.SetActive(condition);
+        QuestObjectiveArea.SetActive(condition);
+    }
+
     //spawn objective and information of quest
     private void OnQuestButtonClickedEvent(QuestSystem.Quest currentClickedQuest)
     {
         //Debug.Log("quest button clicked");
         ClearQuestObjectiveGrid();
+
+        //setting up quest information
+        TurnOnRightPage(true);
+        //QuestName.SetActive(true);
+        QuestName.transform.GetComponentInChildren<TextMeshProUGUI>().text = currentClickedQuest.questSetting.QuestName;
+        //QuestDescriptionArea.SetActive(true);
+        QuestDescriptionArea.transform.Find("Content").GetComponent<TextMeshProUGUI>().text = currentClickedQuest.questSetting.QuestDescription;
         
+        //setting up objective of quest
         foreach(QuestSystem.Objective objective in currentClickedQuest.questSetting.QuestObjectives)
         {
             if(objective is QuestSystem.CollectFishesPoint)
@@ -59,26 +80,26 @@ public class Journal : GenericSingletonClass<Journal>
                 QuestSystem.CollectFishesPoint fishPointObjective = objective as QuestSystem.CollectFishesPoint;
                 var objectiveUI = Instantiate(QuestObjectivePrefab, QuestObjectiveGrid.transform);
 
-                objectiveUI//.transform.Find("Canvas")
-                    .transform.Find("Background")
-                    .transform.Find("ObjectiveTypeText")
-                    .GetComponent<TextMeshProUGUI>().text = fishPointObjective.fishObjectiveSetting.fishType.ToString();
+                objectiveUI.transform.Find("Panel")
+                    //.transform.Find("Background")
+                    .transform.Find("ObjectiveTypePanel")
+                    .GetComponentInChildren<TextMeshProUGUI>().text = fishPointObjective.fishObjectiveSetting.fishType.ToString();
 
-                objectiveUI//.transform.Find("Canvas")
-                    .transform.Find("Background")
-                    .transform.Find("ProgressText")
-                    .GetComponent<TextMeshProUGUI>().text = 
+                objectiveUI.transform.Find("Panel")
+                    //.transform.Find("Background")
+                    .transform.Find("ProgressPanel")
+                    .GetComponentInChildren<TextMeshProUGUI>().text = 
                     string.Format("{0}/{1}", fishPointObjective.GetObjectiveProgression(), fishPointObjective.fishObjectiveSetting.FishObjectivePointNeeded);
 
-                objectiveUI//.transform.Find("Canvas")
-                    .transform.Find("Background")
-                    .transform.Find("Slider")
-                    .GetComponent<Slider>().value = fishPointObjective.GetObjectiveProgression();
+                objectiveUI.transform.Find("Panel")
+                    //.transform.Find("Background")
+                    .transform.Find("SliderPanel")
+                    .GetComponentInChildren<Slider>().value = fishPointObjective.GetObjectiveProgression();
 
-                objectiveUI//.transform.Find("Canvas")
-                    .transform.Find("Background")
-                    .transform.Find("Slider")
-                    .GetComponent<Slider>().value = fishPointObjective.fishObjectiveSetting.FishObjectivePointNeeded;
+                objectiveUI.transform.Find("Panel")
+                    //.transform.Find("Background")
+                    .transform.Find("SliderPanel")
+                    .GetComponentInChildren<Slider>().maxValue = fishPointObjective.fishObjectiveSetting.FishObjectivePointNeeded;
             }
         }
     }
