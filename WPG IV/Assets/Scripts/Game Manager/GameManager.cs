@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class GameManager : DontDestroyOnLoadSingletonClass<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    public void PauseGame(bool shouldGameBePaused)
     {
-        
+        if(shouldGameBePaused)
+        {
+            Time.timeScale = 0;
+        }
+        else if(!shouldGameBePaused)
+        {
+            Time.timeScale = 1;
+        }
+        else
+        {
+            Debug.LogError("Pause Game error");
+        }
     }
 
 

@@ -59,6 +59,8 @@ public class ShopManager : GenericSingletonClass<ShopManager>
 
     public void OpenShopMenu(LocalInventory otherLocalInventory)
     {
+        GameManager.Instance.PauseGame(true);
+
         if(isShopOpened)
         {
             CloseShopMenu();
@@ -79,10 +81,13 @@ public class ShopManager : GenericSingletonClass<ShopManager>
         //UIManager.Instance.ShopUI.SetActive(true);
 
         //StartCoroutine(RefreshShop());
-        StartCoroutine(RefreshMoney());
+        //StartCoroutine(RefreshMoney());
+        PlayerResourceManager.OnMoneyChange += RefreshMoney;
     }
     public void CloseShopMenu()
     {
+        GameManager.Instance.PauseGame(false);
+
         //StopCoroutine(RefreshShop());
         StopAllCoroutines();
 
@@ -94,6 +99,8 @@ public class ShopManager : GenericSingletonClass<ShopManager>
         //UIManager.Instance.ShopUI.SetActive(false);
 
         InputManager.Instance.IsPlayerAllowedToMove(true); //pemain boleh bergerak
+
+        PlayerResourceManager.OnMoneyChange -= RefreshMoney;
     }
 
     
@@ -292,13 +299,9 @@ public class ShopManager : GenericSingletonClass<ShopManager>
     }
     #endregion
 
-    private IEnumerator RefreshMoney()
+    private void RefreshMoney()
     {
-        while(true)
-        {
-            MoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
-            yield return new WaitForEndOfFrame();
-        }
+        MoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
     }
 
     // IEnumerator RefreshShop()
