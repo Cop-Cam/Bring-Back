@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1730551690}
-  m_IndirectSpecularColor: {r: 0.17277353, g: 0.2158997, b: 0.29783306, a: 1}
+  m_IndirectSpecularColor: {r: 0.17277354, g: 0.2158997, b: 0.29783303, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -301,6 +301,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 168605902254775394, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 332394820151429390, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1366712362320126037, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850124507544193706, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850124507544193706, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850124507544193706, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2904369860804947321, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
       propertyPath: sun
       value: 
@@ -333,6 +357,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4970104343181753750, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+      propertyPath: portraitAnimator
+      value: 
+      objectReference: {fileID: 1584518043}
     - target: {fileID: 5123540379118598420, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
       propertyPath: m_Pitch
       value: 0.79
@@ -457,6 +485,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7830974874536977877, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 95c921b38eeea1745bb18885b318b241, type: 2}
     - target: {fileID: 8279677262190822342, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1930,6 +1962,11 @@ Transform:
   m_Father: {fileID: 288686690}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1584518043 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7830974874536977877, guid: 66ab59eadfed8dc4898d1e178584b4f8, type: 3}
+  m_PrefabInstance: {fileID: 235305413}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1623011455 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6044242322453125662, guid: 4677dfa9e7683f14fb7c0d34acb05c13, type: 3}
