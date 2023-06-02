@@ -64,15 +64,6 @@ public class InputManager : GenericSingletonClass<InputManager>
         {
             playerInputActionAsset.FindActionMap("Player").FindAction("Move").Disable();
         }
-        //playerObj.transform.Find("Controller").gameObject.SetActive(isAllowed = !isAllowed);
-        // if(isAllowed)
-        // {
-        //     PlayerController.Instance.enabled = true;
-        // }
-        // else if(!isAllowed)
-        // {
-        //     PlayerController.Instance.enabled = false;
-        // }
     }
 
     public void IsPlayerAllowedToInteract(bool isAllowed)
@@ -85,21 +76,17 @@ public class InputManager : GenericSingletonClass<InputManager>
         {
             playerInputActionAsset.FindActionMap("Player").FindAction("Interact").Disable();
         }
-        //playerObj.transform.Find("Interactor").gameObject.SetActive(isAllowed = !isAllowed);
-
-        // if(isAllowed)
-        // {
-        //     PlayerInteractor.Instance.enabled = true;
-        // }
-        // else if(!isAllowed)
-        // {
-        //     PlayerInteractor.Instance.enabled = false;
-        // }
     }
 
     // public void IsPlayerAllowedToDoPlayerMapsInput(bool isAllowed)
     // {
-    //     IsPlayerAllowedToInteract(isAllowed);
-    //     IsPlayerAllowedToMove(isAllowed);
+    //     if(isAllowed)
+    //     {
+    //         playerInputActionAsset.FindActionMap("Player").Enable();
+    //     }
+    //     else if(!isAllowed)
+    //     {
+    //         playerInputActionAsset.FindActionMap("Player").Disable();
+    //     }
     // }
 }

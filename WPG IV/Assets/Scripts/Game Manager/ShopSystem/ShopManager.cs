@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 
 //Untuk letak jenis-jenis ikan yang bisa dibeli
-public class ShopManager : GenericSingletonClass<ShopManager>
+public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
 {
     [Tooltip("Masukkan GameObject parent untuk UI")]
     public GameObject ShopUI;
@@ -35,15 +35,30 @@ public class ShopManager : GenericSingletonClass<ShopManager>
         PlayerResourceManager.Instance.ChangeMoney(money);
     }
 
+    public override void Awake()
+    {
+        base.Awake();
+
+        UIManager.Instance.RegisterMenu(this, ShopUI);
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
-        ShopUI.SetActive(false);
+        //ShopUI.SetActive(false);
         currentOpenedInventory = null;
-        //UIManager.Instance.AddUiObjToList(ShopUI);
-        
-        UIManager.Instance.AddGameObjectToDictionary(this.gameObject);
     }
+
+    #region IMenuHandlerImplementation
+    public void OpeningMenu()
+    {
+        OpenShopMenuMethod();
+    }
+    public void ClosingMenu()
+    {
+        CloseShopMenuMethod();
+    }
+    #endregion
 
     private bool CheckResourceMoney(InventoryItemData itemData)
     {
@@ -59,46 +74,55 @@ public class ShopManager : GenericSingletonClass<ShopManager>
 
     public void OpenShopMenu(LocalInventory otherLocalInventory)
     {
-        GameManager.Instance.PauseGame(true);
+        currentOpenedInventory = otherLocalInventory; //membuka inventory pada object
+
+        UIManager.Instance.OpenMenu(this);
+    }
+    public void CloseShopMenu()
+    {
+        UIManager.Instance.CloseMenu(this);
+     
+        currentOpenedInventory = null; //inventory yang dibuka dihapus
+    }
+
+    private void OpenShopMenuMethod()
+    {
+        //GameManager.Instance.PauseGame(true);
 
         if(isShopOpened)
         {
             CloseShopMenu();
-            isShopOpened = false;
             return;
         }
 
         isShopOpened = true;
-        InputManager.Instance.IsPlayerAllowedToMove(false); //hanya mematikan pergerakkan pemain
+        //InputManager.Instance.IsPlayerAllowedToMove(false); //hanya mematikan pergerakkan pemain
 
         MoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
 
-        currentOpenedInventory = otherLocalInventory; //membuka inventory pada object
+        // currentOpenedInventory = otherLocalInventory; //membuka inventory pada object
 
         SettingUpShop(); //Menyeting isi shop
 
-        ShopUI.SetActive(true);
-        //UIManager.Instance.ShopUI.SetActive(true);
-
-        //StartCoroutine(RefreshShop());
-        //StartCoroutine(RefreshMoney());
+        //ShopUI.SetActive(true);
+        
         PlayerResourceManager.OnMoneyChange += RefreshMoney;
     }
-    public void CloseShopMenu()
+    private void CloseShopMenuMethod()
     {
-        GameManager.Instance.PauseGame(false);
+        isShopOpened = false;
 
-        //StopCoroutine(RefreshShop());
-        StopAllCoroutines();
+        //GameManager.Instance.PauseGame(false);
 
-        currentOpenedInventory = null; //inventory yang dibuka dihapus
+        //StopAllCoroutines();
+
+        // currentOpenedInventory = null; //inventory yang dibuka dihapus
 
         ClearingUpShop();
         
-        ShopUI.SetActive(false); //Menutup tab menu pilihan beli atau jual
-        //UIManager.Instance.ShopUI.SetActive(false);
+        //ShopUI.SetActive(false); //Menutup tab menu pilihan beli atau jual
 
-        InputManager.Instance.IsPlayerAllowedToMove(true); //pemain boleh bergerak
+        //InputManager.Instance.IsPlayerAllowedToMove(true); //pemain boleh bergerak
 
         PlayerResourceManager.OnMoneyChange -= RefreshMoney;
     }

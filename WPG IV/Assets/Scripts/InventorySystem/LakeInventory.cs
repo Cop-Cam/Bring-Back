@@ -27,9 +27,8 @@ public class LakeInventory : LocalInventory
 
         if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
         {
-            InputManager.Instance.IsPlayerAllowedToMove(false);
+            // InputManager.Instance.IsPlayerAllowedToMove(false);
             InputManager.Instance.IsPlayerAllowedToInteract(false);
-
 
             PlayerResourceManager.Instance.ChangeEnergy(-(EnergyNeeded));
             //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
@@ -38,14 +37,12 @@ public class LakeInventory : LocalInventory
             currentSavedItem = InvansiveFishesInThisLake[rand];
 
             LakeUIController.Instance.OpenLakeUI(this);
-
-            //InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false);
         }
         else
         {
             Debug.Log("energy tidak cukup");
-            InputManager.Instance.IsPlayerAllowedToInteract(true);
-            InputManager.Instance.IsPlayerAllowedToMove(true);
+            // InputManager.Instance.IsPlayerAllowedToInteract(true);
+            // InputManager.Instance.IsPlayerAllowedToMove(true);
         }
     }
 
@@ -97,7 +94,6 @@ public class LakeInventory : LocalInventory
         }
     }
 
-    
     public override InventoryItemData GetCurrentSavedItemData()
     {
         return currentSavedItem;

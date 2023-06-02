@@ -41,7 +41,8 @@ namespace QuestSystem
 
         private void Start() 
         {
-            UIManager.Instance.AddGameObjectToDictionary(this.gameObject);
+            //UIManager.Instance.RegisterMenu(this, this.gameObject);
+
             QuestEventUICanvas.SetActive(false);
         }
 
@@ -226,12 +227,17 @@ namespace QuestSystem
         {
             if(sendedData != null)
             {
-                foreach(Quest quest in QuestDictionary.Values)
+                // foreach(Quest quest in QuestDictionary.Values)
+                // {
+                //     if(quest.IsQuestActive && !quest.IsQuestFailed && !quest.IsQuestCompleted)
+                //     {
+                //         quest.SendProgressFromQuestToObjectives(sendedData);
+                //     }
+                // }
+
+                foreach(Quest quest in CurrentActivatedQuestList)
                 {
-                    if(quest.IsQuestActive && !quest.IsQuestFailed && !quest.IsQuestCompleted)
-                    {
-                        quest.SendProgressFromQuestToObjectives(sendedData);
-                    }
+                    quest.SendProgressFromQuestToObjectives(sendedData);
                 }
             }
             else

@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 
-public class Journal : GenericSingletonClass<Journal>
+public class Journal : GenericSingletonClass<Journal>, IMenuHandler
 {
     private QuestSystem.QuestManager questManager;
 
@@ -18,32 +18,69 @@ public class Journal : GenericSingletonClass<Journal>
     [SerializeField] private GameObject QuestObjectiveArea;
     [SerializeField] private GameObject JournalCanvas;
 
+    private bool IsJournalOpened;
+
     private void Start()
     {
+        UIManager.Instance.RegisterMenu(this, JournalCanvas);
+
         questManager = QuestSystem.QuestManager.Instance;
         JournalCanvas.SetActive(false);
         TurnOnRightPage(false);
         //OpenJournal();
     }
 
+    #region IMenuHandlerImplementation
+    public void OpeningMenu()
+    {
+        OpenJournalMethod();
+    }
+    public void ClosingMenu()
+    {
+        CloseJournalMethod();
+    }
+    #endregion
+
+    //dipanggil oleh siapapun yang mau membuka
     public void OpenJournal()
     {
+        UIManager.Instance.OpenMenu(this);
+    }
+    public void CloseJournal()
+    {
+        UIManager.Instance.CloseMenu(this);
+    }
+
+    private void OpenJournalMethod()
+    {
+        //GameManager.Instance.ClosePauseMenu();
+
+        if(IsJournalOpened)
+        {
+            CloseJournal();
+            return;
+        }
+        //shouldGameBePaused(true);
+
         TurnOnRightPage(false);
 
-        JournalCanvas.SetActive(true);
+        //JournalCanvas.SetActive(true);
         OpenActiveQuestJournalTab();
     }
     
-    public void CloseJournal()
+    private void CloseJournalMethod()
     {
+        //shouldGameBePaused(false);
+
         ClearQuestButtonGrid();
         ClearQuestObjectiveGrid();
         
         TurnOnRightPage(false);
 
-        JournalCanvas.SetActive(false);
+        //JournalCanvas.SetActive(false);
     }
     
+
     private void ClearQuestButtonGrid()
     {
         foreach(Transform QuestButtonPrefab in QuestButtonGrid.transform)

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class UIManager : GenericSingletonClass<UIManager>
 {
+<<<<<<< Updated upstream
     [Tooltip("Masukkan GameObject parent untuk UI Shop")]
     //mungkin bisa satu2 didefinisikan tapi gak nyaman ama sekali aowkowkw
     //public GameObject ShopUI;
@@ -32,13 +34,24 @@ public class UIManager : GenericSingletonClass<UIManager>
     [SerializeField] private GameObject setMenu = null;
 
 
+=======
+    private Dictionary<Type, GameObject> menuDictionary = new Dictionary<Type, GameObject>();
+
+    private Type currentOpenedMenu;
+    
+>>>>>>> Stashed changes
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        foreach(GameObject menuUI in menuDictionary.Values)
+        {
+            menuUI.SetActive(false);
+        }
     }
 
-    public override void Awake()
+    public void RegisterMenu<T>(T instance, GameObject menuPrefab) where T : MonoBehaviour
     {
+<<<<<<< Updated upstream
         base.Awake();
 
         ManagerWithUIObj = new Dictionary<string, GameObject>();
@@ -124,17 +137,95 @@ public class UIManager : GenericSingletonClass<UIManager>
     {
         Time.timeScale = 1;
         Application.Quit();
+=======
+        Type instanceType = instance.GetType();
+        if (!menuDictionary.ContainsKey(instanceType))
+        {
+            menuDictionary.Add(instanceType, menuPrefab);
+            // Debug.Log("registered menu type: "+instanceType);
+            // Debug.Log("registered menu prefab: "+menuPrefab.name);
+        }
+        else
+        {
+            Debug.LogWarning("Menu type already registered: " + instanceType);
+        }
+>>>>>>> Stashed changes
     }
 
-    public void AddUiObjToList(GameObject obj)
+    //public void OpenMenu<T>(T instance) where T : MonoBehaviour
+    public void OpenMenu(IMenuHandler instance)
     {
-        GameUIList.Add(obj);
+        Type instanceType = instance.GetType();
+        
+        if(currentOpenedMenu == instanceType )
+        {
+            Debug.Log("menu is opened, closing it down");
+            CloseMenu(instance);
+            return;
+        }
+
+        if (menuDictionary.TryGetValue(instanceType, out GameObject menuPrefab))
+        {
+            Debug.Log("opening menu '"+instanceType+"'");
+
+            GameManager.Instance.PauseGame(true);
+            
+            instance.OpeningMenu();
+            currentOpenedMenu = instanceType;
+
+            menuPrefab.SetActive(true);
+
+            // Iterate through the menuDictionary to set other menu prefabs inactive
+            foreach (var kvp in menuDictionary)
+            {
+                if (kvp.Key != instanceType)
+                {
+                    GameObject otherMenuPrefab = kvp.Value;
+                    otherMenuPrefab.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Menu type not registered: " + instanceType);
+        }
     }
 
-    public void AddGameObjectToDictionary(GameObject obj)
+    public void CloseMenu(IMenuHandler instance)
     {
+<<<<<<< Updated upstream
         ManagerWithUIObj.Add(obj.name, obj);
         Debug.Log("new ui: " + obj.name);
         Debug.Log("size: " + ManagerWithUIObj.Count);
+=======
+        Type instanceType = instance.GetType();
+
+        if (menuDictionary.TryGetValue(instanceType, out GameObject menuPrefab))
+        {
+            Debug.Log("closing menu '"+instanceType+"'");
+
+            GameManager.Instance.PauseGame(false);
+            
+            instance.ClosingMenu();
+            currentOpenedMenu = null;
+
+            menuPrefab.SetActive(false);
+
+            // Iterate through the menuDictionary to set other menu prefabs inactive
+            foreach (var kvp in menuDictionary)
+            {
+                if (kvp.Key != instanceType)
+                {
+                    GameObject otherMenuPrefab = kvp.Value;
+                    otherMenuPrefab.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Menu type not registered: " + instanceType);
+        }
+>>>>>>> Stashed changes
     }
+
 }

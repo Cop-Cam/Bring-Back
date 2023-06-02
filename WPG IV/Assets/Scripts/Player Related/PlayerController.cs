@@ -46,7 +46,7 @@ public class PlayerController : GenericSingletonClass<PlayerController>
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!PlayerInputIsDisabled)
         {
@@ -75,5 +75,23 @@ public class PlayerController : GenericSingletonClass<PlayerController>
             //playerAnimator.SetFloat("Speed", movement.sqrMagnitude);
         }
 
+    }
+
+    public void OnPauseGame(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            Debug.Log("pause context");
+            UIManager.Instance.OpenMenu(GameManager.Instance);
+        }
+    }
+
+    public void OnJournalOpenedFromShortcut(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            Debug.Log("journal context");
+            UIManager.Instance.OpenMenu(Journal.Instance);
+        }
     }
 }

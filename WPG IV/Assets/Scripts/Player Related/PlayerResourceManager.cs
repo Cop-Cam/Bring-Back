@@ -43,7 +43,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     {
         PlayerEnergy += EnergyChange;
         
-        if(PlayerEnergy >= PlayerMaxEnergy)
+        if(PlayerEnergy > PlayerMaxEnergy)
         {
             PlayerEnergy = PlayerMaxEnergy;
         }

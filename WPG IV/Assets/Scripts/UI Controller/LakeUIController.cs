@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
-public class LakeUIController : GenericSingletonClass<LakeUIController>
+public class LakeUIController : GenericSingletonClass<LakeUIController>, IMenuHandler
 {
     private LakeInventory lakeInventory;
     [SerializeField] private GameObject LakeInventoryCanvas;
@@ -15,57 +15,79 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>
     [SerializeField] private GameObject CollectButton;
     [SerializeField] private GameObject SellButton;
 
-    
-    /*
-    private void OnEnable()
-    {
-        PlayerResourceManager.OnMoneyChange += UpdateUIStatus;
-    }
 
-    private void OnDisable() 
+    public override void Awake()
     {
-        PlayerResourceManager.OnMoneyChange -= UpdateUIStatus;
+        base.Awake();
+
+        UIManager.Instance.RegisterMenu(this, LakeInventoryCanvas);
     }
-    private void UpdateUIStatus()
-    {
-        CurrentPlayerMoneyText.text = PlayerResourceManager.Instance.PlayerMoney.ToString();
-    }
-    */
 
     // Start is called before the first frame update
     private void Start()
     {
-        if(LakeInventoryCanvas==null) LakeInventoryCanvas = UIManager.Instance.transform.GetComponentsInChildren<Transform>()
-                             .FirstOrDefault(c => c.gameObject.name == "LakeUICanvas")?.gameObject;
+        // if(LakeInventoryCanvas==null) LakeInventoryCanvas = UIManager.Instance.transform.GetComponentsInChildren<Transform>()
+        //                      .FirstOrDefault(c => c.gameObject.name == "LakeUICanvas")?.gameObject;
 
-        LakeInventoryCanvas.SetActive(false);
+        //LakeInventoryCanvas.SetActive(false);
     }
 
+
+    #region IMenuHandlerImplementation
+    public void OpeningMenu()
+    {
+        OpenLakeUIMethod();
+    }
+    public void ClosingMenu()
+    {
+        CloseLakeUIMethod();
+    }
+    #endregion
 
     public void OpenLakeUI(LakeInventory lakeInventory)
     {
         this.lakeInventory = lakeInventory;
+     
+        UIManager.Instance.OpenMenu(this);
+    }
+
+    public void CloseLakeUI()
+    {
+        UIManager.Instance.CloseMenu(this);
+     
+        this.lakeInventory = null;
+    }
+
+    private void OpenLakeUIMethod()
+    {
+        //GameManager.Instance.PauseGame(true);
+
+        // this.lakeInventory = lakeInventory;
 
         SettingUpUiInformation();
         
         SettingUpButton();
         
-        LakeInventoryCanvas.SetActive(true);
+        //LakeInventoryCanvas.SetActive(true);
+
+        //UIManager.Instance.OpenMenu(this);
     }
 
-    public void CloseLakeUI()
+    private void CloseLakeUIMethod()
     {
-        LakeInventoryCanvas.SetActive(false);
+        //LakeInventoryCanvas.SetActive(false);
+
+        //UIManager.Instance.CloseMenu(this);
 
         ClearingUpButton();
 
-        this.lakeInventory = null;
      
-        StopAllCoroutines();
-
+        //StopAllCoroutines();
 
         InputManager.Instance.IsPlayerAllowedToInteract(true);
-        InputManager.Instance.IsPlayerAllowedToMove(true);        
+        // InputManager.Instance.IsPlayerAllowedToMove(true);      
+
+        //GameManager.Instance.PauseGame(false);
     }
 
     private void ButtonEventSellItem()

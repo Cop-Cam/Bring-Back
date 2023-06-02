@@ -61,7 +61,6 @@ public class PondInventory : LocalInventory
         IsInventoryAvailable();
     }
     
-    // FUCK WHAT?
     public override void OnInteracted()
     {
         ShopManager.Instance.OpenShopMenu(this); 

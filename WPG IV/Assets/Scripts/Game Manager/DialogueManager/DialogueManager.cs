@@ -53,9 +53,6 @@ namespace DialogueSystem
             //     choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
             //     index++;
             // } 
-
-            UIManager.Instance.AddGameObjectToDictionary(this.gameObject);
-
         }
 
         // void Update() //awalnya update saja

@@ -23,9 +23,6 @@ public class AudioManager : GenericSingletonClass<AudioManager>
     {
         if(MusicSource == null) MusicSource = transform.Find("MusicSource").GetComponent<AudioSource>();
         if(SfxSource == null) SfxSource = transform.Find("SfxSource").GetComponent<AudioSource>();
-
-        UIManager.Instance.AddGameObjectToDictionary(this.gameObject);
-
     }
 
 
