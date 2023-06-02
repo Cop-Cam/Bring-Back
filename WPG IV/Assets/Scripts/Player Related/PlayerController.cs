@@ -9,34 +9,37 @@ public class PlayerController : GenericSingletonClass<PlayerController>
     [SerializeField] private Rigidbody rb;
     [SerializeField] private GameObject playerObj;
 
+    private bool playerInputIsDisabled = false;
+    public bool PlayerInputIsDisabled { get => playerInputIsDisabled; set => playerInputIsDisabled = value; }
+
 
     [SerializeField] private Animator playerAnimator;
-    
+
 
     // Start is called before the first frame update
     void Start()
     {
         //Failsafe
-        if(playerObj == null)
+        if (playerObj == null)
         {
             playerObj = GameObject.FindWithTag("Player");
             // InputManager.Instance.playerObj = playerObj;
         }
-        if(playerSpeed == 0)
+        if (playerSpeed == 0)
         {
             playerSpeed = 5f;
         }
-        if(rb == null)
+        if (rb == null)
         {
             rb = playerObj?.GetComponent<Rigidbody>();
-            
-            if(rb == null)
+
+            if (rb == null)
             {
                 rb = playerObj?.transform?.parent?.GetComponentInChildren<Rigidbody>();
-                
+
             }
         }
-        if(playerAnimator == null)
+        if (playerAnimator == null)
         {
             playerAnimator = playerObj.GetComponent<Animator>();
         }
@@ -45,9 +48,12 @@ public class PlayerController : GenericSingletonClass<PlayerController>
     // Update is called once per frame
     void Update()
     {
-        movePlayer();
+        if (!PlayerInputIsDisabled)
+        {
+            movePlayer();
+        }
     }
-    
+
     //membaca move value berupa vector
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -60,12 +66,12 @@ public class PlayerController : GenericSingletonClass<PlayerController>
         Vector3 movement = new Vector3(move.x, 0f, move.y);
 
         //Tujuan awal agar player menghadap arah terakhir pergerakannya
-        if(movement != Vector3.zero)
+        if (movement != Vector3.zero)
         {
             playerObj.transform.rotation = Quaternion.Slerp(playerObj.transform.rotation, Quaternion.LookRotation(movement), 0.15f);
 
             rb.MovePosition(rb.position + (movement * playerSpeed * Time.deltaTime));
-           // m_player.transform.Translate(movement * playerSpeed * Time.deltaTime, Space.World);
+            // m_player.transform.Translate(movement * playerSpeed * Time.deltaTime, Space.World);
             //playerAnimator.SetFloat("Speed", movement.sqrMagnitude);
         }
 
