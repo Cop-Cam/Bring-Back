@@ -41,12 +41,11 @@ namespace QuestSystem
 
         private void Start() 
         {
-            //UIManager.Instance.RegisterMenu(this, this.gameObject);
-
             QuestEventUICanvas.SetActive(false);
         }
 
-        private IEnumerator QuestIsStartedEvent(QuestSystem.Quest currentHandledQuest)
+        #region Quest Notification Methods
+        private IEnumerator QuestIsStartedNotif(QuestSystem.Quest currentHandledQuest)
         {
             QuestEventUICanvas.SetActive(true);
             QuestName.GetComponentInChildren<TextMeshProUGUI>().text = currentHandledQuest.questSetting.QuestName;
@@ -59,7 +58,7 @@ namespace QuestSystem
             EventName.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
 
-        private IEnumerator QuestIsFailedEvent(QuestSystem.Quest currentHandledQuest)
+        private IEnumerator QuestIsFailedNotif(QuestSystem.Quest currentHandledQuest)
         {
             QuestEventUICanvas.SetActive(true);
             QuestName.GetComponentInChildren<TextMeshProUGUI>().text = currentHandledQuest.questSetting.QuestName;
@@ -72,7 +71,7 @@ namespace QuestSystem
             EventName.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
 
-        private IEnumerator QuestIsCompletedEvent(QuestSystem.Quest currentHandledQuest)
+        private IEnumerator QuestIsCompletedNotif(QuestSystem.Quest currentHandledQuest)
         {
             QuestEventUICanvas.SetActive(true);
             QuestName.GetComponentInChildren<TextMeshProUGUI>().text = currentHandledQuest.questSetting.QuestName;
@@ -84,84 +83,17 @@ namespace QuestSystem
             QuestName.GetComponentInChildren<TextMeshProUGUI>().text = "";
             EventName.GetComponentInChildren<TextMeshProUGUI>().text = "";
         }
-    /*
-    #if UNITY_EDITOR
-        //For Getting and Assigning all Quest SO Assets
-        #region SettingUpMethods
-        
-        private static string[] GetSubFoldersRecursive(string root)
-        {
-            var paths = new List<string>();
-
-            // If there are no further subfolders then AssetDatabase.GetSubFolders returns 
-            // an empty array => foreach will not be executed
-            // This is the exit point for the recursion
-            foreach (var path in AssetDatabase.GetSubFolders(root))
-            {
-                // add this subfolder itself
-                paths.Add(path);
-
-                // If this has no further subfolders then simply no new elements are added
-                paths.AddRange(GetSubFoldersRecursive(path));
-            }
-
-            return paths.ToArray();
-        }
-
-        private void SettingUpQuestlineDictionary()
-        {
-            List<Quest> questList = new List<Quest>();
-
-            GetAllQuestSOAssets(questList, "Assets/ScriptableObjects/Quests");
-
-            if(questList != null)
-            {
-                AssignQuestToQuestDictionary(questList, QuestDictionary);
-            }
-            else if(questList == null)
-            {
-                Debug.Log("There Is No Quest Master!");
-            }
-        }
-        
-        private void GetAllQuestSOAssets(List<Quest> questList, string path)
-        {
-            string[] pathList = GetSubFoldersRecursive(path);
-
-            foreach(string assetPath in pathList)
-            {
-                string[] assetNames = AssetDatabase.FindAssets("t:Quest", new[]{assetPath});
-                foreach(string SOName in assetNames)
-                {
-                    var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-                    var character = AssetDatabase.LoadAssetAtPath<Quest>(SOpath);
-                    questList.Add(character);
-                }
-            }
-        }
-
-        private void AssignQuestToQuestDictionary(List<Quest> questList, Dictionary<string, Quest> questDictionary)
-        {
-            foreach(Quest questData in questList)
-            {
-                if(!questDictionary.ContainsValue(questData))
-                {
-                    questDictionary.Add(questData.questSetting.QuestId, questData);
-                }
-            }
-        }
-
         #endregion
-    #endif
-    */
-
+    
+        
+        #region  Quest Event Handler Methods
         private void HandleActivatedQuest(Quest questInstance)
         {
             if(!CurrentFailedQuestList.Contains(questInstance) && !CurrentCompletedQuestList.Contains(questInstance))
             {
                 if(!CurrentActivatedQuestList.Contains(questInstance))
                 {
-                    StartCoroutine(QuestIsStartedEvent(questInstance));
+                    StartCoroutine(QuestIsStartedNotif(questInstance));
 
                     CurrentActivatedQuestList?.Add(questInstance);
                 }
@@ -179,7 +111,7 @@ namespace QuestSystem
 
         private void HandleFailedQuest(Quest questInstance)
         {
-            StartCoroutine(QuestIsFailedEvent(questInstance));
+            StartCoroutine(QuestIsFailedNotif(questInstance));
 
             CurrentActivatedQuestList?.Remove(questInstance);
             CurrentCompletedQuestList?.Remove(questInstance);
@@ -187,9 +119,10 @@ namespace QuestSystem
 
             //ShowListConditionForDebug();
         }
+
         private void HandleCompletedQuest(Quest questInstance)
         {
-            StartCoroutine(QuestIsCompletedEvent(questInstance));
+            StartCoroutine(QuestIsCompletedNotif(questInstance));
 
             CurrentActivatedQuestList?.Remove(questInstance);
             CurrentCompletedQuestList.Add(questInstance);
@@ -197,32 +130,13 @@ namespace QuestSystem
 
             //ShowListConditionForDebug();
         }
+        #endregion
 
-        /*
-        private void ShowListConditionForDebug()
+        public void InitQuestFromQuestManager(string questId)
         {
-            Debug.Log("CurrentActivatedQuestList size : " + CurrentActivatedQuestList.Count);
-            Debug.Log("All active Quest List is : ");
-            foreach(Quest quest in CurrentActivatedQuestList)
-            {
-                Debug.Log("Quest Name: " + quest.questInformation.QuestName);
-            }
-
-            Debug.Log("CurrentCompletedQuestList size : " + CurrentCompletedQuestList.Count);
-            Debug.Log("All completed Quest List is : ");
-            foreach(Quest quest in CurrentCompletedQuestList)
-            {
-                Debug.Log("Quest Name: " + quest.questInformation.QuestName);
-            }
-
-            Debug.Log("CurrentFailedQuestList size : " + CurrentFailedQuestList.Count);
-            Debug.Log("All failed Quest List is : ");
-            foreach(Quest quest in CurrentFailedQuestList)
-            {
-                Debug.Log("Quest Name: " + quest.questInformation.QuestName);
-            }
+            QuestDictionary[questId].InitializeQuest();
         }
-        */
+
         public void SendProgressFromQuestManagerToQuest(object sendedData)
         {
             if(sendedData != null)

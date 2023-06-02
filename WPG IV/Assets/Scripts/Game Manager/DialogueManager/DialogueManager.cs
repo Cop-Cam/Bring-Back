@@ -36,6 +36,7 @@ namespace DialogueSystem
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
         private const string LAYOUT_TAG = "layout";
+        private const string STARTQUEST_TAG = "startquest";
 
 
         private void Start()
@@ -171,6 +172,10 @@ namespace DialogueSystem
 
                     case LAYOUT_TAG:
                         Debug.Log("Layout=" + tagValue);
+                        break;
+
+                    case STARTQUEST_TAG:
+                        QuestSystem.QuestManager.Instance.InitQuestFromQuestManager(tagValue);
                         break;
 
                     default:
