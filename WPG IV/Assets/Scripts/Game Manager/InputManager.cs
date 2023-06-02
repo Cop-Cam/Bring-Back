@@ -56,6 +56,8 @@ public class InputManager : GenericSingletonClass<InputManager>
     //Untuk mematikan atau menghidupkan pergerakkan pemain
     public void IsPlayerAllowedToMove(bool isAllowed)
     {
+        PlayerController.Instance.PlayerInputIsDisabled = !isAllowed;
+
         if(isAllowed)
         {
             playerInputActionAsset.FindActionMap("Player").FindAction("Move").Enable();

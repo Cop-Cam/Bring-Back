@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class InteractableObjects : MonoBehaviour
+public abstract class InteractableObjects : MonoBehaviour, IInteractable
 {
     [System.Serializable]
     protected struct InteractableObjectSetting

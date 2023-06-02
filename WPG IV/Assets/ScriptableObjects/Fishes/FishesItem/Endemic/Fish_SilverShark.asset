@@ -19,4 +19,5 @@ MonoBehaviour:
   itemBuyPrice: 0
   itemSellPrice: 1000
   fishTypes: 0
+  daysToMatured: 3
   fishPoint: 12

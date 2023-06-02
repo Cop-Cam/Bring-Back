@@ -7,30 +7,32 @@ using UnityEngine.InputSystem;
 public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 {
     private bool isInObject;
-    private GameObject InteractedGameObject;
-    //private GameObject InteractableIndicator;
+    private GameObject InteractedColliderGameObject;
+    private GameObject InteractedColliderParentGameObject;
 
     //raycast
     private int rayLength;
     private LayerMask layerMaskInteraction;
 
+    // private bool test;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         isInObject = false;
         rayLength = 2;
-
-        // InteractableIndicator.transform.position = new Vector3(0, 20, 0);
-        // InteractableIndicator.SetActive(false);
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
+        // if(test)
         DrawRayCast();
-    }
 
-    void DrawRayCast()
+        //the bug is most probably from collider that probably disappear when game is paused (timescale 0)
+    }
+    
+
+    private void DrawRayCast()
     {
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
         Ray ray = new Ray(transform.position, fwd);
@@ -38,20 +40,37 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 
         Debug.DrawRay(transform.position, fwd*rayLength, Color.red);
         
-        if(Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) && (!isInObject || InteractedGameObject == null))
+        if(Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) ) //&& (!isInObject) || InteractedGameObject == null))
         {
+            if(InteractedColliderParentGameObject != null && isInObject)
+            {
+                //Debug.Log("sudah ada di object");
+                return;
+            }
+
             //Debug.Log("masuk ke interactable");
             isInObject = true;
-            InteractedGameObject = hitData.collider.gameObject;
-            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(true);
+            InteractedColliderGameObject = hitData.collider.gameObject;
+            InteractedColliderParentGameObject = InteractedColliderGameObject.transform.parent.gameObject; //get parent of gameobject that has collider
+            
+            //InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(true);
+            InteractedColliderParentGameObject.transform.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(true);
         }
-        else if(!Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) && (isInObject || InteractedGameObject != null))
+        else if(!Physics.Raycast(ray, out hitData, rayLength, LayerMask.GetMask("Interactable")) )//&& (isInObject || InteractedGameObject != null))
         {
-            //Debug.Log("keluar dari interactable");
+            if(!isInObject) //jika belum masuk ke objek
+            {
+                //Debug.Log("belum masuk ke interactableobject");
+                return;
+            }
+
+            //Debug.Log("keluar dari interactableobject");
             isInObject = false;
-            Debug.Log("GAmeobject= "+ InteractedGameObject.name);
-            InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(false);
-            InteractedGameObject = null;
+            //Debug.Log("GAmeobject= "+ InteractedGameObject.name);
+            //InteractedGameObject.transform.parent.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(false);
+            InteractedColliderParentGameObject.transform.Find("Script").GetComponent<InteractableObjects>().PlayerRaycastIsInRangeIndicator(false);
+            InteractedColliderGameObject = null;
+            InteractedColliderParentGameObject = null;
         }
     }
 
@@ -59,59 +78,24 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
     {
         if(context.performed)
         {
+            //Debug.Log("interact context performed");
             Interact();
         }
     }
 
-    void Interact()
+    private void Interact()
     {
-
-
-        if(isInObject && InteractedGameObject != null)
+        Debug.Log("interacted gameobject : "+InteractedColliderParentGameObject.name);
+        if(isInObject && InteractedColliderParentGameObject != null)
         {
-            //IInteractable interactable = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<IInteractable>();
+            IInteractable interactableObjects;
 
-            InteractableObjects interactableObjects = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<InteractableObjects>();
+            //interactableObjects = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<IInteractable>();
+            interactableObjects = InteractedColliderParentGameObject.transform.GetComponentInChildren<IInteractable>();
 
-            if(interactableObjects != null)
-            {
+            //InteractableObjects interactableObjects = InteractedGameObject.transform.parent.gameObject.GetComponentInChildren<InteractableObjects>();
 
-                //Debug.Log("current interacted item :"+InteractedGameObject.transform.parent.gameObject.name);
-                //InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan input gerak dan interact pemain
-                //InputManager.Instance.IsPlayerAllowedToMove(false); //hanya mematikan pergerakkan pemain
-                interactableObjects.OnInteracted();
-            }
-            
-           
-            
-            /*
-            if(InteractedGameObject.transform.parent.gameObject.CompareTag("Inventory"))
-            {
-                InputManager.Instance.IsPlayerAllowedToDoPlayerMapsInput(false); //mematikan pergerakkan pemain
-                GameObject InteractedObjectParent = InteractedGameObject.transform.parent.gameObject;
-                LocalInventory localInventory = InteractedObjectParent.GetComponentInChildren<LocalInventory>();
-                localInventory.OnInteracted();
-                //ShopSystem.Instance.OpenShopMenu(localInventory); 
-            }
-            */
+            interactableObjects.OnInteracted();
         }
     }
-    
-
-    // private void OnTriggerEnter(Collider other) 
-    // {
-    //     //if(other.CompareTag("InteractableObjects"))
-    //     //{
-    //         isInObject = true;
-    //         InteractedGameObject = other.gameObject;
-    //     //}
-    // }
-
-    // private void OnTriggerExit(Collider other) 
-    // {
-        
-    //         isInObject = false;
-    //         InteractedGameObject = null;
-        
-    // }
 }

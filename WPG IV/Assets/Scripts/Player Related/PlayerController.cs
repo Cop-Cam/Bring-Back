@@ -81,7 +81,7 @@ public class PlayerController : GenericSingletonClass<PlayerController>
     {
         if(context.performed)
         {
-            Debug.Log("pause context");
+            //ebug.Log("pause context");
             UIManager.Instance.OpenMenu(GameManager.Instance);
         }
     }
@@ -90,7 +90,7 @@ public class PlayerController : GenericSingletonClass<PlayerController>
     {
         if(context.performed)
         {
-            Debug.Log("journal context");
+            //Debug.Log("journal context");
             UIManager.Instance.OpenMenu(Journal.Instance);
         }
     }

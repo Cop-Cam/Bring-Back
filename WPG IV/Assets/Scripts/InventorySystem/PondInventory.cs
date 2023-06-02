@@ -41,6 +41,7 @@ public class PondInventory : LocalInventory
     {
         TimeManager.OnDayChanged -= DayHasChanged;
     }
+    
     void DayHasChanged()
     {
         //Check if there is any fish in pond
@@ -74,13 +75,13 @@ public class PondInventory : LocalInventory
         base.InsertItem(insertedItem);
         if(currentSavedItem is FishSeedItemData)
         {
-            Debug.Log("beli ikan");
+            //Debug.Log("beli ikan");
             FishSeedItemData currentSavedFishSeed = insertedItem as FishSeedItemData;
             currentSavedFish = ConvertSeedToFish(currentSavedFishSeed);
         }
         else if(currentSavedItem is FishFeedItemData)
         {
-            Debug.Log("beli pakan");
+            //Debug.Log("beli pakan");
             currentSavedFeed = insertedItem as FishFeedItemData;
             FishDaysToMatureDecrement = currentSavedFeed.FishFeedEffectiveness;
             //StartCoroutine(FishMaturingMethod());
