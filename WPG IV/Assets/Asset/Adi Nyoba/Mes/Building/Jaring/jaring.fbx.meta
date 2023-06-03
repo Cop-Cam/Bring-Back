@@ -3,7 +3,22 @@ guid: af2297d3c868cd742918331562a92910
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jaring mesh
+    second: {fileID: 2100000, guid: b4f6445dc85675c4dbb49bc93478c4fd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: jaringteks
+    second: {fileID: 2100000, guid: feea83e3d478a934eaab835909ebc218, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pealmpung
+    second: {fileID: 2100000, guid: 1d5aae35210b86746855a6dff5aebd64, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
