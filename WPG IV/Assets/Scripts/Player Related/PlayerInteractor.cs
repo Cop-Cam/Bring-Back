@@ -85,7 +85,7 @@ public class PlayerInteractor : GenericSingletonClass<PlayerInteractor>
 
     private void Interact()
     {
-        Debug.Log("interacted gameobject : "+InteractedColliderParentGameObject.name);
+        //Debug.Log("interacted gameobject : "+InteractedColliderParentGameObject.name);
         if(isInObject && InteractedColliderParentGameObject != null)
         {
             IInteractable interactableObjects;

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PondInventory : LocalInventory
 {
-    protected FishItemData currentSavedFish;
+    [SerializeField] protected FishItemData currentSavedFish;
     protected FishFeedItemData currentSavedFeed;
-    private int FishDaysToMatureDecrement;
+    [SerializeField] private int currentSavedFishDaysBeforeMatured;
 
     [Tooltip("Model yang digunakan untuk keadaan kosong")]
     [SerializeField] private GameObject OnEmptyModel;
@@ -56,7 +56,6 @@ public class PondInventory : LocalInventory
         base.Start();
         currentSavedFish = null;
         currentSavedFeed = null;
-        FishDaysToMatureDecrement = 0;
 
         //for changing model 
         IsInventoryAvailable();
@@ -78,12 +77,13 @@ public class PondInventory : LocalInventory
             //Debug.Log("beli ikan");
             FishSeedItemData currentSavedFishSeed = insertedItem as FishSeedItemData;
             currentSavedFish = ConvertSeedToFish(currentSavedFishSeed);
+
+            currentSavedFishDaysBeforeMatured = currentSavedFish.daysToMatured;
         }
         else if(currentSavedItem is FishFeedItemData)
         {
             //Debug.Log("beli pakan");
             currentSavedFeed = insertedItem as FishFeedItemData;
-            FishDaysToMatureDecrement = currentSavedFeed.FishFeedEffectiveness;
             //StartCoroutine(FishMaturingMethod());
         }
         currentSavedItem = null;
@@ -156,7 +156,8 @@ public class PondInventory : LocalInventory
 
     public bool IsFishMatured()
     {
-        if(currentSavedFish.daysToMatured <= 0)
+        //if(currentSavedFish.daysToMatured <= 0)
+        if(currentSavedFishDaysBeforeMatured <= 0)
         {
             Debug.Log("fish is matured");
             //currentSavedFish.isFishMatured = true;
@@ -168,18 +169,23 @@ public class PondInventory : LocalInventory
         }
     }
 
-    void FishMaturingMethod()
+    private void FishMaturingMethod()
     {
-        Debug.Log("start maturing fish");
+        //Debug.Log("start maturing fish");
 
-        if(IsFishMatured())
+        // if(IsFishMatured())
+        // {
+        //     Debug.Log("Fish is matured");
+        //     return;
+        // }
+
+        if(!IsFishMatured() && isPondFishFeeded()) //Harus dieksekusi hari berikutnya
         {
-            Debug.Log("Fish is matured");
-        }
-        else if(!IsFishMatured() && isPondFishFeeded()) //Harus dieksekusi hari berikutnya
-        {
-            currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
+            //currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
+            currentSavedFishDaysBeforeMatured -= currentSavedFeed.FishFeedEffectiveness;
+           
             currentSavedFeed = null;
+
             Debug.Log("berhasil");
         }
         
