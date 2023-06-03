@@ -18,3 +18,4 @@ MonoBehaviour:
   itemDescription: ya cacing lah
   itemBuyPrice: 250
   itemSellPrice: 0
+  FishFeedEffectiveness: 1

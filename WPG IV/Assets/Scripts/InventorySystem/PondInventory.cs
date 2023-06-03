@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PondInventory : LocalInventory
 {
-    [SerializeField] protected FishItemData currentSavedFish;
+    protected FishItemData currentSavedFish;
     protected FishFeedItemData currentSavedFeed;
-    [SerializeField] private int currentSavedFishDaysBeforeMatured;
+    private int currentSavedFishDaysBeforeMatured;
 
     [Tooltip("Model yang digunakan untuk keadaan kosong")]
     [SerializeField] private GameObject OnEmptyModel;
