@@ -13,6 +13,11 @@ public class FishItemData : InventoryItemData, IDiscoverable
     //public bool isFishMatured { get; set; }
     public int fishPoint; //objective point
 
+    public bool isItemDiscovered()
+    {
+        return isFishDiscovered;
+    }
+
     public void UpdateDiscoveredStatus(bool status)
     {
         isFishDiscovered = status;

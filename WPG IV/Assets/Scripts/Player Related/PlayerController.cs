@@ -94,4 +94,12 @@ public class PlayerController : GenericSingletonClass<PlayerController>
             UIManager.Instance.OpenMenu(Journal.Instance);
         }
     }
+
+    public void OnEncyclopediaOpenedFromShortcut(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            UIManager.Instance.OpenMenu(EncyclopediaManager.Instance);
+        }
+    }
 }

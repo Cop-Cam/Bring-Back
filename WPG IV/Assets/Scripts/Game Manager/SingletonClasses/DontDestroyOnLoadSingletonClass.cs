@@ -47,7 +47,17 @@ public class DontDestroyOnLoadSingletonClass<T> : MonoBehaviour where T : Compon
             {
                 Debug.LogWarning("another instance of "+instance.GetType()+" inside of "+gameObject.name);
                 Debug.LogWarning("current instance of "+instance.GetType()+" is inside of " + instance.gameObject.name);
-                Destroy (gameObject);
+
+            #if UNITY_EDITOR
+                
+                DestroyImmediate(gameObject);
+
+            #else
+                
+                Destroy(gameObject);
+            
+            #endif
+            
             }
         }
     }

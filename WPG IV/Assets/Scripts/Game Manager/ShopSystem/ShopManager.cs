@@ -129,7 +129,6 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
 
     
     #region Button Events For Shop        
-    
     private void ButtonEventBuyItem(InventoryItemData itemData)
     {
         if(CheckResourceMoney(itemData))
@@ -145,12 +144,15 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
         if(currentOpenedInventory.IsItemReadyToSellorCollect())
         {
             InventoryItemData soldItem = currentOpenedInventory.RemoveItem();
+            
+            if(soldItem is IDiscoverable discoverable && !discoverable.isItemDiscovered())
+            {
+                discoverable.UpdateDiscoveredStatus(true);
+            }
+            
             PlayerResourceManager.Instance.ChangeMoney(soldItem.itemSellPrice);
         }
-        else
-        {
-            Debug.Log("Item is not ready to sell");
-        }
+    
         RefreshShopOnClick();
     }
     private void ButtonEventCollectItem()
@@ -158,18 +160,17 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
         if(currentOpenedInventory.IsItemReadyToSellorCollect())
         {
             InventoryItemData collectedItem = currentOpenedInventory.RemoveItem();
-
-            //send collected item to playerinventory
-            //PlayerResourceManager.Instance.SetSavedItemInInventory(collectedItem);
+            
+            if(collectedItem is IDiscoverable discoverable && !discoverable.isItemDiscovered())
+            {
+                discoverable.UpdateDiscoveredStatus(true);
+            }
+            
             QuestSystem.QuestManager.Instance.SendProgressFromQuestManagerToQuest(collectedItem);
         }
-        else
-        {
-            Debug.Log("Item is not ready to collect");
-        }
+       
         RefreshShopOnClick();
     }
-
     #endregion
 
 
@@ -182,7 +183,6 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
     }
 
     #region SettingUpItemInShopMethods
-
     private void SetBuyItemInShop()
     {
         //foreach(KeyValuePair<string, InventoryItemData> listItem in ListShopItem.ListItem)
@@ -221,8 +221,6 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
                     _button.GetComponent<ButtonScript>().interactable = true;
                 }
             }
-            
-            // Instantiate(BuyableItemPrefab, BuyGridLayout.transform);
         }
     }
 
@@ -237,8 +235,8 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
         else if(!currentOpenedInventory.IsInventoryAvailable())
         {
             _button.transform.Find("Harga").transform.Find("HargaText").GetComponent<TextMeshProUGUI>().text = currentOpenedInventory.GetCurrentSavedItemData().itemSellPrice.ToString();
-            _button.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
-            //SellableItemPrefab.GetComponent<SellButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
+            //_button.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
+            
             _button.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventSellItem());
 
             
@@ -251,8 +249,6 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
                 _button.GetComponent<ButtonScript>().interactable = false;
             }
         }
-
-        // Instantiate(SellableItemPrefab, SellGridLayout.transform);
     }
 
     private void SetCollectItemInShop()
@@ -264,8 +260,14 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
         }
         else if(!currentOpenedInventory.IsInventoryAvailable())
         {
-            _button.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
-            //CollectableItemPrefab.GetComponent<CollectButtonScript>().SetButtonItemData(currentOpenedInventory.GetCurrentSavedItemData());
+            
+            if(currentOpenedInventory.GetCurrentSavedItemData() is FishItemData)
+            {
+                FishItemData fishItemData = currentOpenedInventory.GetCurrentSavedItemData() as FishItemData;
+                _button.transform.Find("Collect").GetComponentInChildren<TextMeshProUGUI>().text = fishItemData.fishPoint.ToString();
+            }
+            //_button.transform.Find("Icon").GetComponent<Image>().sprite = currentOpenedInventory.GetCurrentSavedItemData().icon;
+            
             _button.GetComponent<ButtonScript>().onClick.AddListener(() => ButtonEventCollectItem());
 
             
@@ -278,8 +280,6 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
                 _button.GetComponent<ButtonScript>().interactable = false;
             }
         }
-
-        //Instantiate(CollectableItemPrefab, CollectGridLayout.transform);
     }
 
     #endregion

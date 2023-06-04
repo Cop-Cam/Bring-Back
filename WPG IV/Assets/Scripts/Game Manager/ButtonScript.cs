@@ -16,34 +16,6 @@ public class ButtonScript : Button
             return m_graphics;
         }
     }
-    /*
-    [SerializeField] protected InventoryItemData itemData;
-    [SerializeField] private Button thisObjButton;
-
-
-    protected override void Awake() 
-    {
-        base.Awake();
-        thisObjButton = transform.GetComponent<Button>();
-    }
-
-    // Start is called before the first frame update
-    protected override void Start()
-    {
-        base.Start();
-        thisObjButton.onClick.AddListener(() => OnClick());
-    }
-
-    protected virtual void OnClick()
-    {
-        Debug.Log("Tombol ditekan");
-    }
-
-    public virtual void SetButtonItemData(InventoryItemData other)
-    {
-        itemData = other;
-    }
-    */
 
     protected override void DoStateTransition(SelectionState state, bool instant)
     {
@@ -94,9 +66,4 @@ public class ButtonScript : Button
             g.CrossFadeColor(targetColor, (!instant) ? colors.fadeDuration : 0f, true, true);
         }
     }
-
-    // public virtual void SetButtonInteractable(bool isInteractable)
-    // {
-    //     thisObjButton.enabled = isInteractable;
-    // }
 }
