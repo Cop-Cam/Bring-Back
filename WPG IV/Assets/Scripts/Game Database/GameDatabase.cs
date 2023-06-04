@@ -10,7 +10,7 @@ using System.Linq;
 using UnityEditor;
 #endif
 
-public class GameDatabase : GenericSingletonClass<GameDatabase>
+public class GameDatabase : DontDestroyOnLoadSingletonClass<GameDatabase>
 {
 
     [SerializeField] private List<ScriptableObject> itemList = new List<ScriptableObject>();

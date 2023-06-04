@@ -35,6 +35,10 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHand
                 {
                     // start game
                     Debug.Log("start game");
+
+                    SceneLoader.Instance.LoadSceneAsync("Demo");
+                    
+                    StartCoroutine(TransitionManager.Instance.StartTransition());
                 }
                 else if (thisIndex == 1)
                 {
