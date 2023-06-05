@@ -175,6 +175,7 @@ namespace DialogueSystem
                         break;
 
                     case STARTQUEST_TAG:
+                        Debug.Log("quest start from dialoguemanager");
                         QuestSystem.QuestManager.Instance.InitQuestFromQuestManager(tagValue);
                         break;
 
