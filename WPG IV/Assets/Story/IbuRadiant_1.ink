@@ -1,8 +1,6 @@
-->main
+//Ibu 
 
-===main===
-Ibu bangga dan percaya padamu #speaker :ibu #portrait:Ibu_Senang
+Untuk mengakses kolam dan jaring kamu hanya perlu mendekati dan menekan "F" itu cukup mudah kok #speaker:Ibu #portrait: Ibu_Default
 
-Iya, serahkan saja kepadaku, bu #speaker:Wicak #portrait:#portrait:Wicak_J
 
-->DONE
+-> DONE
