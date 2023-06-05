@@ -168,10 +168,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableObjectSetting:
     dontUseScriptToPositioningIndicator: 0
-    y_axis_offset: 2
+    y_axis_offset: 3
     InteractableIndicatorObj: {fileID: 0}
     InteractIconObj: {fileID: 0}
     ActivatedInteractIconColor: {r: 0, g: 0, b: 0, a: 0}
     DeactivatedInteractIconColor: {r: 0, g: 0, b: 0, a: 0}
   InvansiveFishesInThisLake: []
-  EnergyNeeded: 0
+  EnergyNeeded: 10

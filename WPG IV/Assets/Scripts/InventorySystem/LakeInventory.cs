@@ -55,11 +55,10 @@ public class LakeInventory : LocalInventory
             // InputManager.Instance.IsPlayerAllowedToMove(false);
             InputManager.Instance.IsPlayerAllowedToInteract(false);
 
-            PlayerResourceManager.Instance.ChangeEnergy(-(EnergyNeeded));
+            PlayerResourceManager.Instance.ChangeEnergy(-EnergyNeeded);
             //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
             int rand = UnityEngine.Random.Range(0, InstantiatedInvansiveFishesInThisLake.Count);
-            Debug.Log("rand: "+rand);
-            Debug.Log("size: "+InstantiatedInvansiveFishesInThisLake.Count);
+            
             currentSavedItem = InstantiatedInvansiveFishesInThisLake[rand];
 
             LakeUIController.Instance.OpenLakeUI(this);
