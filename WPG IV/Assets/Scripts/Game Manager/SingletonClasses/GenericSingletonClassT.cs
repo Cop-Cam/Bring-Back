@@ -1,4 +1,3 @@
-//THIS IS SINGLETON CLASS
 
 using UnityEngine;
 

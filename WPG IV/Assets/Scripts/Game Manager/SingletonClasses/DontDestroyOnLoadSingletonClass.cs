@@ -7,7 +7,6 @@ public class DontDestroyOnLoadSingletonClass<T> : MonoBehaviour where T : Compon
 
     private static readonly object padlock = new object();
     
-
     public static T Instance 
     {
         get 
@@ -22,6 +21,7 @@ public class DontDestroyOnLoadSingletonClass<T> : MonoBehaviour where T : Compon
                         GameObject obj = new GameObject ();
                         obj.name = typeof(T).Name;
                         instance = obj.AddComponent<T>();
+                        Debug.LogWarning("created another instance of "+instance.GetType()+" inside of "+obj.name+" using getter");
                     }
                 }
             }

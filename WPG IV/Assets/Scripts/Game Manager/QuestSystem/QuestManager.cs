@@ -31,6 +31,10 @@ namespace QuestSystem
             {
                 Debug.LogWarning("database quest dict kosong");
             }
+            else
+            {
+                Debug.Log("QuestDictionary size: "+QuestDictionary.Count);
+            }
 
             //SettingUpQuestlineDictionary();
 
@@ -163,6 +167,7 @@ namespace QuestSystem
 
         private void OnEnable()
         {
+            Debug.Log("subscribing to all quest");
             foreach(Quest quest in QuestDictionary.Values)
             {
                 quest.OnQuestCompletedEvent += HandleCompletedQuest;
@@ -173,6 +178,8 @@ namespace QuestSystem
 
         private void OnDisable() 
         {
+            Debug.Log("unsubscribing to all quest");
+
             foreach(Quest quest in QuestDictionary.Values)
             {
                 quest.OnQuestCompletedEvent -= HandleCompletedQuest;

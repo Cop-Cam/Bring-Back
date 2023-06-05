@@ -10,6 +10,7 @@ using System.Linq;
 using UnityEditor;
 #endif
 
+[DefaultExecutionOrder(-1000)]
 public class GameDatabase : DontDestroyOnLoadSingletonClass<GameDatabase>
 {
 
@@ -38,6 +39,11 @@ public class GameDatabase : DontDestroyOnLoadSingletonClass<GameDatabase>
         //isGameDatabaseReady = true;
         //Debug.Log("itemlist size: "+itemList.Count);
         SortAllItemInGame(itemList);
+
+        if(DB_FishItems.Count == 0) Debug.LogError("DB_FishItems is empty");
+        if(DB_FishSeeds.Count == 0) Debug.LogError("DB_FishSeeds is empty");
+        if(DB_FishFeeds.Count == 0) Debug.LogError("DB_FishFeeds is empty");
+        if(DB_Quests.Count == 0) Debug.LogError("DB_Quests is empty");
     }
 
     /*
