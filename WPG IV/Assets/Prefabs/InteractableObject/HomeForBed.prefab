@@ -548,6 +548,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd55cb1f9efebb844b4850ce4650364f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactableObjectSetting:
+    dontUseScriptToPositioningIndicator: 1
+    y_axis_offset: 0
+    InteractableIndicatorObj: {fileID: 0}
+    InteractIconObj: {fileID: 0}
+    ActivatedInteractIconColor: {r: 0, g: 0, b: 0, a: 0}
+    DeactivatedInteractIconColor: {r: 0, g: 0, b: 0, a: 0}
   SleepConfirmationUI: {fileID: 1753869577504510939}
 --- !u!1 &4628536366235679443
 GameObject:

@@ -77,7 +77,7 @@ public class PondInventory : LocalInventory
             //Debug.Log("beli ikan");
             FishSeedItemData currentSavedFishSeed = currentSavedItem as FishSeedItemData;
             currentSavedFish = ConvertSeedToFish(currentSavedFishSeed);
-
+            UnityEngine.Object.Destroy(currentSavedFishSeed);
             //currentSavedFishDaysBeforeMatured = currentSavedFish.daysToMatured;
         }
         else if(currentSavedItem is FishFeedItemData)
@@ -184,7 +184,8 @@ public class PondInventory : LocalInventory
             //currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
             currentSavedFish.daysToMatured -= currentSavedFeed.FishFeedEffectiveness;
            
-            currentSavedFeed = null;
+            UnityEngine.Object.Destroy(currentSavedFeed);
+            //currentSavedFeed = null;
 
             Debug.Log("berhasil");
         }

@@ -28,7 +28,7 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     // Start is called before the first frame update
     void Start()
     {
-        ChangeMoney(0);
+        ChangeMoney(2000);
         PlayerMaxEnergy = 100;
         ChangeEnergy(PlayerMaxEnergy);
     }

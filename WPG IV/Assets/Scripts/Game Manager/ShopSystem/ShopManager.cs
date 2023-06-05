@@ -214,10 +214,20 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
                 _button.GetComponent<ButtonScript>().interactable = false;
             }
 
-            //Khusus pond inventory //mengecekj adakah pakan pada pond
+            //Khusus pond inventory 
+            //mengecekj adakah pakan pada pond
             if(currentOpenedInventory is PondInventory && listItem is FishFeedItemData)
             {
                 PondInventory otherInventory = currentOpenedInventory as PondInventory;
+                
+                //membatasi agar pemain tidak dapat membeli pakan jika ikan sudah siap untuk dipanen
+                if(otherInventory.IsItemReadyToSellorCollect())
+                {
+                    _button.GetComponent<ButtonScript>().interactable = false;
+                    continue;
+                }
+                
+                //membatasi agar pemain tidak dapat membeli pakan jika ikan sudah dipakani
                 if(otherInventory.isPondFishFeeded())
                 {
                     _button.GetComponent<ButtonScript>().interactable = false;

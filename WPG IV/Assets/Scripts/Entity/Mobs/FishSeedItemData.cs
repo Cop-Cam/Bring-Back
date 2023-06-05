@@ -10,7 +10,7 @@ public class FishSeedItemData : InventoryItemData
 
     public FishItemData SendFishDataFromSeed()
     {
-        return FishData;
+        return Instantiate(FishData);
     }
 }
 
