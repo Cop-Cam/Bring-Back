@@ -1,4 +1,5 @@
 //Ibu 
+#startquest:60154
 loh nakk kok kamu bisa disini? bukannya kamu masih kuliah? #speaker :ibu #portrait:Ibu_Default 
 
 -> main
@@ -27,6 +28,6 @@ tidak bisa begitu bu.. sekarang waktunya yang tepat, ikan invasif semakin besar 
 baiklah kalau begitu keputusanmu ibu akan mendukungmu nak.. didepan rumah ada kolam kosong, kamu dapat membudidaya ikan disana. Dan juga didekat danau terdapat jaring yang dapat kamu gunakan. #speaker:ibu #portrait:Ibu_Senang
 
 
-apa ? kolam dan jaringnya sudah ada ? baiklah kalau begitu aku bisa mulai lebih awal #speaker:Wicak #portrait:Wicak_J
+apa ? kolam dan jaringnya sudah ada ? baiklah kalau begitu aku bisa mulai lebih awal #speaker:Wicak #portrait:Wicak_J 
 
 -> DONE
