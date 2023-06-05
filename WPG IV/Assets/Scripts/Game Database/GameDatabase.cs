@@ -86,14 +86,16 @@ public class GameDatabase : DontDestroyOnLoadSingletonClass<GameDatabase>
     }
     */
 
-
+    //Basically, SO will save everything that happen in runtime to SO asset
+    //To getting around this, I made a copy for every included SO to get assigned in their own database
     private void SortAllItemInGame(List<ScriptableObject> list)
     {
         foreach (ScriptableObject SO in list)
         {
-            if(SO is InventoryItemData)
+            ScriptableObject instantiatedInRuntime = Instantiate(SO);
+            if(instantiatedInRuntime is InventoryItemData)
             {
-                InventoryItemData tempInventoryItem = SO as InventoryItemData;
+                InventoryItemData tempInventoryItem = instantiatedInRuntime as InventoryItemData;
 
                 if(tempInventoryItem is FishFeedItemData)
                 {
@@ -112,9 +114,9 @@ public class GameDatabase : DontDestroyOnLoadSingletonClass<GameDatabase>
                 }
             }
 
-            if(SO is QuestSystem.Quest)
+            if(instantiatedInRuntime is QuestSystem.Quest)
             {
-                QuestSystem.Quest temp = SO as QuestSystem.Quest;
+                QuestSystem.Quest temp = instantiatedInRuntime as QuestSystem.Quest;
                 DB_Quests.Add(temp.questSetting.QuestId, temp);
             }
         }

@@ -1,40 +1,66 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class LakeInventory : LocalInventory
 {
     [Tooltip("Masukkan Semua Jenis Ikan Yang Bisa Muncul Pada Danau Ini")]
-    [SerializeField] private InventoryItemData[] InvansiveFishesInThisLake;
-
+    [SerializeField] private InventoryItemData[] InvansiveFishesInThisLake; //template for what fish will be included in runtime
+    private List<InventoryItemData> InstantiatedInvansiveFishesInThisLake; //runtime fish
     [SerializeField] private int EnergyNeeded = 10;
 
-    /*
-    protected override void Start() 
+    protected override void Start()
     {
         base.Start();
-        
-    }
-    */
 
-    public override void OnInteracted()
-    {
         if(InvansiveFishesInThisLake == null || InvansiveFishesInThisLake.Length == 0) 
         {
             Debug.LogWarning("There is no fish in this lake!");
             return;
         }
 
-        if(PlayerResourceManager.Instance.PlayerEnergy-EnergyNeeded >= 0)
+        //Basically, SO will save everything that happen in runtime to SO asset
+        //To getting around this, I made fish to get the id because using "is" will not work
+        InstantiatedInvansiveFishesInThisLake = new List<InventoryItemData>();
+        foreach(InventoryItemData fishItem in GameDatabase.Instance.DB_FishItems.Values)
+        {
+            if (InvansiveFishesInThisLake.Any(fish => fish.id == fishItem.id))
+            {
+                //Debug.LogWarning("fish added");
+                InstantiatedInvansiveFishesInThisLake.Add(fishItem);
+            }
+
+
+            // foreach(InventoryItemData fish in InvansiveFishesInThisLake)
+            // {
+            //     if(fish.id == fishItem.id)
+            //     {
+            //         InstantiatedInvansiveFishesInThisLake.Add(fishItem as InventoryItemData);
+            //     }
+            // }
+        }
+    }
+
+    public override void OnInteracted()
+    {
+        if(InvansiveFishesInThisLake == null || InvansiveFishesInThisLake.Length == 0) 
+        {
+            //Debug.LogWarning("There is no fish in this lake!");
+            return;
+        }
+
+        if(PlayerResourceManager.Instance.PlayerEnergy - EnergyNeeded >= 0)
         {
             // InputManager.Instance.IsPlayerAllowedToMove(false);
             InputManager.Instance.IsPlayerAllowedToInteract(false);
 
             PlayerResourceManager.Instance.ChangeEnergy(-(EnergyNeeded));
             //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
-            int rand = UnityEngine.Random.Range(0, InvansiveFishesInThisLake.Length);
-            //Debug.Log("rand: "+rand);
-            currentSavedItem = InvansiveFishesInThisLake[rand];
+            int rand = UnityEngine.Random.Range(0, InstantiatedInvansiveFishesInThisLake.Count);
+            Debug.Log("rand: "+rand);
+            Debug.Log("size: "+InstantiatedInvansiveFishesInThisLake.Count);
+            currentSavedItem = InstantiatedInvansiveFishesInThisLake[rand];
 
             LakeUIController.Instance.OpenLakeUI(this);
         }
@@ -46,57 +72,4 @@ public class LakeInventory : LocalInventory
         }
     }
 
-    
-    //Inserting Item Method, can use method overloader
-    public override void InsertItem(InventoryItemData insertedItem)
-    {
-        currentSavedItem = insertedItem;
-    }
-
-    //Remove data
-    public override InventoryItemData RemoveItem()
-    {
-        InventoryItemData sendedSavedItem = currentSavedItem;
-        currentSavedItem = null;
-        return sendedSavedItem;
-    }
-
-    //mengecek kepenuhan inventory
-    public override bool IsInventoryAvailable()
-    {
-        if(currentSavedItem == null) //jika tidak ada item
-        {
-            return true;
-        }
-        else //jika ada item
-        {
-            return false;
-        }
-    }
-
-    //mengecek apakah item bisa dijual atau dicollect
-    public override bool IsItemReadyToSellorCollect()
-    {
-        if(IsInventoryAvailable())
-        {
-            return false;
-        }
-        else
-        {
-            if(currentSavedItem != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
-    public override InventoryItemData GetCurrentSavedItemData()
-    {
-        return currentSavedItem;
-    }
-    
 }

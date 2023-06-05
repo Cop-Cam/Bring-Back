@@ -158,7 +158,7 @@ public class EncyclopediaManager : GenericSingletonClass<EncyclopediaManager>, I
     {
         FishNameText.text = fishItem.displayName;
         FishImage.sprite = fishItem.icon;
-        FishDescriptionText.text = fishItem.fishDescription;
+        FishDescriptionText.text = fishItem.itemDescription;
         FishTypeText.text = fishItem.fishTypes.ToString();
         FishLocationText.text = "Game Designer tidak bilang";
         FishPointText.text = fishItem.fishPoint.ToString();

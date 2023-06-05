@@ -21,6 +21,8 @@ public class StatusUIController : GenericSingletonClass<StatusUIController>
     private void UpdateEnergy()
     {
         currentEnergyText.text = PlayerResourceManager.Instance.PlayerEnergy.ToString();
+        
+        Debug.Log("Current Energy: "+currentEnergyText.text);
     }
 
     private void OnEnable() 

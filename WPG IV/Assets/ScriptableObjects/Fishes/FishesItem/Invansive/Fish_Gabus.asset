@@ -19,5 +19,6 @@ MonoBehaviour:
   itemBuyPrice: 0
   itemSellPrice: 150
   fishTypes: 1
+  isFishDiscovered: 0
   daysToMatured: 0
   fishPoint: 10

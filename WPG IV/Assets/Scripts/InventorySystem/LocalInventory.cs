@@ -20,7 +20,7 @@ public class LocalInventory : InteractableObjects
     //Inserting Item Method, can use method overloader
     public virtual void InsertItem(InventoryItemData insertedItem)
     {
-        currentSavedItem = insertedItem;
+        currentSavedItem = Instantiate(insertedItem);
     }
 
     //Remove data

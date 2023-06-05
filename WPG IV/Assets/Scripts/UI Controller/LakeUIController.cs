@@ -96,21 +96,15 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>, IMenuHa
         {
             InventoryItemData soldItem = lakeInventory.RemoveItem();
 
-            // if(soldItem is IDiscoverable)
-            // {
-            //     IDiscoverable discoverable = soldItem as IDiscoverable;
-            //     if(!discoverable.isItemDiscovered())
-            //     {
-            //         discoverable.UpdateDiscoveredStatus(true);
-            //     }
-            // }
-
             if(soldItem is IDiscoverable discoverable && !discoverable.isItemDiscovered())
             {
                 discoverable.UpdateDiscoveredStatus(true);
             }
 
             PlayerResourceManager.Instance.ChangeMoney(soldItem.itemSellPrice);
+
+            //delete the instance
+            UnityEngine.Object.Destroy(soldItem);
         }
         
         CloseLakeUI();
@@ -127,6 +121,9 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>, IMenuHa
             }
 
             QuestSystem.QuestManager.Instance.SendProgressFromQuestManagerToQuest(collectedItem);
+
+            //delete the instance
+            UnityEngine.Object.Destroy(collectedItem);
         }
 
         CloseLakeUI();

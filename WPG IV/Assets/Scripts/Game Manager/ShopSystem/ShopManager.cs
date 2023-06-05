@@ -151,6 +151,9 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
             }
             
             PlayerResourceManager.Instance.ChangeMoney(soldItem.itemSellPrice);
+            
+            //delete the instance
+            UnityEngine.Object.Destroy(soldItem);
         }
     
         RefreshShopOnClick();
@@ -167,6 +170,9 @@ public class ShopManager : GenericSingletonClass<ShopManager>, IMenuHandler
             }
             
             QuestSystem.QuestManager.Instance.SendProgressFromQuestManagerToQuest(collectedItem);
+
+            //delete the instance
+            UnityEngine.Object.Destroy(collectedItem);
         }
        
         RefreshShopOnClick();

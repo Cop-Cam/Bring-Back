@@ -6,7 +6,7 @@ public class PondInventory : LocalInventory
 {
     protected FishItemData currentSavedFish;
     protected FishFeedItemData currentSavedFeed;
-    private int currentSavedFishDaysBeforeMatured;
+    //private int currentSavedFishDaysBeforeMatured;
 
     [Tooltip("Model yang digunakan untuk keadaan kosong")]
     [SerializeField] private GameObject OnEmptyModel;
@@ -75,15 +75,15 @@ public class PondInventory : LocalInventory
         if(currentSavedItem is FishSeedItemData)
         {
             //Debug.Log("beli ikan");
-            FishSeedItemData currentSavedFishSeed = insertedItem as FishSeedItemData;
+            FishSeedItemData currentSavedFishSeed = currentSavedItem as FishSeedItemData;
             currentSavedFish = ConvertSeedToFish(currentSavedFishSeed);
 
-            currentSavedFishDaysBeforeMatured = currentSavedFish.daysToMatured;
+            //currentSavedFishDaysBeforeMatured = currentSavedFish.daysToMatured;
         }
         else if(currentSavedItem is FishFeedItemData)
         {
             //Debug.Log("beli pakan");
-            currentSavedFeed = insertedItem as FishFeedItemData;
+            currentSavedFeed = currentSavedItem as FishFeedItemData;
             //StartCoroutine(FishMaturingMethod());
         }
         currentSavedItem = null;
@@ -157,7 +157,7 @@ public class PondInventory : LocalInventory
     public bool IsFishMatured()
     {
         //if(currentSavedFish.daysToMatured <= 0)
-        if(currentSavedFishDaysBeforeMatured <= 0)
+        if(currentSavedFish.daysToMatured <= 0)
         {
             Debug.Log("fish is matured");
             //currentSavedFish.isFishMatured = true;
@@ -182,7 +182,7 @@ public class PondInventory : LocalInventory
         if(!IsFishMatured() && isPondFishFeeded()) //Harus dieksekusi hari berikutnya
         {
             //currentSavedFish.daysToMatured -= FishDaysToMatureDecrement;
-            currentSavedFishDaysBeforeMatured -= currentSavedFeed.FishFeedEffectiveness;
+            currentSavedFish.daysToMatured -= currentSavedFeed.FishFeedEffectiveness;
            
             currentSavedFeed = null;
 

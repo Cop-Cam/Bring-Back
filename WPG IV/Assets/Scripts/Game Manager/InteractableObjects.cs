@@ -7,7 +7,7 @@ public abstract class InteractableObjects : MonoBehaviour, IInteractable
     [System.Serializable]
     protected struct InteractableObjectSetting
     {
-        public bool dontFixPosition;
+        public bool dontUseScriptToPositioningIndicator;
         public float y_axis_offset;
         public GameObject InteractableIndicatorObj;
         public GameObject InteractIconObj;
@@ -31,17 +31,14 @@ public abstract class InteractableObjects : MonoBehaviour, IInteractable
             interactableObjectSetting.y_axis_offset = 2;
         }
         
-        if(interactableObjectSetting.dontFixPosition)
-        {
-            //nothing to do, just lazy to change every affected objects
-        }
-        else
+        if(!interactableObjectSetting.dontUseScriptToPositioningIndicator)
         {
             interactableObjectSetting.InteractableIndicatorObj.transform.position = 
                 new Vector3(transform.position.x, 
                     transform.position.y+interactableObjectSetting.y_axis_offset, 
                     transform.position.z);
         }
+        
         
         SetInteractIcon(GameDatabase.Instance.InteractIconDefault_Sprite, GameDatabase.Instance.InteractIconActivatedDefault_Color, GameDatabase.Instance.InteractIconDeactivatedDefault_Color);
     }
