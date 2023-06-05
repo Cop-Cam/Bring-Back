@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8848cd6b0c542a64da1d3b48d10c4895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuestUIDisplayDuration: 7
+  QuestUIDisplayDuration: 5
   QuestEventUICanvas: {fileID: 6192541030802198210}
   QuestName: {fileID: 314111004030187781}
   EventName: {fileID: 7303615626739323503}
