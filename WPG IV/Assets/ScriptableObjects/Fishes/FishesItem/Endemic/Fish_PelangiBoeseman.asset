@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Fish_PelangiBoeseman
   displayName: Ikan Pelangi Boeseman
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: bccf6664440952d4ab7d92b57844f1f8, type: 3}
   itemDescription: Ikan Pelangi Boeseman
   itemBuyPrice: 0
-  itemSellPrice: 3000
+  itemSellPrice: 15000
   fishTypes: 0
-  daysToMatured: 3
-  fishPoint: 40
+  daysToMatured: 12
+  fishPoint: 200

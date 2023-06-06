@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Fish_HiuEkorMerah
   displayName: Hiu Ekor Merah
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5184bf81d2ff38d4d8411a718384b4b6, type: 3}
   itemDescription: Hiu Ekor Merah
   itemBuyPrice: 0
-  itemSellPrice: 1500
+  itemSellPrice: 20000
   fishTypes: 0
-  daysToMatured: 3
-  fishPoint: 250
+  daysToMatured: 16
+  fishPoint: 500

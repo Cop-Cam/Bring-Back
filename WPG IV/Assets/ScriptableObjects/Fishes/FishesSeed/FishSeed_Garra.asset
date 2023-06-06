@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Seed_Garra
   displayName: Benih Garra Rakhinica
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5b5dd23b57ff0a349b1c32f60052a280, type: 3}
   itemDescription: Garra
   itemBuyPrice: 500
   itemSellPrice: 0

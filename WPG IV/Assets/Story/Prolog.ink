@@ -15,9 +15,9 @@ ikan invasif merupakan ikan asing yang memasuki pada habitat tertentu dan merusa
 wahh aku baru tau seperti itu, namun kenapa ikan tersebut bisa memasuki danau kita bu? #speaker: wicak
 //Ibu 
 Kebanyakan hal tersebut terjadi karena perbuatan manusia nak.. seperti meracuni habitat lain sehingga ikan tersebut berpindah ke danau kita. atau bisa dari perdagangan illegal, dan juga bisa saja seseorang memelihara suatu ikan lalu dilepaskan saja pada suatu habitat tertentu. itu semua dapat menyebabkan ikan invasif ada pada danau kita. #speaker: ibu 
+
 //Wicak Child
-Jadi begitu.. kemungkinan kita sendiri tidak sadar bahwa kitalah yang merusak ekosistem tersebut
-, apakah ibu tau ikan apa saja yang dulu ada didanau ini? #speaker :wicak
+Jadi begitu.. kemungkinan kita sendiri tidak sadar bahwa kitalah yang merusak ekosistem tersebut , apakah ibu tau ikan apa saja yang dulu ada didanau ini? #speaker :wicak
 //Ibu 
 Ibu kurang begitu tau nak.. pada zaman ibu dulu, ikan ini sudah langka... ibu cuman mendengarnya dari cerita nenek. #speaker :ibu
 //Wicak Child

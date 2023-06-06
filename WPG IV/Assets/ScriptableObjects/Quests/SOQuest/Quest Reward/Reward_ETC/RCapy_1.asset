@@ -9,15 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e33b5da4383162409f71cb70ad92be6, type: 3}
-  m_Name: Fish_Tengadak
+  m_Script: {fileID: 11500000, guid: 3064a2cd7017c7342b21a32033370285, type: 3}
+  m_Name: RCapy_1
   m_EditorClassIdentifier: 
-  id: Fish_Tengadak
-  displayName: Tengadak
-  icon: {fileID: 0}
-  itemDescription: Ikan Tengadak
-  itemBuyPrice: 0
-  itemSellPrice: 720
-  fishTypes: 0
-  daysToMatured: 3
-  fishPoint: 24
+  moneyChange: 2000

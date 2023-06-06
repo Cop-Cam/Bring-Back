@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Fish_Garra
   displayName: Garra Rakhinica
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5b5dd23b57ff0a349b1c32f60052a280, type: 3}
   itemDescription: Garra Rakhinica
   itemBuyPrice: 0
-  itemSellPrice: 100
+  itemSellPrice: 1200
   fishTypes: 0
-  daysToMatured: 3
-  fishPoint: 2
+  daysToMatured: 2
+  fishPoint: 12

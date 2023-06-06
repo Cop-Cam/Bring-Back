@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e33b5da4383162409f71cb70ad92be6, type: 3}
-  m_Name: Fish_SilverShark
+  m_Name: Fish_Balasak
   m_EditorClassIdentifier: 
-  id: Fish_SilverShark
-  displayName: Ikan Hiu Perak
-  icon: {fileID: 0}
-  itemDescription: Hiu Perak
+  id: Fish_Balasak
+  displayName: Ikan Balasak
+  icon: {fileID: 21300000, guid: 5dadce0759bfbac4b8d64a635626be53, type: 3}
+  itemDescription: Balasak
   itemBuyPrice: 0
-  itemSellPrice: 1000
+  itemSellPrice: 6000
   fishTypes: 0
-  daysToMatured: 3
-  fishPoint: 12
+  daysToMatured: 7
+  fishPoint: 72
