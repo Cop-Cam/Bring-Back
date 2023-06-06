@@ -106,6 +106,10 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>, IMenuHa
             //delete the instance
             UnityEngine.Object.Destroy(soldItem);
         }
+        else
+        {
+            Debug.LogWarning("lake null, report to programmer");
+        }
         
         CloseLakeUI();
     }
@@ -124,6 +128,10 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>, IMenuHa
 
             //delete the instance
             UnityEngine.Object.Destroy(collectedItem);
+        }
+        else
+        {
+            Debug.LogWarning("lake null, report to programmer");
         }
 
         CloseLakeUI();

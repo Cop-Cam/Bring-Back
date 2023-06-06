@@ -59,7 +59,8 @@ public class LakeInventory : LocalInventory
             //Debug.Log("panjang arr: "+InvansiveFishesInThisLake.Length);
             int rand = UnityEngine.Random.Range(0, InstantiatedInvansiveFishesInThisLake.Count);
             
-            currentSavedItem = InstantiatedInvansiveFishesInThisLake[rand];
+            //currentSavedItem = InstantiatedInvansiveFishesInThisLake[rand];
+            InsertItem(InstantiatedInvansiveFishesInThisLake[rand]);
 
             LakeUIController.Instance.OpenLakeUI(this);
         }

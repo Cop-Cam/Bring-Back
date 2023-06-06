@@ -20,7 +20,6 @@ public class LocalInventory : InteractableObjects
     //Inserting Item Method, can use method overloader
     public virtual void InsertItem(InventoryItemData insertedItem)
     {
-        Debug.Log("instantiate fish");
         currentSavedItem = Instantiate(insertedItem);
     }
 
