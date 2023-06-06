@@ -35,9 +35,17 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHand
                 {
                     // start game
                     Debug.Log("start game");
-
-                    SceneLoader.Instance.LoadSceneAsync("Demo");
                     
+                    ///loading legvel
+                    ///loading legvel
+                    ///loading legvel
+                    ///loading legvel
+                    SceneLoader.Instance.LoadSceneAsync("PrologDemo");
+                    ///loading legvel
+                    ///loading legvel
+                    ///loading legvel
+                    ///loading legvel
+
                     StartCoroutine(TransitionManager.Instance.StartTransition());
                 }
                 else if (thisIndex == 1)
