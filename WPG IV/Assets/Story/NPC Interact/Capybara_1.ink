@@ -1,6 +1,6 @@
 //Ibu 
 
-Hallo Mas Bro ! #speaker:CapyBRO #portrait: Capy_Default
+Hallo Mas Bro ! #speaker:CapyBRO #portrait:Capy_Default
 
 
 ->main
