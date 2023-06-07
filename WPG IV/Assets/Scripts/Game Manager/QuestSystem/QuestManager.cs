@@ -145,16 +145,15 @@ namespace QuestSystem
         {
             if(sendedData != null)
             {
-                // foreach(Quest quest in QuestDictionary.Values)
+                //Could throw error of "InvalidOperationException: Collection was modified; enumeration operation may not execute."
+                // foreach(Quest quest in CurrentActivatedQuestList)
                 // {
-                //     if(quest.IsQuestActive && !quest.IsQuestFailed && !quest.IsQuestCompleted)
-                //     {
-                //         quest.SendProgressFromQuestToObjectives(sendedData);
-                //     }
+                //     quest.SendProgressFromQuestToObjectives(sendedData);
                 // }
 
-                foreach(Quest quest in CurrentActivatedQuestList)
+                for (int i = 0; i < CurrentActivatedQuestList.Count; i++)
                 {
+                    Quest quest = CurrentActivatedQuestList[i];
                     quest.SendProgressFromQuestToObjectives(sendedData);
                 }
             }
