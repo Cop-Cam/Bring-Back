@@ -50,12 +50,12 @@ namespace QuestSystem
             }
             */
 
-            if(timeLimitSetting.TimeLimitByDay >= TimeManager.Instance.currentDate)
-            {
-                EvaluateObjective();
-            }
-
-
+            //keep evaluating 
+            EvaluateObjective();
+            // if(timeLimitSetting.TimeLimitByDay >= TimeManager.Instance.currentDate)
+            // {
+            //     EvaluateObjective();
+            // }
         }
 
 
@@ -105,24 +105,16 @@ namespace QuestSystem
         ///</summary>
         private bool CheckIsObjectiveCompleted()
         {
-            /*
-            if(TimeIsUp)
+            //jika objective timelimit masih belum gagal
+            if(timeLimitSetting.TimeLimitByDay >= TimeManager.Instance.currentDate)
             {
-                IsObjectiveFailed = true;
-                return false;
-            }
-            else
-            {
+                Debug.Log("timelimit masih aman");
                 return true;
             }
-            */
-
-            if(timeLimitSetting.TimeLimitByDay <= TimeManager.Instance.currentDate)
-            {
-                return true;
-            }
+            //jika objective timelimit sudah gagal
             else
             {
+                Debug.Log("timelimit sudah gagal");
                 IsObjectiveFailed = true;
                 return false;
             }
@@ -131,7 +123,7 @@ namespace QuestSystem
 
         public override void AddProgressToObjective(object sendedData)
         {
-            //EvaluateObjective();
+            EvaluateObjective();
         }
     }
 }
