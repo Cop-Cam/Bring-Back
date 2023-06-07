@@ -98,7 +98,9 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>, IMenuHa
 
             if(soldItem is IDiscoverable discoverable && !discoverable.isItemDiscovered())
             {
-                discoverable.UpdateDiscoveredStatus(true);
+                // discoverable.UpdateDiscoveredStatus(true);
+
+                GameDatabase.Instance.DB_FishItems[soldItem.id].UpdateDiscoveredStatus(true);
             }
 
             PlayerResourceManager.Instance.ChangeMoney(soldItem.itemSellPrice);
@@ -121,7 +123,10 @@ public class LakeUIController : GenericSingletonClass<LakeUIController>, IMenuHa
             
             if(collectedItem is IDiscoverable discoverable && !discoverable.isItemDiscovered())
             {
-                discoverable.UpdateDiscoveredStatus(true);
+                // discoverable.UpdateDiscoveredStatus(true);
+
+                GameDatabase.Instance.DB_FishItems[collectedItem.id].UpdateDiscoveredStatus(true);
+
             }
 
             QuestSystem.QuestManager.Instance.SendProgressFromQuestManagerToQuest(collectedItem);
