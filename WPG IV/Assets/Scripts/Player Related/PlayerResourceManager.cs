@@ -56,9 +56,8 @@ public class PlayerResourceManager : GenericSingletonClass<PlayerResourceManager
     }
     public void ResetEnergy()
     {
-        PlayerEnergy = PlayerMaxEnergy;
+        ChangeEnergy(PlayerMaxEnergy);
     }
-
     // public void IncreaseEnergy(float EnergyChange)
     // {
     //     PlayerEnergy += EnergyChange;
