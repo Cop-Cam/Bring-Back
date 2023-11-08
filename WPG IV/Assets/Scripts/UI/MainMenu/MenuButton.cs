@@ -40,7 +40,9 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHand
                     ///loading legvel
                     ///loading legvel
                     ///loading legvel
-                    SceneLoader.Instance.LoadSceneAsync("PrologDemo");
+                    // SceneLoader.Instance.LoadSceneAsync("PrologDemo");
+
+                    SceneLoader.Instance.LoadSceneAsync("Demo");
                     ///loading legvel
                     ///loading legvel
                     ///loading legvel
